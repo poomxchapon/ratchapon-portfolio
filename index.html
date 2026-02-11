@@ -6,535 +6,582 @@
     <title>Ratchapon Lungmart — AI Specialist & Project Manager</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --neon-cyan: #00f0ff;
-            --neon-magenta: #ff00e5;
-            --neon-yellow: #f0ff00;
-            --neon-green: #00ff88;
-            --bg-dark: #0a0a1a;
-            --bg-card: #111128;
-            --bg-card2: #1a1a3e;
-            --text-primary: #e8e8f0;
-            --text-muted: #8888aa;
+            --bg: #0c0c0e;
+            --bg-card: rgba(22, 22, 28, 0.8);
+            --bg-card-hover: rgba(30, 30, 40, 0.9);
+            --border: rgba(255, 255, 255, 0.06);
+            --border-hover: rgba(255, 255, 255, 0.12);
+            --text: #f0f0f5;
+            --text-secondary: #8a8a9a;
+            --accent: #6c5ce7;
+            --accent-2: #00cec9;
+            --accent-3: #fd79a8;
+            --accent-4: #fdcb6e;
+            --radius: 20px;
+            --radius-sm: 14px;
         }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
+
         body {
-            font-family: 'Prompt', sans-serif;
-            background: var(--bg-dark);
-            color: var(--text-primary);
-            overflow-x: hidden;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
         }
 
-        /* Scrollbar */
+        /* ── Scrollbar ── */
         ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: var(--bg-dark); }
-        ::-webkit-scrollbar-thumb { background: var(--neon-cyan); border-radius: 3px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
 
-        /* Scroll Progress */
-        .scroll-progress {
-            position: fixed; top: 0; left: 0; height: 3px; z-index: 200;
-            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-magenta));
-            width: 0%; transition: width 0.1s;
+        /* ── Container ── */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
         }
 
-        /* Navigation */
+        /* ── Navigation ── */
         nav {
-            position: fixed; top: 3px; left: 0; right: 0; z-index: 100;
-            background: rgba(10, 10, 26, 0.85);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(0, 240, 255, 0.1);
-            padding: 0.75rem 2rem;
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            padding: 1rem 2rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        nav.scrolled {
+            background: rgba(12, 12, 14, 0.85);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-inner {
+            max-width: 1200px; margin: 0 auto;
             display: flex; align-items: center; justify-content: space-between;
-            transition: all 0.3s;
         }
-        nav.scrolled { background: rgba(10, 10, 26, 0.95); }
-        nav .logo {
-            font-weight: 800; font-size: 1rem; color: var(--neon-cyan);
-            letter-spacing: 1px; font-family: 'JetBrains Mono', monospace;
-        }
-        nav .nav-links { display: flex; gap: 1.5rem; }
-        nav .nav-links a {
-            color: var(--text-muted); text-decoration: none; font-size: 0.8rem; font-weight: 500;
-            transition: color 0.3s; letter-spacing: 0.5px; position: relative;
-        }
-        nav .nav-links a:hover { color: var(--neon-cyan); }
-        nav .nav-links a.active { color: var(--neon-cyan); }
-        nav .nav-links a.active::after {
-            content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
-            height: 2px; background: var(--neon-cyan); border-radius: 1px;
-        }
-        .hamburger {
-            display: none; cursor: pointer; flex-direction: column; gap: 5px;
-            background: none; border: none; padding: 4px;
-        }
-        .hamburger span {
-            width: 22px; height: 2px; background: var(--text-primary);
-            transition: all 0.3s; border-radius: 1px;
-        }
-        @media (max-width: 768px) {
-            .hamburger { display: flex; }
-            nav .nav-links {
-                display: none; position: absolute; top: 100%; left: 0; right: 0;
-                background: rgba(10, 10, 26, 0.98); flex-direction: column;
-                padding: 1rem 2rem; gap: 1rem;
-                border-bottom: 1px solid rgba(0, 240, 255, 0.1);
-            }
-            nav .nav-links.open { display: flex; }
-        }
-
-        /* Particles Canvas */
-        #particles {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 0; pointer-events: none;
-        }
-
-        /* Hero */
-        .hero {
-            min-height: 100vh; display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
-            text-align: center; padding: 6rem 2rem 4rem;
-            position: relative;
-        }
-        .hero::before {
-            content: ''; position: absolute; inset: 0;
-            background:
-                radial-gradient(ellipse at 20% 50%, rgba(0, 240, 255, 0.08) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 50%, rgba(255, 0, 229, 0.06) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 100%, rgba(0, 255, 136, 0.04) 0%, transparent 40%);
-        }
-        .hero > * { position: relative; z-index: 1; }
-
-        .hero-profile {
-            width: 140px; height: 140px; border-radius: 50%; overflow: hidden;
-            border: 3px solid rgba(0, 240, 255, 0.4); margin-bottom: 2rem;
-            box-shadow: 0 0 40px rgba(0, 240, 255, 0.15), 0 0 80px rgba(0, 240, 255, 0.05);
-            animation: profileGlow 4s ease-in-out infinite alternate;
-        }
-        .hero-profile img { width: 100%; height: 100%; object-fit: cover; }
-        @keyframes profileGlow {
-            0% { box-shadow: 0 0 40px rgba(0, 240, 255, 0.15), 0 0 80px rgba(0, 240, 255, 0.05); }
-            100% { box-shadow: 0 0 50px rgba(255, 0, 229, 0.2), 0 0 100px rgba(255, 0, 229, 0.08); }
-        }
-
-        .hero .badge {
-            display: inline-block; padding: 0.4rem 1.2rem; border-radius: 999px;
-            background: rgba(0, 240, 255, 0.1); border: 1px solid rgba(0, 240, 255, 0.3);
-            color: var(--neon-cyan); font-size: 0.75rem; font-weight: 600; letter-spacing: 2px;
-            text-transform: uppercase; margin-bottom: 1.5rem;
-        }
-        .hero h1 {
-            font-size: clamp(2.2rem, 5vw, 4rem); font-weight: 900; line-height: 1.1;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-magenta), var(--neon-yellow));
+        .nav-logo {
+            font-weight: 800; font-size: 0.9rem;
+            font-family: 'JetBrains Mono', monospace;
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        .typed-wrapper {
-            font-size: clamp(1rem, 2.5vw, 1.4rem); color: var(--text-muted);
-            font-weight: 300; margin-bottom: 2rem; min-height: 2em;
+        .nav-links { display: flex; gap: 0.25rem; }
+        .nav-links a {
+            color: var(--text-secondary); text-decoration: none;
+            font-size: 0.8rem; font-weight: 500;
+            padding: 0.4rem 0.8rem; border-radius: 8px;
+            transition: all 0.2s;
         }
-        .typed-text { color: var(--neon-cyan); font-weight: 500; }
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.06);
+        }
+        .hamburger {
+            display: none; cursor: pointer; background: none; border: none;
+            flex-direction: column; gap: 5px; padding: 4px;
+        }
+        .hamburger span {
+            width: 20px; height: 2px; background: var(--text);
+            border-radius: 2px; transition: all 0.3s;
+        }
+
+        @media (max-width: 768px) {
+            .hamburger { display: flex; }
+            .nav-links {
+                display: none; position: absolute; top: 100%; left: 0; right: 0;
+                background: rgba(12, 12, 14, 0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column; padding: 1rem;
+                border-bottom: 1px solid var(--border);
+            }
+            .nav-links.open { display: flex; }
+        }
+
+        /* ── Bento Card Base ── */
+        .bento {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+        .bento:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3);
+        }
+        .bento-pad { padding: 1.75rem; }
+
+        /* ── Hero Bento Grid ── */
+        .hero-section {
+            padding-top: 5rem;
+        }
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: auto auto;
+            gap: 1rem;
+        }
+
+        /* Profile Card */
+        .card-profile {
+            grid-column: 1 / 3;
+            display: flex; align-items: center; gap: 2rem;
+            padding: 2.5rem;
+        }
+        .profile-img {
+            width: 120px; height: 120px; border-radius: 50%; flex-shrink: 0;
+            object-fit: cover;
+            border: 3px solid rgba(108, 92, 231, 0.3);
+            box-shadow: 0 0 40px rgba(108, 92, 231, 0.1);
+        }
+        .profile-info h1 {
+            font-size: clamp(1.6rem, 3vw, 2.2rem);
+            font-weight: 800; letter-spacing: -0.5px;
+            line-height: 1.2; margin-bottom: 0.5rem;
+        }
+        .profile-info .tagline {
+            font-size: 0.95rem; color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+        .profile-badges {
+            display: flex; gap: 0.5rem; flex-wrap: wrap;
+        }
+        .badge {
+            padding: 0.3rem 0.75rem; border-radius: 999px;
+            font-size: 0.7rem; font-weight: 600; letter-spacing: 0.5px;
+        }
+        .badge-accent { background: rgba(108, 92, 231, 0.15); color: #a29bfe; }
+        .badge-green { background: rgba(0, 206, 201, 0.15); color: var(--accent-2); }
+
+        /* Status Card */
+        .card-status {
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            text-align: center; padding: 2rem;
+            background: linear-gradient(135deg, rgba(108, 92, 231, 0.12), rgba(0, 206, 201, 0.08));
+        }
+        .status-dot {
+            width: 10px; height: 10px; border-radius: 50%;
+            background: #00b894; margin-bottom: 1rem;
+            box-shadow: 0 0 12px rgba(0, 184, 148, 0.4);
+            animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.2); }
+        }
+        .card-status h3 {
+            font-size: 0.85rem; font-weight: 700; margin-bottom: 0.25rem;
+        }
+        .card-status p {
+            font-size: 0.75rem; color: var(--text-secondary);
+        }
+
+        /* Typed text */
+        .typed-wrapper {
+            font-size: 0.95rem; color: var(--text-secondary);
+            min-height: 1.5em; margin-bottom: 1rem;
+        }
+        .typed-text { color: var(--accent-2); font-weight: 600; }
         .typed-cursor {
-            display: inline-block; width: 2px; height: 1.2em;
-            background: var(--neon-cyan); margin-left: 2px;
+            display: inline-block; width: 2px; height: 1em;
+            background: var(--accent-2); margin-left: 2px;
             animation: blink 0.8s infinite; vertical-align: text-bottom;
         }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-        .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; margin-bottom: 3rem; }
-        .btn-primary {
-            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-magenta));
-            color: #000; border: none; border-radius: 999px; padding: 0.75rem 2rem;
-            font-size: 0.85rem; font-weight: 700; cursor: pointer;
-            font-family: 'Prompt', sans-serif; text-decoration: none;
-            transition: all 0.3s; display: inline-flex; align-items: center; gap: 0.5rem;
+        /* Stat Cards */
+        .stats-row {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
         }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0, 240, 255, 0.2); }
-        .btn-outline {
-            background: transparent; color: var(--neon-cyan);
-            border: 1px solid rgba(0, 240, 255, 0.3); border-radius: 999px;
-            padding: 0.75rem 2rem; font-size: 0.85rem; font-weight: 600;
-            cursor: pointer; font-family: 'Prompt', sans-serif; text-decoration: none;
-            transition: all 0.3s; display: inline-flex; align-items: center; gap: 0.5rem;
+        .card-stat {
+            text-align: center; padding: 1.5rem 1rem;
         }
-        .btn-outline:hover { background: rgba(0, 240, 255, 0.1); transform: translateY(-2px); }
-
-        .scroll-hint {
-            animation: bounce 2s infinite; color: var(--text-muted); font-size: 0.8rem;
+        .stat-number {
+            font-size: clamp(1.8rem, 3vw, 2.4rem);
+            font-weight: 900; font-family: 'JetBrains Mono', monospace;
+            letter-spacing: -1px; line-height: 1;
+            margin-bottom: 0.35rem;
         }
-        .scroll-hint span { display: block; font-size: 1.5rem; margin-top: 0.5rem; }
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
-
-        /* Sections */
-        section { padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; }
-        .section-label {
-            display: inline-block; padding: 0.3rem 1rem; border-radius: 4px;
-            font-size: 0.7rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
-            margin-bottom: 1rem;
-        }
-        .label-cyan { background: rgba(0, 240, 255, 0.15); color: var(--neon-cyan); }
-        .label-magenta { background: rgba(255, 0, 229, 0.15); color: var(--neon-magenta); }
-        .label-green { background: rgba(0, 255, 136, 0.15); color: var(--neon-green); }
-        .label-yellow { background: rgba(240, 255, 0, 0.15); color: var(--neon-yellow); }
-
-        section h2 {
-            font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800;
-            margin-bottom: 1.5rem; line-height: 1.2;
-        }
-        section p.lead {
-            font-size: 1.05rem; color: var(--text-muted); line-height: 1.8; max-width: 700px;
+        .stat-number.c1 { background: linear-gradient(135deg, var(--accent), #a29bfe); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .stat-number.c2 { background: linear-gradient(135deg, var(--accent-2), #55efc4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .stat-number.c3 { background: linear-gradient(135deg, var(--accent-4), #e17055); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .stat-label {
+            font-size: 0.72rem; color: var(--text-secondary);
+            font-weight: 500; text-transform: uppercase; letter-spacing: 1px;
         }
 
-        /* Fade-up animation */
-        .fade-up {
-            opacity: 0; transform: translateY(30px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
+        /* ── Section Headers ── */
+        .section-header {
+            padding: 4rem 0 1.5rem;
         }
-        .fade-up.visible { opacity: 1; transform: translateY(0); }
+        .section-tag {
+            display: inline-block; padding: 0.3rem 0.8rem;
+            border-radius: 8px; font-size: 0.65rem; font-weight: 700;
+            letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 0.75rem;
+        }
+        .tag-purple { background: rgba(108, 92, 231, 0.15); color: #a29bfe; }
+        .tag-teal { background: rgba(0, 206, 201, 0.15); color: var(--accent-2); }
+        .tag-pink { background: rgba(253, 121, 168, 0.15); color: var(--accent-3); }
+        .tag-gold { background: rgba(253, 203, 110, 0.15); color: var(--accent-4); }
+        .section-header h2 {
+            font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+            font-weight: 800; letter-spacing: -0.5px; line-height: 1.15;
+        }
+        .section-header p {
+            color: var(--text-secondary); font-size: 0.95rem;
+            margin-top: 0.5rem; max-width: 500px;
+        }
 
-        /* About */
+        /* ── About Bento ── */
         .about-grid {
-            display: grid; grid-template-columns: 280px 1fr; gap: 3rem;
-            align-items: start; margin-top: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
         }
-        .about-photo {
-            width: 100%; aspect-ratio: 3/4; border-radius: 16px; overflow: hidden;
-            border: 2px solid rgba(0, 240, 255, 0.15);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        .card-about-text { padding: 2rem; }
+        .card-about-text h3 {
+            font-size: 1.1rem; font-weight: 700;
+            margin-bottom: 0.75rem; color: var(--accent-2);
         }
-        .about-photo img { width: 100%; height: 100%; object-fit: cover; }
-        .about-text h3 {
-            font-size: 1.3rem; font-weight: 700; margin-bottom: 1rem;
-            color: var(--neon-cyan);
+        .card-about-text p {
+            font-size: 0.88rem; color: var(--text-secondary);
+            line-height: 1.8; margin-bottom: 0.75rem;
         }
-        .about-text p { color: var(--text-muted); line-height: 1.9; margin-bottom: 1rem; font-size: 0.95rem; }
-        .about-stats {
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 2rem;
+        .card-about-photo {
+            min-height: 350px; padding: 0;
         }
-        .stat-item {
-            background: var(--bg-card); border-radius: 12px; padding: 1.25rem; text-align: center;
-            border: 1px solid rgba(255,255,255,0.06);
-        }
-        .stat-item .stat-num {
-            font-size: 1.8rem; font-weight: 900; font-family: 'JetBrains Mono', monospace;
-            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-magenta));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-        }
-        .stat-item .stat-label { font-size: 0.7rem; color: var(--text-muted); margin-top: 0.25rem; font-weight: 500; }
-        @media (max-width: 768px) {
-            .about-grid { grid-template-columns: 1fr; }
-            .about-photo { max-width: 280px; margin: 0 auto; }
-            .about-stats { grid-template-columns: repeat(3, 1fr); }
+        .card-about-photo img {
+            width: 100%; height: 100%; object-fit: cover;
         }
 
-        /* Timeline */
-        .timeline { position: relative; margin-top: 2rem; padding-left: 2rem; }
-        .timeline::before {
-            content: ''; position: absolute; left: 7px; top: 0; bottom: 0; width: 2px;
-            background: linear-gradient(180deg, var(--neon-cyan), var(--neon-magenta), var(--neon-green));
+        /* ── Experience ── */
+        .exp-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
         }
-        .timeline-item {
-            position: relative; margin-bottom: 2.5rem; padding-left: 1.5rem;
+        .card-exp { padding: 1.75rem; }
+        .card-exp.featured {
+            grid-column: 1 / -1;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
         }
-        .timeline-item::before {
-            content: ''; position: absolute; left: -2rem; top: 6px;
-            width: 16px; height: 16px; border-radius: 50%;
-            background: var(--bg-dark); border: 3px solid var(--neon-cyan);
-            z-index: 1;
+        .exp-date {
+            font-size: 0.68rem; font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 1px; margin-bottom: 0.5rem;
+            color: var(--accent);
         }
-        .timeline-item:nth-child(even)::before { border-color: var(--neon-magenta); }
-        .timeline-item:nth-child(3n)::before { border-color: var(--neon-green); }
-        .timeline-date {
-            font-size: 0.7rem; font-weight: 700; color: var(--neon-cyan);
-            font-family: 'JetBrains Mono', monospace; letter-spacing: 1px;
-            margin-bottom: 0.5rem; text-transform: uppercase;
+        .card-exp:nth-child(even) .exp-date { color: var(--accent-2); }
+        .card-exp:nth-child(3n) .exp-date { color: var(--accent-3); }
+        .card-exp h3 {
+            font-size: 1rem; font-weight: 700; margin-bottom: 0.35rem;
         }
-        .timeline-item:nth-child(even) .timeline-date { color: var(--neon-magenta); }
-        .timeline-item:nth-child(3n) .timeline-date { color: var(--neon-green); }
-        .timeline-card {
-            background: var(--bg-card); border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 16px; padding: 1.5rem; transition: all 0.3s;
+        .exp-role {
+            font-size: 0.78rem; color: var(--accent-2);
+            font-weight: 600; margin-bottom: 0.5rem;
         }
-        .timeline-card:hover { border-color: rgba(0, 240, 255, 0.2); transform: translateX(4px); }
-        .timeline-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
-        .timeline-card .timeline-role {
-            font-size: 0.8rem; color: var(--neon-cyan); font-weight: 600; margin-bottom: 0.5rem;
+        .card-exp p {
+            font-size: 0.82rem; color: var(--text-secondary); line-height: 1.7;
         }
-        .timeline-card p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.7; }
-        .timeline-images {
-            display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap;
+        .exp-images {
+            display: flex; gap: 0.5rem; margin-top: 0.75rem; flex-wrap: wrap;
         }
-        .timeline-images img {
-            height: 80px; border-radius: 8px; object-fit: cover; cursor: pointer;
-            border: 1px solid rgba(255,255,255,0.1); transition: all 0.3s;
+        .exp-images img {
+            height: 64px; border-radius: 10px; object-fit: cover;
+            border: 1px solid var(--border); cursor: pointer;
+            transition: all 0.3s;
         }
-        .timeline-images img:hover { border-color: var(--neon-cyan); transform: scale(1.05); }
+        .exp-images img:hover {
+            border-color: var(--accent);
+            transform: scale(1.05);
+        }
 
-        /* Skills */
+        /* Achievement */
+        .card-achievement {
+            grid-column: 1 / -1;
+            display: flex; align-items: center; gap: 2rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(253, 203, 110, 0.06), rgba(253, 121, 168, 0.06));
+            border-color: rgba(253, 203, 110, 0.12);
+        }
+        .card-achievement:hover { border-color: rgba(253, 203, 110, 0.25); }
+        .achievement-img {
+            width: 180px; height: 130px; border-radius: var(--radius-sm);
+            overflow: hidden; flex-shrink: 0;
+        }
+        .achievement-img img { width: 100%; height: 100%; object-fit: cover; }
+        .achievement-content h3 {
+            font-size: 1.1rem; font-weight: 800; margin-bottom: 0.35rem;
+            color: var(--accent-4);
+        }
+        .achievement-content p {
+            font-size: 0.82rem; color: var(--text-secondary); line-height: 1.7;
+        }
+        .achievement-badge {
+            display: inline-block; padding: 0.3rem 0.8rem; border-radius: 999px;
+            background: rgba(253, 203, 110, 0.15); color: var(--accent-4);
+            font-size: 0.68rem; font-weight: 700; letter-spacing: 1px; margin-top: 0.5rem;
+        }
+
+        /* ── Skills Bento ── */
         .skills-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem; margin-top: 2rem;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
         }
-        .skill-group {
-            background: var(--bg-card); border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 16px; padding: 1.5rem; transition: all 0.3s;
+        .card-skill { padding: 1.5rem; }
+        .skill-icon {
+            width: 44px; height: 44px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.3rem; margin-bottom: 1rem;
         }
-        .skill-group:hover { border-color: rgba(0, 240, 255, 0.2); transform: translateY(-2px); }
-        .skill-group-header {
-            display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem;
+        .card-skill h3 {
+            font-size: 0.9rem; font-weight: 700; margin-bottom: 0.75rem;
         }
-        .skill-group-icon {
-            width: 40px; height: 40px; border-radius: 10px; display: flex;
-            align-items: center; justify-content: center; font-size: 1.2rem;
-        }
-        .skill-group h3 { font-size: 1rem; font-weight: 700; }
-        .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
         .skill-tag {
-            padding: 0.3rem 0.8rem; border-radius: 999px; font-size: 0.72rem;
-            font-weight: 600; border: 1px solid; transition: all 0.3s; cursor: default;
+            padding: 0.25rem 0.6rem; border-radius: 8px;
+            font-size: 0.68rem; font-weight: 600;
+            border: 1px solid; transition: all 0.2s;
         }
         .skill-tag:hover { transform: scale(1.05); }
-        .tag-cyan { background: rgba(0, 240, 255, 0.1); color: var(--neon-cyan); border-color: rgba(0, 240, 255, 0.3); }
-        .tag-magenta { background: rgba(255, 0, 229, 0.1); color: var(--neon-magenta); border-color: rgba(255, 0, 229, 0.3); }
-        .tag-green { background: rgba(0, 255, 136, 0.1); color: var(--neon-green); border-color: rgba(0, 255, 136, 0.3); }
-        .tag-yellow { background: rgba(240, 255, 0, 0.1); color: var(--neon-yellow); border-color: rgba(240, 255, 0, 0.3); }
+        .t-purple { background: rgba(108, 92, 231, 0.1); color: #a29bfe; border-color: rgba(108, 92, 231, 0.2); }
+        .t-teal { background: rgba(0, 206, 201, 0.1); color: var(--accent-2); border-color: rgba(0, 206, 201, 0.2); }
+        .t-pink { background: rgba(253, 121, 168, 0.1); color: var(--accent-3); border-color: rgba(253, 121, 168, 0.2); }
+        .t-gold { background: rgba(253, 203, 110, 0.1); color: var(--accent-4); border-color: rgba(253, 203, 110, 0.2); }
 
-        /* Gallery */
+        /* ── Gallery ── */
         .gallery-filters {
-            display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 2rem; margin-top: 1.5rem;
+            display: flex; gap: 0.5rem; flex-wrap: wrap;
+            margin-bottom: 1.25rem;
         }
         .filter-btn {
-            padding: 0.4rem 1.2rem; border-radius: 999px; font-size: 0.75rem;
-            font-weight: 600; cursor: pointer; transition: all 0.3s;
-            background: transparent; border: 1px solid rgba(255,255,255,0.15);
-            color: var(--text-muted); font-family: 'Prompt', sans-serif;
+            padding: 0.35rem 1rem; border-radius: 10px;
+            font-size: 0.72rem; font-weight: 600; cursor: pointer;
+            background: transparent; border: 1px solid var(--border);
+            color: var(--text-secondary); font-family: 'Inter', sans-serif;
+            transition: all 0.2s;
         }
-        .filter-btn:hover { border-color: var(--neon-cyan); color: var(--neon-cyan); }
+        .filter-btn:hover { border-color: var(--border-hover); color: var(--text); }
         .filter-btn.active {
-            background: rgba(0, 240, 255, 0.15); border-color: var(--neon-cyan);
-            color: var(--neon-cyan);
+            background: rgba(108, 92, 231, 0.15);
+            border-color: rgba(108, 92, 231, 0.3);
+            color: #a29bfe;
         }
         .gallery-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 1rem;
         }
         .gallery-item {
-            border-radius: 12px; overflow: hidden; cursor: pointer;
-            position: relative; aspect-ratio: 4/3;
-            border: 1px solid rgba(255,255,255,0.06); transition: all 0.4s;
+            border-radius: var(--radius-sm); overflow: hidden;
+            cursor: pointer; position: relative; aspect-ratio: 4/3;
+            border: 1px solid var(--border); transition: all 0.4s;
         }
         .gallery-item.hidden { display: none; }
-        .gallery-item:hover { border-color: rgba(0, 240, 255, 0.3); transform: scale(1.02); }
-        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+        .gallery-item:hover {
+            border-color: var(--border-hover);
+            transform: scale(1.02);
+        }
+        .gallery-item img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.5s;
+        }
         .gallery-item:hover img { transform: scale(1.08); }
-        .gallery-item .gallery-overlay {
+        .gallery-overlay {
             position: absolute; inset: 0;
-            background: linear-gradient(transparent 50%, rgba(10, 10, 26, 0.9));
+            background: linear-gradient(transparent 50%, rgba(12, 12, 14, 0.85));
             opacity: 0; transition: opacity 0.3s;
             display: flex; align-items: flex-end; padding: 1rem;
         }
         .gallery-item:hover .gallery-overlay { opacity: 1; }
-        .gallery-overlay span { font-size: 0.8rem; font-weight: 600; color: var(--text-primary); }
+        .gallery-overlay span {
+            font-size: 0.78rem; font-weight: 600;
+        }
 
-        /* Lightbox */
+        /* ── Lightbox ── */
         .lightbox {
             position: fixed; inset: 0; z-index: 1000;
-            background: rgba(10, 10, 26, 0.95); backdrop-filter: blur(20px);
+            background: rgba(12, 12, 14, 0.92);
+            backdrop-filter: blur(24px);
             display: none; align-items: center; justify-content: center;
             cursor: pointer;
         }
         .lightbox.active { display: flex; }
         .lightbox img {
-            max-width: 90vw; max-height: 85vh; border-radius: 12px;
-            box-shadow: 0 20px 80px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(0, 240, 255, 0.15);
+            max-width: 90vw; max-height: 85vh;
+            border-radius: var(--radius);
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border);
         }
         .lightbox-close {
             position: absolute; top: 1.5rem; right: 1.5rem;
-            width: 40px; height: 40px; border-radius: 50%;
-            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
-            color: var(--text-primary); font-size: 1.2rem; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; transition: all 0.3s;
+            width: 40px; height: 40px; border-radius: 12px;
+            background: rgba(255, 255, 255, 0.08); border: 1px solid var(--border);
+            color: var(--text); font-size: 1rem; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s;
         }
-        .lightbox-close:hover { background: rgba(255, 0, 229, 0.3); border-color: var(--neon-magenta); }
+        .lightbox-close:hover { background: rgba(253, 121, 168, 0.2); }
         .lightbox-caption {
             position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
-            color: var(--text-muted); font-size: 0.85rem; font-weight: 500;
-            background: rgba(10, 10, 26, 0.8); padding: 0.5rem 1.5rem; border-radius: 999px;
+            color: var(--text-secondary); font-size: 0.82rem; font-weight: 500;
+            background: rgba(12, 12, 14, 0.8); padding: 0.5rem 1.25rem;
+            border-radius: 10px; border: 1px solid var(--border);
         }
 
-        /* Achievement highlight */
-        .achievement-banner {
-            background: linear-gradient(135deg, rgba(240, 255, 0, 0.08), rgba(255, 0, 229, 0.08));
-            border: 1px solid rgba(240, 255, 0, 0.2);
-            border-radius: 20px; padding: 2.5rem; margin-top: 2rem;
-            display: flex; align-items: center; gap: 2rem;
-            position: relative; overflow: hidden;
+        /* ── Contact ── */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
         }
-        .achievement-banner::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-            background: linear-gradient(90deg, var(--neon-yellow), var(--neon-magenta));
+        .card-contact {
+            text-align: center; padding: 2rem 1.5rem;
+            text-decoration: none; display: block;
         }
-        .achievement-img {
-            width: 200px; height: 150px; border-radius: 12px; overflow: hidden; flex-shrink: 0;
-            border: 1px solid rgba(240, 255, 0, 0.2);
+        .contact-icon {
+            font-size: 1.8rem; margin-bottom: 0.75rem; display: block;
         }
-        .achievement-img img { width: 100%; height: 100%; object-fit: cover; }
-        .achievement-text h3 {
-            font-size: 1.3rem; font-weight: 800; margin-bottom: 0.5rem;
-            color: var(--neon-yellow);
+        .card-contact h3 {
+            font-size: 0.85rem; font-weight: 700; margin-bottom: 0.3rem;
+            color: var(--text);
         }
-        .achievement-text p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.7; }
-        .achievement-badge {
-            display: inline-block; padding: 0.3rem 1rem; border-radius: 999px;
-            background: rgba(240, 255, 0, 0.15); color: var(--neon-yellow);
-            font-size: 0.7rem; font-weight: 700; letter-spacing: 1px; margin-top: 0.75rem;
+        .card-contact p {
+            font-size: 0.75rem; color: var(--accent-2);
+            font-family: 'JetBrains Mono', monospace; word-break: break-all;
+        }
+
+        /* ── Footer ── */
+        footer {
+            text-align: center; padding: 3rem 2rem 2rem;
+        }
+        .footer-line {
+            width: 48px; height: 3px; margin: 0 auto 1rem;
+            border-radius: 2px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-2));
+        }
+        footer p {
+            font-size: 0.72rem; color: var(--text-secondary);
+        }
+
+        /* ── Fade Animation ── */
+        .fade-up {
+            opacity: 0; transform: translateY(24px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+        /* ── Responsive ── */
+        @media (max-width: 1024px) {
+            .skills-grid { grid-template-columns: repeat(2, 1fr); }
         }
         @media (max-width: 768px) {
-            .achievement-banner { flex-direction: column; text-align: center; }
-            .achievement-img { width: 100%; max-width: 300px; }
-        }
-
-        /* Contact */
-        .contact-section {
-            background: linear-gradient(180deg, var(--bg-dark) 0%, #0d0d2b 50%, var(--bg-dark) 100%);
-            padding: 5rem 0; position: relative;
-        }
-        .contact-section::before {
-            content: ''; position: absolute; inset: 0;
-            background:
-                radial-gradient(ellipse at 30% 50%, rgba(0, 240, 255, 0.06) 0%, transparent 50%),
-                radial-gradient(ellipse at 70% 50%, rgba(255, 0, 229, 0.06) 0%, transparent 50%);
-        }
-        .contact-inner {
-            max-width: 800px; margin: 0 auto; padding: 0 2rem;
-            position: relative; z-index: 1; text-align: center;
-        }
-        .contact-cards {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem; margin-top: 2rem;
-        }
-        .contact-card {
-            background: var(--bg-card); border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 16px; padding: 2rem 1.5rem; text-align: center;
-            transition: all 0.3s; text-decoration: none; display: block;
-        }
-        .contact-card:hover { border-color: rgba(0, 240, 255, 0.3); transform: translateY(-4px); }
-        .contact-icon {
-            font-size: 2rem; margin-bottom: 1rem; display: block;
-        }
-        .contact-card h3 { font-size: 0.9rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem; }
-        .contact-card p {
-            font-size: 0.8rem; color: var(--neon-cyan); font-family: 'JetBrains Mono', monospace;
-            word-break: break-all;
-        }
-
-        /* Footer */
-        footer {
-            text-align: center; padding: 3rem 2rem;
-            border-top: 1px solid rgba(255,255,255,0.04);
-        }
-        footer p { font-size: 0.75rem; color: var(--text-muted); }
-        footer .footer-line {
-            width: 60px; height: 2px; margin: 1rem auto;
-            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-magenta));
-            border-radius: 1px;
-        }
-
-        /* Responsive tweaks */
-        @media (max-width: 480px) {
-            .hero-profile { width: 110px; height: 110px; }
-            .about-stats { grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; }
-            .stat-item { padding: 0.75rem; }
-            .stat-item .stat-num { font-size: 1.3rem; }
-            .timeline-images img { height: 60px; }
+            .container { padding: 0.75rem; }
+            .hero-grid {
+                grid-template-columns: 1fr;
+            }
+            .card-profile {
+                grid-column: 1;
+                flex-direction: column; text-align: center;
+                padding: 2rem 1.5rem;
+            }
+            .profile-badges { justify-content: center; }
+            .typed-wrapper { text-align: center; }
+            .stats-row { grid-column: 1; grid-template-columns: repeat(3, 1fr); }
+            .about-grid { grid-template-columns: 1fr; }
+            .card-about-photo { min-height: 250px; }
+            .exp-grid { grid-template-columns: 1fr; }
+            .card-exp.featured { grid-column: 1; grid-template-columns: 1fr; }
+            .skills-grid { grid-template-columns: 1fr 1fr; }
+            .contact-grid { grid-template-columns: 1fr; }
+            .card-achievement {
+                grid-column: 1;
+                flex-direction: column; text-align: center;
+            }
+            .achievement-img { width: 100%; max-width: 240px; }
             .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+        }
+        @media (max-width: 480px) {
+            .profile-img { width: 96px; height: 96px; }
+            .skills-grid { grid-template-columns: 1fr; }
+            .stats-row { grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; }
         }
     </style>
 </head>
 <body>
 
-<!-- Scroll Progress Bar -->
-<div class="scroll-progress" id="scrollProgress"></div>
-
-<!-- Particles -->
-<canvas id="particles"></canvas>
-
 <!-- Navigation -->
 <nav id="navbar">
-    <div class="logo">&lt;RL /&gt;</div>
-    <div class="nav-links" id="navLinks">
-        <a href="#hero" class="active">Home</a>
-        <a href="#about">About</a>
-        <a href="#experience">Experience</a>
-        <a href="#skills">Skills</a>
-        <a href="#gallery">Gallery</a>
-        <a href="#contact">Contact</a>
+    <div class="nav-inner">
+        <div class="nav-logo">&lt;RL /&gt;</div>
+        <div class="nav-links" id="navLinks">
+            <a href="#hero" class="active">Home</a>
+            <a href="#about">About</a>
+            <a href="#experience">Experience</a>
+            <a href="#skills">Skills</a>
+            <a href="#gallery">Gallery</a>
+            <a href="#contact">Contact</a>
+        </div>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
     </div>
-    <button class="hamburger" id="hamburger" aria-label="Menu">
-        <span></span><span></span><span></span>
-    </button>
 </nav>
 
 <!-- Hero -->
-<section class="hero" id="hero">
-    <div class="hero-profile">
-        <img src="Profile.jpg" alt="Ratchapon Lungmart">
-    </div>
-    <div class="badge">Available for Opportunities</div>
-    <h1>Ratchapon Lungmart</h1>
-    <div class="typed-wrapper">
-        <span class="typed-text" id="typedText"></span><span class="typed-cursor">|</span>
-    </div>
-    <div class="hero-cta">
-        <a href="#contact" class="btn-primary">Get in Touch &#8594;</a>
-        <a href="#experience" class="btn-outline">View Experience</a>
-    </div>
-    <div class="scroll-hint">
-        Scroll to explore
-        <span>&#8595;</span>
-    </div>
-</section>
+<section id="hero" class="hero-section">
+    <div class="container">
+        <div class="hero-grid">
+            <!-- Profile Card -->
+            <div class="bento card-profile fade-up">
+                <img src="Profile.jpg" alt="Ratchapon Lungmart" class="profile-img">
+                <div class="profile-info">
+                    <h1>Ratchapon<br>Lungmart</h1>
+                    <div class="typed-wrapper">
+                        <span class="typed-text" id="typedText"></span><span class="typed-cursor">|</span>
+                    </div>
+                    <div class="profile-badges">
+                        <span class="badge badge-accent">AI Specialist</span>
+                        <span class="badge badge-green">NDF DEV</span>
+                    </div>
+                </div>
+            </div>
 
-<!-- About -->
-<section id="about">
-    <div class="fade-up">
-        <span class="section-label label-cyan">About Me</span>
-        <h2>Bridging AI, Design<br>& Project Management</h2>
-    </div>
-    <div class="about-grid fade-up">
-        <div class="about-photo">
-            <img src="Profile.jpg" alt="Ratchapon Lungmart">
-        </div>
-        <div class="about-text">
-            <h3>Ratchapon Lungmart</h3>
-            <p>
-                Born April 13, 2000. Graduated with a Bachelor's degree from the College of Arts, Media and Technology (CAMT),
-                Chiang Mai University, majoring in Digital Game (Class of 2022).
-            </p>
-            <p>
-                Currently working at NDF DEV as Graphic Designer, Junior Project Manager, and Generative Media Designer.
-                Responsible for creating presentations, video editing, and producing generative AI media for various projects.
-            </p>
-            <p>
-                Passionate about modern technology, especially AI and creative media. Committed to continuously developing
-                and applying new tools to elevate work quality and achieve the best results.
-                Experienced in leading AI workshops for government sectors, vocational students, and international events.
-            </p>
-            <div class="about-stats">
-                <div class="stat-item">
-                    <div class="stat-num">10+</div>
+            <!-- Status Card -->
+            <div class="bento card-status fade-up">
+                <div class="status-dot"></div>
+                <h3>Available</h3>
+                <p>Open to opportunities</p>
+                <div style="margin-top: 1.25rem; display: flex; gap: 0.5rem; flex-direction: column;">
+                    <a href="#contact" style="padding: 0.5rem 1.25rem; border-radius: 10px; background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #fff; text-decoration: none; font-size: 0.78rem; font-weight: 700; text-align: center; transition: all 0.3s;">Get in Touch</a>
+                    <a href="#experience" style="padding: 0.5rem 1.25rem; border-radius: 10px; border: 1px solid var(--border); color: var(--text-secondary); text-decoration: none; font-size: 0.78rem; font-weight: 600; text-align: center; transition: all 0.3s;">View Work</a>
+                </div>
+            </div>
+
+            <!-- Stats Row -->
+            <div class="stats-row fade-up">
+                <div class="bento card-stat">
+                    <div class="stat-number c1">10+</div>
                     <div class="stat-label">Workshops Led</div>
                 </div>
-                <div class="stat-item">
-                    <div class="stat-num">8+</div>
+                <div class="bento card-stat">
+                    <div class="stat-number c2">8+</div>
                     <div class="stat-label">Projects Shipped</div>
                 </div>
-                <div class="stat-item">
-                    <div class="stat-num">#1</div>
+                <div class="bento card-stat">
+                    <div class="stat-number c3">#1</div>
                     <div class="stat-label">AI Animation</div>
                 </div>
             </div>
@@ -542,246 +589,241 @@
     </div>
 </section>
 
+<!-- About -->
+<section id="about">
+    <div class="container">
+        <div class="section-header fade-up">
+            <span class="section-tag tag-teal">About</span>
+            <h2>Bridging AI, Design<br>& Project Management</h2>
+        </div>
+        <div class="about-grid">
+            <div class="bento card-about-photo fade-up">
+                <img src="Profile.jpg" alt="Ratchapon Lungmart">
+            </div>
+            <div class="bento card-about-text fade-up">
+                <h3>Ratchapon Lungmart</h3>
+                <p>
+                    Born April 13, 2000. Graduated with a Bachelor's degree from the College of Arts, Media and Technology (CAMT),
+                    Chiang Mai University, majoring in Digital Game (Class of 2022).
+                </p>
+                <p>
+                    Currently working at NDF DEV as Graphic Designer, Junior Project Manager, and Generative Media Designer.
+                    Responsible for creating presentations, video editing, and producing generative AI media for various projects.
+                </p>
+                <p>
+                    Passionate about modern technology, especially AI and creative media. Committed to continuously developing
+                    and applying new tools to elevate work quality. Experienced in leading AI workshops for government sectors,
+                    vocational students, and international events.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- Experience -->
 <section id="experience">
-    <div class="fade-up">
-        <span class="section-label label-magenta">Experience</span>
-        <h2>Journey So Far</h2>
-        <p class="lead">From game development internships to AI specialist roles — a path driven by curiosity and creation.</p>
-    </div>
+    <div class="container">
+        <div class="section-header fade-up">
+            <span class="section-tag tag-pink">Experience</span>
+            <h2>Journey So Far</h2>
+            <p>From game dev internships to AI specialist roles — driven by curiosity and creation.</p>
+        </div>
 
-    <div class="timeline fade-up">
-        <!-- NDF DEV -->
-        <div class="timeline-item fade-up">
-            <div class="timeline-date">2024 — Present</div>
-            <div class="timeline-card">
-                <h3>NDF DEV</h3>
-                <div class="timeline-role">Graphic Designer / Jr. Project Manager / Generative Media Designer</div>
-                <p>
-                    Creating presentations, video editing, and producing generative AI media for projects.
-                    Built the WorkSpace System — a full task management platform with login, dashboard,
-                    team calendar, Kanban boards, GPS clock-in, leave requests, Google Drive integration,
-                    and an internal AI ChatBot agent called "Skynet". Also developed a Beat Detection tool for rhythm games.
-                </p>
-                <div class="timeline-images">
-                    <img src="Fortal.jpg" alt="NDF DEV / Fortal Interactive" onclick="openLightbox(this)">
+        <div class="exp-grid">
+            <!-- NDF DEV - Featured -->
+            <div class="bento card-exp featured fade-up">
+                <div>
+                    <div class="exp-date">2024 — Present</div>
+                    <h3>NDF DEV</h3>
+                    <div class="exp-role">Graphic Designer / Jr. PM / Generative Media Designer</div>
+                    <p>
+                        Creating presentations, video editing, and producing generative AI media.
+                        Built the WorkSpace System — a full task management platform with login, dashboard,
+                        team calendar, Kanban boards, GPS clock-in, leave requests, Google Drive integration,
+                        and an internal AI ChatBot agent called "Skynet". Also developed a Beat Detection tool for rhythm games.
+                    </p>
+                    <div class="exp-images">
+                        <img src="Fortal.jpg" alt="NDF DEV / Fortal Interactive" onclick="openLightbox(this)">
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; justify-content: center;">
+                    <img src="Fortal.jpg" alt="Fortal" style="width: 100%; border-radius: var(--radius-sm); object-fit: cover; max-height: 220px;">
                 </div>
             </div>
-        </div>
 
-        <!-- MEDIA X -->
-        <div class="timeline-item fade-up">
-            <div class="timeline-date">2025</div>
-            <div class="timeline-card">
-                <h3>MEDIA X: Creative Convergence & Media Revolution</h3>
-                <div class="timeline-role">Participant — Immersive Tech & AI</div>
-                <p>
-                    Professional training program focused on using Immersive Tech (AR/VR/XR) and AI in media production.
-                    Aimed at elevating Thai media professionals and promoting Soft Power on the international stage.
-                    Exchanged ideas with global experts on next-generation creative media.
-                </p>
-            </div>
-        </div>
-
-        <!-- SmartGOV LEADERS -->
-        <div class="timeline-item fade-up">
-            <div class="timeline-date">2025</div>
-            <div class="timeline-card">
+            <!-- SmartGOV -->
+            <div class="bento card-exp fade-up">
+                <div class="exp-date">2025</div>
                 <h3>SmartGOV LEADERS Bootcamp</h3>
-                <div class="timeline-role">Speaker — AI & DATA for Public Service</div>
+                <div class="exp-role">Speaker — AI & DATA for Public Service</div>
                 <p>
                     Delivered a lecture on "Public Service Story: Creating Animation Video with AI"
-                    to participants from various government agencies. The goal was to build AI literacy
-                    foundations and improve communication between government and citizens.
+                    to various government agencies.
                 </p>
-                <div class="timeline-images">
+                <div class="exp-images">
                     <img src="Ai Workshop ราชการ 01.jpg" alt="SmartGOV Leaders 1" onclick="openLightbox(this)">
                     <img src="Ai Workshop ราชการ 02.jpg" alt="SmartGOV Leaders 2" onclick="openLightbox(this)">
                 </div>
             </div>
-        </div>
 
-        <!-- R.nime Gen Ai -->
-        <div class="timeline-item fade-up">
-            <div class="timeline-date">2024 — 2025</div>
-            <div class="timeline-card">
+            <!-- R.nime Gen Ai -->
+            <div class="bento card-exp fade-up">
+                <div class="exp-date">2024 — 2025</div>
                 <h3>R.nime Gen Ai</h3>
-                <div class="timeline-role">Lead Instructor — DEPA x CMU x CAMT x NDF Dev</div>
+                <div class="exp-role">Lead Instructor — DEPA x CMU x CAMT x NDF Dev</div>
                 <p>
-                    A program by DEPA (Digital Economy Promotion Agency) in collaboration with Chiang Mai University.
                     Taught Generative AI skills to vocational students across 4 institutions for creating images and videos.
-                    Demonstrated real production workflows and techniques for applying AI in creative work.
                 </p>
-                <div class="timeline-images">
+                <div class="exp-images">
                     <img src="Workshop สื่อสร้างสรรค์.jpg" alt="R.nime Gen Ai" onclick="openLightbox(this)">
                     <img src="Workshop สื่อสร้างสรรค์ 2.jpg" alt="R.nime Gen Ai 2" onclick="openLightbox(this)">
                 </div>
             </div>
-        </div>
 
-        <!-- RVY Speaker -->
-        <div class="timeline-item fade-up">
-            <div class="timeline-date">2024</div>
-            <div class="timeline-card">
-                <h3>RVY Speaker Series</h3>
-                <div class="timeline-role">Guest Speaker — AI & Creative Technology</div>
+            <!-- MEDIA X -->
+            <div class="bento card-exp fade-up">
+                <div class="exp-date">2025</div>
+                <h3>MEDIA X: Creative Convergence</h3>
+                <div class="exp-role">Participant — Immersive Tech & AI</div>
                 <p>
-                    Invited speaker presenting on AI applications in creative industries,
-                    game development pipelines, and the future of AI-human collaboration in digital media production.
+                    Professional training focused on Immersive Tech (AR/VR/XR) and AI in media production.
+                    Promoting Thai Soft Power on the international stage.
                 </p>
-                <div class="timeline-images">
+            </div>
+
+            <!-- RVY Speaker -->
+            <div class="bento card-exp fade-up">
+                <div class="exp-date">2024</div>
+                <h3>RVY Speaker Series</h3>
+                <div class="exp-role">Guest Speaker — AI & Creative Technology</div>
+                <p>
+                    Invited speaker on AI applications in creative industries and game development pipelines.
+                </p>
+                <div class="exp-images">
                     <img src="RVY Speaker.jpg" alt="RVY Speaker" onclick="openLightbox(this)">
                     <img src="RVY Speaker 2.jpg" alt="RVY Speaker 2" onclick="openLightbox(this)">
                     <img src="RVY Speaker 3.jpg" alt="RVY Speaker 3" onclick="openLightbox(this)">
-                    <img src="RVY Speaker 4.jpg" alt="RVY Speaker 4" onclick="openLightbox(this)">
-                    <img src="RVY Speaker 5.jpg" alt="RVY Speaker 5" onclick="openLightbox(this)">
                 </div>
             </div>
-        </div>
 
-        <!-- AR/VR Projects -->
-        <div class="timeline-item fade-up">
-            <div class="timeline-date">2023 — 2024</div>
-            <div class="timeline-card">
+            <!-- AR/VR -->
+            <div class="bento card-exp fade-up">
+                <div class="exp-date">2023 — 2024</div>
                 <h3>AR/VR/Metaverse Projects</h3>
-                <div class="timeline-role">Developer — NDF DEV</div>
+                <div class="exp-role">Developer — NDF DEV</div>
                 <p>
-                    Contributed to multiple immersive technology projects including
-                    Art in Paradise Chiang Mai (AR), Flora Park Enchanted (AR),
-                    CAMT Metaverse, Loy Krathong Online (AR), and ESG VR experience.
-                    Worked with clients including SCG, CMU, Chiang Mai Night Safari, and Pikul.
+                    Art in Paradise (AR), Flora Park Enchanted (AR), CAMT Metaverse, Loy Krathong Online (AR), ESG VR.
+                    Clients: SCG, CMU, Night Safari, Pikul.
                 </p>
             </div>
-        </div>
 
-        <!-- YSEALI Game Jam -->
-        <div class="timeline-item fade-up">
-            <div class="timeline-date">May 2023</div>
-            <div class="timeline-card">
-                <h3>YSEALI Game Changers Workshop & Game Jam</h3>
-                <div class="timeline-role">Selected Participant — US Embassy KL</div>
+            <!-- YSEALI -->
+            <div class="bento card-exp fade-up">
+                <div class="exp-date">May 2023</div>
+                <h3>YSEALI Game Changers</h3>
+                <div class="exp-role">Selected Participant — US Embassy KL</div>
                 <p>
-                    Organized by the US Embassy in Kuala Lumpur, Malaysia. Selected as one of 50 youth
-                    representatives from across Asia to attend workshops and compete in building games
-                    about environmental and social issues. Developed cross-cultural teamwork and English
-                    communication skills, using games as tools for social change.
+                    Selected as one of 50 youth from across Asia. Workshops and game jam on environmental and social issues in Kuala Lumpur.
                 </p>
-                <div class="timeline-images">
+                <div class="exp-images">
                     <img src="Game Jam & Workshop @ KL.jpg" alt="YSEALI KL" onclick="openLightbox(this)">
                     <img src="Game Jam & Workshop @ KL 2.jpg" alt="YSEALI KL 2" onclick="openLightbox(this)">
                     <img src="Game Jam & Workshop @ KL 3.jpg" alt="YSEALI KL 3" onclick="openLightbox(this)">
-                    <img src="Game Jam & Workshop @ KL 4.jpg" alt="YSEALI KL 4" onclick="openLightbox(this)">
-                    <img src="Game Jam & Workshop @ KL 5.jpg" alt="YSEALI KL 5" onclick="openLightbox(this)">
-                    <img src="Game Jam & Workshop @ KL 6.jpg" alt="YSEALI KL 6" onclick="openLightbox(this)">
                 </div>
             </div>
-        </div>
 
-        <!-- Taklee Genesis -->
-        <div class="timeline-item fade-up">
-            <div class="timeline-date">2023</div>
-            <div class="timeline-card">
+            <!-- Taklee -->
+            <div class="bento card-exp fade-up">
+                <div class="exp-date">2023</div>
                 <h3>Taklee Genesis — Feature Film</h3>
-                <div class="timeline-role">Rotoscope Artist — CG Team (NDF DEV)</div>
+                <div class="exp-role">Rotoscope Artist — CG Team</div>
                 <p>
-                    Contributed to CG production for the feature film "Taklee Genesis" as a Rotoscope Artist.
-                    The NDF DEV team was responsible for 52 VFX shots in the film.
+                    CG production for the feature film "Taklee Genesis". NDF DEV team responsible for 52 VFX shots.
                 </p>
-                <div class="timeline-images">
+                <div class="exp-images">
                     <img src="ภาพยนต์เรื่อง ตาคลี.jpg" alt="Taklee Genesis" onclick="openLightbox(this)">
                     <img src="ภาพยนต์เรื่อง ตาคลี 2.jpg" alt="Taklee Genesis 2" onclick="openLightbox(this)">
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- Achievement Banner -->
-    <div class="achievement-banner fade-up">
-        <div class="achievement-img">
-            <img src="ประกวด Ai Animation ได้อันดับที่ 1.jpg" alt="1st Place AI Animation">
-        </div>
-        <div class="achievement-text">
-            <h3>1st Place — AI Animation Competition</h3>
-            <p>
-                Won 1st place in the AI Animation competition with the theme "Vote for the Future" —
-                a promotional animation encouraging citizens to vote in municipal elections (May 2025).
-                Awarded a prize of 23,000 THB at the Creative Chiang Mai event.
-            </p>
-            <span class="achievement-badge">&#127942; 1ST PLACE &mdash; 23,000 THB</span>
+            <!-- Achievement -->
+            <div class="bento card-achievement fade-up">
+                <div class="achievement-img">
+                    <img src="ประกวด Ai Animation ได้อันดับที่ 1.jpg" alt="1st Place AI Animation">
+                </div>
+                <div class="achievement-content">
+                    <h3>1st Place — AI Animation Competition</h3>
+                    <p>
+                        Won 1st place with the theme "Vote for the Future" — a promotional animation
+                        encouraging citizens to vote in municipal elections (May 2025).
+                        Awarded at Creative Chiang Mai.
+                    </p>
+                    <span class="achievement-badge">&#127942; 1ST PLACE — 23,000 THB</span>
+                </div>
+            </div>
         </div>
     </div>
 </section>
 
 <!-- Skills -->
 <section id="skills">
-    <div class="fade-up">
-        <span class="section-label label-green">Skills</span>
-        <h2>Tools & Expertise</h2>
-        <p class="lead">A diverse skill set spanning development, design, AI, and project management.</p>
-    </div>
+    <div class="container">
+        <div class="section-header fade-up">
+            <span class="section-tag tag-purple">Skills</span>
+            <h2>Tools & Expertise</h2>
+        </div>
 
-    <div class="skills-grid fade-up">
-        <!-- Development -->
-        <div class="skill-group">
-            <div class="skill-group-header">
-                <div class="skill-group-icon" style="background: rgba(0, 240, 255, 0.15);">&#128187;</div>
+        <div class="skills-grid fade-up">
+            <div class="bento card-skill">
+                <div class="skill-icon" style="background: rgba(108, 92, 231, 0.15);">&#128187;</div>
                 <h3>Development</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag t-purple">Unity / C#</span>
+                    <span class="skill-tag t-purple">Python</span>
+                    <span class="skill-tag t-purple">HTML/CSS/JS</span>
+                    <span class="skill-tag t-purple">Web App</span>
+                    <span class="skill-tag t-purple">ChatBot / Agent</span>
+                    <span class="skill-tag t-purple">Git</span>
+                </div>
             </div>
-            <div class="skill-tags">
-                <span class="skill-tag tag-cyan">Unity / C#</span>
-                <span class="skill-tag tag-cyan">Python</span>
-                <span class="skill-tag tag-cyan">HTML/CSS/JS</span>
-                <span class="skill-tag tag-cyan">Web App Dev</span>
-                <span class="skill-tag tag-cyan">ChatBot / Agent</span>
-                <span class="skill-tag tag-cyan">Git</span>
-            </div>
-        </div>
 
-        <!-- Design -->
-        <div class="skill-group">
-            <div class="skill-group-header">
-                <div class="skill-group-icon" style="background: rgba(255, 0, 229, 0.15);">&#127912;</div>
+            <div class="bento card-skill">
+                <div class="skill-icon" style="background: rgba(253, 121, 168, 0.15);">&#127912;</div>
                 <h3>Design</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag t-pink">Figma</span>
+                    <span class="skill-tag t-pink">Adobe Suite</span>
+                    <span class="skill-tag t-pink">Blender</span>
+                    <span class="skill-tag t-pink">UX/UI</span>
+                    <span class="skill-tag t-pink">Video Editing</span>
+                    <span class="skill-tag t-pink">Rotoscoping</span>
+                </div>
             </div>
-            <div class="skill-tags">
-                <span class="skill-tag tag-magenta">Figma</span>
-                <span class="skill-tag tag-magenta">Adobe Suite</span>
-                <span class="skill-tag tag-magenta">Blender</span>
-                <span class="skill-tag tag-magenta">UX/UI Design</span>
-                <span class="skill-tag tag-magenta">Video Editing</span>
-                <span class="skill-tag tag-magenta">Rotoscoping / VFX</span>
-            </div>
-        </div>
 
-        <!-- AI -->
-        <div class="skill-group">
-            <div class="skill-group-header">
-                <div class="skill-group-icon" style="background: rgba(0, 255, 136, 0.15);">&#129302;</div>
+            <div class="bento card-skill">
+                <div class="skill-icon" style="background: rgba(0, 206, 201, 0.15);">&#129302;</div>
                 <h3>AI & Innovation</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag t-teal">Generative AI</span>
+                    <span class="skill-tag t-teal">Prompt Engineering</span>
+                    <span class="skill-tag t-teal">AI Animation</span>
+                    <span class="skill-tag t-teal">AI Workflow</span>
+                    <span class="skill-tag t-teal">AR / VR / XR</span>
+                    <span class="skill-tag t-teal">ComfyUI</span>
+                </div>
             </div>
-            <div class="skill-tags">
-                <span class="skill-tag tag-green">Generative AI</span>
-                <span class="skill-tag tag-green">Prompt Engineering</span>
-                <span class="skill-tag tag-green">AI Animation</span>
-                <span class="skill-tag tag-green">AI Workflow Design</span>
-                <span class="skill-tag tag-green">AR / VR / XR</span>
-                <span class="skill-tag tag-green">ComfyUI</span>
-            </div>
-        </div>
 
-        <!-- Document & Management -->
-        <div class="skill-group">
-            <div class="skill-group-header">
-                <div class="skill-group-icon" style="background: rgba(240, 255, 0, 0.15);">&#128203;</div>
+            <div class="bento card-skill">
+                <div class="skill-icon" style="background: rgba(253, 203, 110, 0.15);">&#128203;</div>
                 <h3>Management</h3>
-            </div>
-            <div class="skill-tags">
-                <span class="skill-tag tag-yellow">Project Management</span>
-                <span class="skill-tag tag-yellow">Agile/Scrum</span>
-                <span class="skill-tag tag-yellow">Workshop Design</span>
-                <span class="skill-tag tag-yellow">Public Speaking</span>
-                <span class="skill-tag tag-yellow">Documentation</span>
-                <span class="skill-tag tag-yellow">Team Leadership</span>
+                <div class="skill-tags">
+                    <span class="skill-tag t-gold">Project Mgmt</span>
+                    <span class="skill-tag t-gold">Agile/Scrum</span>
+                    <span class="skill-tag t-gold">Workshop Design</span>
+                    <span class="skill-tag t-gold">Public Speaking</span>
+                    <span class="skill-tag t-gold">Documentation</span>
+                    <span class="skill-tag t-gold">Leadership</span>
+                </div>
             </div>
         </div>
     </div>
@@ -789,129 +831,129 @@
 
 <!-- Gallery -->
 <section id="gallery">
-    <div class="fade-up">
-        <span class="section-label label-yellow">Gallery</span>
-        <h2>Moments & Works</h2>
-    </div>
+    <div class="container">
+        <div class="section-header fade-up">
+            <span class="section-tag tag-gold">Gallery</span>
+            <h2>Moments & Works</h2>
+        </div>
 
-    <div class="gallery-filters fade-up">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="workshop">Workshops</button>
-        <button class="filter-btn" data-filter="gamejam">Game Jam</button>
-        <button class="filter-btn" data-filter="project">Projects</button>
-        <button class="filter-btn" data-filter="speaking">Speaking</button>
-    </div>
+        <div class="gallery-filters fade-up">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="workshop">Workshops</button>
+            <button class="filter-btn" data-filter="gamejam">Game Jam</button>
+            <button class="filter-btn" data-filter="project">Projects</button>
+            <button class="filter-btn" data-filter="speaking">Speaking</button>
+        </div>
 
-    <div class="gallery-grid fade-up" id="galleryGrid">
-        <div class="gallery-item" data-category="project" onclick="openLightbox(this.querySelector('img'))">
-            <img src="Fortal.jpg" alt="Fortal Interactive">
-            <div class="gallery-overlay"><span>Fortal Interactive</span></div>
-        </div>
-        <div class="gallery-item" data-category="gamejam" onclick="openLightbox(this.querySelector('img'))">
-            <img src="Game Jam & Workshop @ KL.jpg" alt="Game Jam KL">
-            <div class="gallery-overlay"><span>Game Jam @ KL</span></div>
-        </div>
-        <div class="gallery-item" data-category="gamejam" onclick="openLightbox(this.querySelector('img'))">
-            <img src="Game Jam & Workshop @ KL 2.jpg" alt="Game Jam KL 2">
-            <div class="gallery-overlay"><span>Game Jam @ KL</span></div>
-        </div>
-        <div class="gallery-item" data-category="gamejam" onclick="openLightbox(this.querySelector('img'))">
-            <img src="Game Jam & Workshop @ KL 3.jpg" alt="Game Jam KL 3">
-            <div class="gallery-overlay"><span>Workshop @ KL</span></div>
-        </div>
-        <div class="gallery-item" data-category="gamejam" onclick="openLightbox(this.querySelector('img'))">
-            <img src="Game Jam & Workshop @ KL 4.jpg" alt="Game Jam KL 4">
-            <div class="gallery-overlay"><span>Workshop @ KL</span></div>
-        </div>
-        <div class="gallery-item" data-category="gamejam" onclick="openLightbox(this.querySelector('img'))">
-            <img src="Game Jam & Workshop @ KL 5.jpg" alt="Game Jam KL 5">
-            <div class="gallery-overlay"><span>Game Jam @ KL</span></div>
-        </div>
-        <div class="gallery-item" data-category="gamejam" onclick="openLightbox(this.querySelector('img'))">
-            <img src="Game Jam & Workshop @ KL 6.jpg" alt="Game Jam KL 6">
-            <div class="gallery-overlay"><span>Game Jam @ KL</span></div>
-        </div>
-        <div class="gallery-item" data-category="speaking" onclick="openLightbox(this.querySelector('img'))">
-            <img src="RVY Speaker.jpg" alt="RVY Speaker">
-            <div class="gallery-overlay"><span>RVY Speaker</span></div>
-        </div>
-        <div class="gallery-item" data-category="speaking" onclick="openLightbox(this.querySelector('img'))">
-            <img src="RVY Speaker 2.jpg" alt="RVY Speaker 2">
-            <div class="gallery-overlay"><span>RVY Speaker</span></div>
-        </div>
-        <div class="gallery-item" data-category="speaking" onclick="openLightbox(this.querySelector('img'))">
-            <img src="RVY Speaker 3.jpg" alt="RVY Speaker 3">
-            <div class="gallery-overlay"><span>RVY Speaker</span></div>
-        </div>
-        <div class="gallery-item" data-category="speaking" onclick="openLightbox(this.querySelector('img'))">
-            <img src="RVY Speaker 4.jpg" alt="RVY Speaker 4">
-            <div class="gallery-overlay"><span>RVY Speaker</span></div>
-        </div>
-        <div class="gallery-item" data-category="speaking" onclick="openLightbox(this.querySelector('img'))">
-            <img src="RVY Speaker 5.jpg" alt="RVY Speaker 5">
-            <div class="gallery-overlay"><span>RVY Speaker</span></div>
-        </div>
-        <div class="gallery-item" data-category="workshop" onclick="openLightbox(this.querySelector('img'))">
-            <img src="Ai Workshop ราชการ 01.jpg" alt="AI Workshop Government">
-            <div class="gallery-overlay"><span>AI Workshop — Gov</span></div>
-        </div>
-        <div class="gallery-item" data-category="workshop" onclick="openLightbox(this.querySelector('img'))">
-            <img src="Ai Workshop ราชการ 02.jpg" alt="AI Workshop Government 2">
-            <div class="gallery-overlay"><span>AI Workshop — Gov</span></div>
-        </div>
-        <div class="gallery-item" data-category="workshop" onclick="openLightbox(this.querySelector('img'))">
-            <img src="Workshop สื่อสร้างสรรค์.jpg" alt="Creative Media Workshop">
-            <div class="gallery-overlay"><span>Creative Media</span></div>
-        </div>
-        <div class="gallery-item" data-category="workshop" onclick="openLightbox(this.querySelector('img'))">
-            <img src="Workshop สื่อสร้างสรรค์ 2.jpg" alt="Creative Media Workshop 2">
-            <div class="gallery-overlay"><span>Creative Media</span></div>
-        </div>
-        <div class="gallery-item" data-category="project" onclick="openLightbox(this.querySelector('img'))">
-            <img src="ประกวด Ai Animation ได้อันดับที่ 1.jpg" alt="1st Place AI Animation">
-            <div class="gallery-overlay"><span>1st Place AI Animation</span></div>
-        </div>
-        <div class="gallery-item" data-category="project" onclick="openLightbox(this.querySelector('img'))">
-            <img src="ภาพยนต์เรื่อง ตาคลี.jpg" alt="Short Film Ta Khli">
-            <div class="gallery-overlay"><span>Film — ตาคลี</span></div>
-        </div>
-        <div class="gallery-item" data-category="project" onclick="openLightbox(this.querySelector('img'))">
-            <img src="ภาพยนต์เรื่อง ตาคลี 2.jpg" alt="Short Film Ta Khli 2">
-            <div class="gallery-overlay"><span>Film — ตาคลี</span></div>
+        <div class="gallery-grid fade-up" id="galleryGrid">
+            <div class="gallery-item" data-category="project" onclick="openLightbox(this.querySelector('img'))">
+                <img src="Fortal.jpg" alt="Fortal Interactive">
+                <div class="gallery-overlay"><span>Fortal Interactive</span></div>
+            </div>
+            <div class="gallery-item" data-category="gamejam" onclick="openLightbox(this.querySelector('img'))">
+                <img src="Game Jam & Workshop @ KL.jpg" alt="Game Jam KL">
+                <div class="gallery-overlay"><span>Game Jam @ KL</span></div>
+            </div>
+            <div class="gallery-item" data-category="gamejam" onclick="openLightbox(this.querySelector('img'))">
+                <img src="Game Jam & Workshop @ KL 2.jpg" alt="Game Jam KL 2">
+                <div class="gallery-overlay"><span>Game Jam @ KL</span></div>
+            </div>
+            <div class="gallery-item" data-category="gamejam" onclick="openLightbox(this.querySelector('img'))">
+                <img src="Game Jam & Workshop @ KL 3.jpg" alt="Game Jam KL 3">
+                <div class="gallery-overlay"><span>Workshop @ KL</span></div>
+            </div>
+            <div class="gallery-item" data-category="gamejam" onclick="openLightbox(this.querySelector('img'))">
+                <img src="Game Jam & Workshop @ KL 4.jpg" alt="Game Jam KL 4">
+                <div class="gallery-overlay"><span>Workshop @ KL</span></div>
+            </div>
+            <div class="gallery-item" data-category="gamejam" onclick="openLightbox(this.querySelector('img'))">
+                <img src="Game Jam & Workshop @ KL 5.jpg" alt="Game Jam KL 5">
+                <div class="gallery-overlay"><span>Game Jam @ KL</span></div>
+            </div>
+            <div class="gallery-item" data-category="gamejam" onclick="openLightbox(this.querySelector('img'))">
+                <img src="Game Jam & Workshop @ KL 6.jpg" alt="Game Jam KL 6">
+                <div class="gallery-overlay"><span>Game Jam @ KL</span></div>
+            </div>
+            <div class="gallery-item" data-category="speaking" onclick="openLightbox(this.querySelector('img'))">
+                <img src="RVY Speaker.jpg" alt="RVY Speaker">
+                <div class="gallery-overlay"><span>RVY Speaker</span></div>
+            </div>
+            <div class="gallery-item" data-category="speaking" onclick="openLightbox(this.querySelector('img'))">
+                <img src="RVY Speaker 2.jpg" alt="RVY Speaker 2">
+                <div class="gallery-overlay"><span>RVY Speaker</span></div>
+            </div>
+            <div class="gallery-item" data-category="speaking" onclick="openLightbox(this.querySelector('img'))">
+                <img src="RVY Speaker 3.jpg" alt="RVY Speaker 3">
+                <div class="gallery-overlay"><span>RVY Speaker</span></div>
+            </div>
+            <div class="gallery-item" data-category="speaking" onclick="openLightbox(this.querySelector('img'))">
+                <img src="RVY Speaker 4.jpg" alt="RVY Speaker 4">
+                <div class="gallery-overlay"><span>RVY Speaker</span></div>
+            </div>
+            <div class="gallery-item" data-category="speaking" onclick="openLightbox(this.querySelector('img'))">
+                <img src="RVY Speaker 5.jpg" alt="RVY Speaker 5">
+                <div class="gallery-overlay"><span>RVY Speaker</span></div>
+            </div>
+            <div class="gallery-item" data-category="workshop" onclick="openLightbox(this.querySelector('img'))">
+                <img src="Ai Workshop ราชการ 01.jpg" alt="AI Workshop Government">
+                <div class="gallery-overlay"><span>AI Workshop — Gov</span></div>
+            </div>
+            <div class="gallery-item" data-category="workshop" onclick="openLightbox(this.querySelector('img'))">
+                <img src="Ai Workshop ราชการ 02.jpg" alt="AI Workshop Government 2">
+                <div class="gallery-overlay"><span>AI Workshop — Gov</span></div>
+            </div>
+            <div class="gallery-item" data-category="workshop" onclick="openLightbox(this.querySelector('img'))">
+                <img src="Workshop สื่อสร้างสรรค์.jpg" alt="Creative Media Workshop">
+                <div class="gallery-overlay"><span>Creative Media</span></div>
+            </div>
+            <div class="gallery-item" data-category="workshop" onclick="openLightbox(this.querySelector('img'))">
+                <img src="Workshop สื่อสร้างสรรค์ 2.jpg" alt="Creative Media Workshop 2">
+                <div class="gallery-overlay"><span>Creative Media</span></div>
+            </div>
+            <div class="gallery-item" data-category="project" onclick="openLightbox(this.querySelector('img'))">
+                <img src="ประกวด Ai Animation ได้อันดับที่ 1.jpg" alt="1st Place AI Animation">
+                <div class="gallery-overlay"><span>1st Place AI Animation</span></div>
+            </div>
+            <div class="gallery-item" data-category="project" onclick="openLightbox(this.querySelector('img'))">
+                <img src="ภาพยนต์เรื่อง ตาคลี.jpg" alt="Film Taklee">
+                <div class="gallery-overlay"><span>Film — Taklee</span></div>
+            </div>
+            <div class="gallery-item" data-category="project" onclick="openLightbox(this.querySelector('img'))">
+                <img src="ภาพยนต์เรื่อง ตาคลี 2.jpg" alt="Film Taklee 2">
+                <div class="gallery-overlay"><span>Film — Taklee</span></div>
+            </div>
         </div>
     </div>
 </section>
 
 <!-- Contact -->
-<div class="contact-section" id="contact">
-    <div class="contact-inner">
-        <div class="fade-up">
-            <span class="section-label label-cyan">Contact</span>
+<section id="contact">
+    <div class="container">
+        <div class="section-header fade-up" style="text-align: center;">
+            <span class="section-tag tag-teal">Contact</span>
             <h2>Let's Connect</h2>
-            <p class="lead" style="margin: 0 auto;">
-                Interested in collaboration or want to learn more? Feel free to reach out.
-            </p>
+            <p style="margin: 0.5rem auto 0;">Interested in collaboration? Feel free to reach out.</p>
         </div>
 
-        <div class="contact-cards fade-up">
-            <a href="mailto:ratchapon.lung@gmail.com" class="contact-card">
+        <div class="contact-grid fade-up">
+            <a href="mailto:ratchapon.lung@gmail.com" class="bento card-contact">
                 <span class="contact-icon">&#9993;</span>
                 <h3>Email</h3>
                 <p>ratchapon.lung@gmail.com</p>
             </a>
-            <a href="tel:+66945544691" class="contact-card">
+            <a href="tel:+66945544691" class="bento card-contact">
                 <span class="contact-icon">&#128222;</span>
                 <h3>Phone</h3>
                 <p>094-554-4691</p>
             </a>
-            <a href="#hero" class="contact-card">
+            <a href="#hero" class="bento card-contact">
                 <span class="contact-icon">&#127760;</span>
                 <h3>Portfolio</h3>
                 <p>This Page</p>
             </a>
         </div>
     </div>
-</div>
+</section>
 
 <!-- Lightbox -->
 <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
@@ -923,87 +965,11 @@
 <!-- Footer -->
 <footer>
     <div class="footer-line"></div>
-    <p>Ratchapon Lungmart &copy; 2026 — Built with passion & AI</p>
+    <p>Ratchapon Lungmart &copy; 2026</p>
 </footer>
 
 <script>
-// ═══════════════════════════════════════
-// Particles Background
-// ═══════════════════════════════════════
-const canvas = document.getElementById('particles');
-const ctx = canvas.getContext('2d');
-let particles = [];
-const PARTICLE_COUNT = 60;
-
-function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-}
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
-
-class Particle {
-    constructor() {
-        this.reset();
-    }
-    reset() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 2 + 0.5;
-        this.speedX = (Math.random() - 0.5) * 0.3;
-        this.speedY = (Math.random() - 0.5) * 0.3;
-        this.opacity = Math.random() * 0.4 + 0.1;
-        this.color = ['#00f0ff', '#ff00e5', '#00ff88'][Math.floor(Math.random() * 3)];
-    }
-    update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-        if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
-        if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
-    }
-    draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = this.color;
-        ctx.globalAlpha = this.opacity;
-        ctx.fill();
-        ctx.globalAlpha = 1;
-    }
-}
-
-for (let i = 0; i < PARTICLE_COUNT; i++) {
-    particles.push(new Particle());
-}
-
-function drawLines() {
-    for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-            const dx = particles[i].x - particles[j].x;
-            const dy = particles[i].y - particles[j].y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist < 120) {
-                ctx.beginPath();
-                ctx.moveTo(particles[i].x, particles[i].y);
-                ctx.lineTo(particles[j].x, particles[j].y);
-                ctx.strokeStyle = 'rgba(0, 240, 255, ' + (0.06 * (1 - dist / 120)) + ')';
-                ctx.lineWidth = 0.5;
-                ctx.stroke();
-            }
-        }
-    }
-}
-
-function animateParticles() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    particles.forEach(p => { p.update(); p.draw(); });
-    drawLines();
-    requestAnimationFrame(animateParticles);
-}
-animateParticles();
-
-// ═══════════════════════════════════════
-// Typed Text Animation
-// ═══════════════════════════════════════
+// Typed Text
 const titles = [
     'Generative Media Designer',
     'Junior Project Manager',
@@ -1024,43 +990,25 @@ function typeEffect() {
         typedEl.textContent = current.substring(0, charIndex + 1);
         charIndex++;
     }
-
     let delay = isDeleting ? 40 : 80;
-
     if (!isDeleting && charIndex === current.length) {
-        delay = 2000;
-        isDeleting = true;
+        delay = 2000; isDeleting = true;
     } else if (isDeleting && charIndex === 0) {
         isDeleting = false;
         titleIndex = (titleIndex + 1) % titles.length;
         delay = 400;
     }
-
     setTimeout(typeEffect, delay);
 }
 typeEffect();
 
-// ═══════════════════════════════════════
-// Scroll Progress
-// ═══════════════════════════════════════
-const scrollProgress = document.getElementById('scrollProgress');
-window.addEventListener('scroll', () => {
-    const scrollTop = document.documentElement.scrollTop;
-    const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    const progress = (scrollTop / scrollHeight) * 100;
-    scrollProgress.style.width = progress + '%';
-});
-
-// ═══════════════════════════════════════
-// Navbar scroll effect + active section
-// ═══════════════════════════════════════
+// Navbar scroll + active section
 const navbar = document.getElementById('navbar');
-const sections = document.querySelectorAll('section, .contact-section');
+const sections = document.querySelectorAll('section');
 const navLinks = document.querySelectorAll('.nav-links a');
 
 window.addEventListener('scroll', () => {
     navbar.classList.toggle('scrolled', window.scrollY > 50);
-
     let current = '';
     sections.forEach(sec => {
         const top = sec.offsetTop - 120;
@@ -1072,55 +1020,38 @@ window.addEventListener('scroll', () => {
     });
 });
 
-// ═══════════════════════════════════════
-// Hamburger Menu
-// ═══════════════════════════════════════
+// Hamburger
 const hamburger = document.getElementById('hamburger');
 const navLinksEl = document.getElementById('navLinks');
-hamburger.addEventListener('click', () => {
-    navLinksEl.classList.toggle('open');
-});
+hamburger.addEventListener('click', () => navLinksEl.classList.toggle('open'));
 navLinksEl.querySelectorAll('a').forEach(a => {
     a.addEventListener('click', () => navLinksEl.classList.remove('open'));
 });
 
-// ═══════════════════════════════════════
-// Scroll Fade-Up Animation
-// ═══════════════════════════════════════
+// Fade-up
 const fadeEls = document.querySelectorAll('.fade-up');
 const fadeObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-        }
+        if (entry.isIntersecting) entry.target.classList.add('visible');
     });
-}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 fadeEls.forEach(el => fadeObserver.observe(el));
 
-// ═══════════════════════════════════════
 // Gallery Filter
-// ═══════════════════════════════════════
 const filterBtns = document.querySelectorAll('.filter-btn');
 const galleryItems = document.querySelectorAll('.gallery-item');
-
 filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
         filterBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         const filter = btn.dataset.filter;
         galleryItems.forEach(item => {
-            if (filter === 'all' || item.dataset.category === filter) {
-                item.classList.remove('hidden');
-            } else {
-                item.classList.add('hidden');
-            }
+            item.classList.toggle('hidden', filter !== 'all' && item.dataset.category !== filter);
         });
     });
 });
 
-// ═══════════════════════════════════════
 // Lightbox
-// ═══════════════════════════════════════
 const lightbox = document.getElementById('lightbox');
 const lightboxImg = document.getElementById('lightboxImg');
 const lightboxCaption = document.getElementById('lightboxCaption');
@@ -1131,19 +1062,14 @@ function openLightbox(imgEl) {
     lightbox.classList.add('active');
     document.body.style.overflow = 'hidden';
 }
-
 function closeLightbox(e) {
     if (e.target === lightbox || e.target.classList.contains('lightbox-close') || e.target.parentElement.classList.contains('lightbox-close')) {
         lightbox.classList.remove('active');
         document.body.style.overflow = '';
     }
 }
-
 document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-        lightbox.classList.remove('active');
-        document.body.style.overflow = '';
-    }
+    if (e.key === 'Escape') { lightbox.classList.remove('active'); document.body.style.overflow = ''; }
 });
 </script>
 
