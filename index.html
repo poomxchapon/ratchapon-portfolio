@@ -6,517 +6,572 @@
     <title>Ratchapon Lungmart — AI Specialist & Project Manager</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #0c0c0e;
-            --bg-card: rgba(22, 22, 28, 0.8);
-            --bg-card-hover: rgba(30, 30, 40, 0.9);
+            --bg: #050505;
+            --bg-surface: #0c0c0c;
+            --bg-card: #111111;
+            --bg-card-hover: #161616;
             --border: rgba(255, 255, 255, 0.06);
-            --border-hover: rgba(255, 255, 255, 0.12);
-            --text: #f0f0f5;
-            --text-secondary: #8a8a9a;
-            --accent: #6c5ce7;
-            --accent-2: #00cec9;
-            --accent-3: #fd79a8;
-            --accent-4: #fdcb6e;
-            --radius: 20px;
-            --radius-sm: 14px;
+            --border-hover: rgba(255, 255, 255, 0.14);
+            --text: #f0f0f0;
+            --text-muted: #777;
+            --text-dim: #555;
+            --accent: #C9A227;
+            --accent-glow: rgba(201, 162, 39, 0.15);
+            --accent-2: #00CEC9;
+            --accent-3: #a78bfa;
+            --accent-4: #f472b6;
+            --radius: 16px;
+            --radius-sm: 10px;
+            --transition: cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Space Grotesk', sans-serif;
             background: var(--bg);
             color: var(--text);
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
-        /* ── Scrollbar ── */
-        ::-webkit-scrollbar { width: 6px; }
+        /* Noise overlay */
+        body::before {
+            content: '';
+            position: fixed; inset: 0; z-index: 9999;
+            pointer-events: none;
+            opacity: 0.025;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+            background-size: 256px 256px;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
 
-        /* ── Container ── */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 1rem;
-        }
+        /* Container */
+        .container { max-width: 1120px; margin: 0 auto; padding: 0 1.5rem; }
 
         /* ── Navigation ── */
         nav {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-            padding: 1rem 2rem;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: fixed; top: 1rem; left: 50%; transform: translateX(-50%);
+            z-index: 100; width: calc(100% - 2rem); max-width: 720px;
+            padding: 0.65rem 1.25rem;
+            background: rgba(12, 12, 12, 0.7);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            transition: all 0.4s var(--transition);
         }
         nav.scrolled {
-            background: rgba(12, 12, 14, 0.85);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
-            border-bottom: 1px solid var(--border);
+            background: rgba(12, 12, 12, 0.88);
+            border-color: var(--border-hover);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
         }
         .nav-inner {
-            max-width: 1200px; margin: 0 auto;
             display: flex; align-items: center; justify-content: space-between;
         }
         .nav-logo {
-            font-weight: 800; font-size: 0.9rem;
-            font-family: 'JetBrains Mono', monospace;
-            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            font-family: 'Archivo', sans-serif;
+            font-weight: 800; font-size: 0.85rem;
+            color: var(--accent); letter-spacing: -0.5px;
+        }
+        .nav-links { display: flex; gap: 0.15rem; }
+        .nav-links a {
+            color: var(--text-muted); text-decoration: none;
+            font-size: 0.72rem; font-weight: 500;
+            padding: 0.35rem 0.7rem; border-radius: 999px;
+            transition: all 0.25s var(--transition); cursor: pointer;
+        }
+        .nav-links a:hover { color: var(--text); background: rgba(255,255,255,0.06); }
+        .nav-links a.active { color: var(--accent); background: var(--accent-glow); }
+
+        .hamburger {
+            display: none; cursor: pointer; background: none; border: none;
+            flex-direction: column; gap: 4px; padding: 6px;
+        }
+        .hamburger span {
+            width: 18px; height: 1.5px; background: var(--text-muted);
+            border-radius: 1px; transition: all 0.3s;
+        }
+        .hamburger:hover span { background: var(--accent); }
+
+        @media (max-width: 768px) {
+            nav { top: 0.75rem; width: calc(100% - 1.5rem); border-radius: 14px; }
+            .hamburger { display: flex; }
+            .nav-links {
+                display: none; position: absolute;
+                top: calc(100% + 0.5rem); left: 0; right: 0;
+                background: rgba(12, 12, 12, 0.95);
+                backdrop-filter: blur(24px);
+                flex-direction: column; padding: 0.75rem;
+                border-radius: 14px; border: 1px solid var(--border);
+            }
+            .nav-links.open { display: flex; }
+            .nav-links a { padding: 0.6rem 1rem; border-radius: 10px; font-size: 0.82rem; }
+        }
+
+        /* ── Animations ── */
+        .reveal {
+            opacity: 0; transform: translateY(32px);
+            transition: opacity 0.7s var(--transition), transform 0.7s var(--transition);
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+
+        @media (prefers-reduced-motion: reduce) {
+            .reveal { opacity: 1; transform: none; transition: none; }
+            .marquee-track { animation: none !important; }
+            * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+        }
+
+        /* ── Hero ── */
+        .hero {
+            min-height: 100vh; display: flex; align-items: center;
+            position: relative; overflow: hidden;
+            padding: 6rem 0 4rem;
+        }
+        .hero-bg-orb {
+            position: absolute; border-radius: 50%; filter: blur(120px);
+            pointer-events: none; opacity: 0.12;
+        }
+        .hero-bg-orb.orb-1 {
+            width: 500px; height: 500px; top: -100px; right: -100px;
+            background: var(--accent);
+        }
+        .hero-bg-orb.orb-2 {
+            width: 400px; height: 400px; bottom: -80px; left: -80px;
+            background: var(--accent-2);
+        }
+        .hero-content { position: relative; z-index: 1; width: 100%; }
+        .hero-top {
+            display: flex; align-items: center; gap: 2.5rem;
+            margin-bottom: 3rem;
+        }
+        .hero-avatar-wrap {
+            position: relative; flex-shrink: 0;
+        }
+        .hero-avatar {
+            width: 140px; height: 140px; border-radius: 50%; object-fit: cover;
+            border: 2px solid rgba(201, 162, 39, 0.3);
+            box-shadow: 0 0 60px rgba(201, 162, 39, 0.08);
+        }
+        .hero-status {
+            position: absolute; bottom: 6px; right: 6px;
+            width: 16px; height: 16px; border-radius: 50%;
+            background: #22c55e; border: 3px solid var(--bg);
+            box-shadow: 0 0 12px rgba(34, 197, 94, 0.4);
+        }
+        .hero-text h1 {
+            font-family: 'Archivo', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900; letter-spacing: -2px; line-height: 1;
+            margin-bottom: 0.75rem;
+        }
+        .hero-text h1 .highlight {
+            background: linear-gradient(135deg, var(--accent), #e8d48b);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        .nav-links { display: flex; gap: 0.25rem; }
-        .nav-links a {
-            color: var(--text-secondary); text-decoration: none;
-            font-size: 0.8rem; font-weight: 500;
-            padding: 0.4rem 0.8rem; border-radius: 8px;
-            transition: all 0.2s;
-        }
-        .nav-links a:hover,
-        .nav-links a.active {
-            color: var(--text);
-            background: rgba(255, 255, 255, 0.06);
-        }
-        .hamburger {
-            display: none; cursor: pointer; background: none; border: none;
-            flex-direction: column; gap: 5px; padding: 4px;
-        }
-        .hamburger span {
-            width: 20px; height: 2px; background: var(--text);
-            border-radius: 2px; transition: all 0.3s;
-        }
-
-        @media (max-width: 768px) {
-            .hamburger { display: flex; }
-            .nav-links {
-                display: none; position: absolute; top: 100%; left: 0; right: 0;
-                background: rgba(12, 12, 14, 0.98);
-                backdrop-filter: blur(20px);
-                flex-direction: column; padding: 1rem;
-                border-bottom: 1px solid var(--border);
-            }
-            .nav-links.open { display: flex; }
-        }
-
-        /* ── Bento Card Base ── */
-        .bento {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-        }
-        .bento:hover {
-            border-color: var(--border-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3);
-        }
-        .bento-pad { padding: 1.75rem; }
-
-        /* ── Hero Bento Grid ── */
-        .hero-section {
-            padding-top: 5rem;
-        }
-        .hero-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            grid-template-rows: auto auto;
-            gap: 1rem;
-        }
-
-        /* Profile Card */
-        .card-profile {
-            grid-column: 1 / 3;
-            display: flex; align-items: center; gap: 2rem;
-            padding: 2.5rem;
-        }
-        .profile-img {
-            width: 120px; height: 120px; border-radius: 50%; flex-shrink: 0;
-            object-fit: cover;
-            border: 3px solid rgba(108, 92, 231, 0.3);
-            box-shadow: 0 0 40px rgba(108, 92, 231, 0.1);
-        }
-        .profile-info h1 {
-            font-size: clamp(1.6rem, 3vw, 2.2rem);
-            font-weight: 800; letter-spacing: -0.5px;
-            line-height: 1.2; margin-bottom: 0.5rem;
-        }
-        .profile-info .tagline {
-            font-size: 0.95rem; color: var(--text-secondary);
-            margin-bottom: 1rem;
-        }
-        .profile-badges {
-            display: flex; gap: 0.5rem; flex-wrap: wrap;
-        }
-        .badge {
-            padding: 0.3rem 0.75rem; border-radius: 999px;
-            font-size: 0.7rem; font-weight: 600; letter-spacing: 0.5px;
-        }
-        .badge-accent { background: rgba(108, 92, 231, 0.15); color: #a29bfe; }
-        .badge-green { background: rgba(0, 206, 201, 0.15); color: var(--accent-2); }
-
-        /* Status Card */
-        .card-status {
-            display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
-            text-align: center; padding: 2rem;
-            background: linear-gradient(135deg, rgba(108, 92, 231, 0.12), rgba(0, 206, 201, 0.08));
-        }
-        .status-dot {
-            width: 10px; height: 10px; border-radius: 50%;
-            background: #00b894; margin-bottom: 1rem;
-            box-shadow: 0 0 12px rgba(0, 184, 148, 0.4);
-            animation: pulse 2s ease-in-out infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.7; transform: scale(1.2); }
-        }
-        .card-status h3 {
-            font-size: 0.85rem; font-weight: 700; margin-bottom: 0.25rem;
-        }
-        .card-status p {
-            font-size: 0.75rem; color: var(--text-secondary);
-        }
-
-        /* Typed text */
-        .typed-wrapper {
-            font-size: 0.95rem; color: var(--text-secondary);
+        .hero-typed {
+            font-size: 1.1rem; color: var(--text-muted);
             min-height: 1.5em; margin-bottom: 1rem;
         }
-        .typed-text { color: var(--accent-2); font-weight: 600; }
+        .hero-typed .typed-text { color: var(--accent-2); font-weight: 600; }
         .typed-cursor {
-            display: inline-block; width: 2px; height: 1em;
+            display: inline-block; width: 2px; height: 1.1em;
             background: var(--accent-2); margin-left: 2px;
             animation: blink 0.8s infinite; vertical-align: text-bottom;
         }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        .hero-badges { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .badge {
+            display: inline-flex; align-items: center; gap: 0.35rem;
+            padding: 0.35rem 0.85rem; border-radius: 999px;
+            font-size: 0.7rem; font-weight: 600; letter-spacing: 0.3px;
+            border: 1px solid;
+        }
+        .badge-gold { background: var(--accent-glow); color: var(--accent); border-color: rgba(201,162,39,0.2); }
+        .badge-teal { background: rgba(0,206,201,0.1); color: var(--accent-2); border-color: rgba(0,206,201,0.2); }
+        .badge svg { width: 12px; height: 12px; }
 
-        /* Stat Cards */
-        .stats-row {
-            grid-column: 1 / -1;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1rem;
+        .hero-cta {
+            display: flex; gap: 0.75rem; margin-top: 1.5rem;
         }
-        .card-stat {
-            text-align: center; padding: 1.5rem 1rem;
+        .btn {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.7rem 1.5rem; border-radius: 10px;
+            font-size: 0.82rem; font-weight: 600; text-decoration: none;
+            transition: all 0.3s var(--transition); cursor: pointer;
+            font-family: 'Space Grotesk', sans-serif; border: none;
         }
-        .stat-number {
-            font-size: clamp(1.8rem, 3vw, 2.4rem);
-            font-weight: 900; font-family: 'JetBrains Mono', monospace;
-            letter-spacing: -1px; line-height: 1;
-            margin-bottom: 0.35rem;
+        .btn svg { width: 16px; height: 16px; }
+        .btn-primary {
+            background: var(--accent); color: #050505;
+            box-shadow: 0 4px 20px rgba(201,162,39,0.2);
         }
-        .stat-number.c1 { background: linear-gradient(135deg, var(--accent), #a29bfe); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        .stat-number.c2 { background: linear-gradient(135deg, var(--accent-2), #55efc4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        .stat-number.c3 { background: linear-gradient(135deg, var(--accent-4), #e17055); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .btn-primary:hover {
+            box-shadow: 0 8px 32px rgba(201,162,39,0.35);
+            transform: translateY(-1px);
+        }
+        .btn-ghost {
+            background: transparent; color: var(--text-muted);
+            border: 1px solid var(--border);
+        }
+        .btn-ghost:hover { border-color: var(--border-hover); color: var(--text); }
+
+        /* Stats bar */
+        .hero-stats {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 1rem; margin-top: 3rem;
+            padding-top: 2rem; border-top: 1px solid var(--border);
+        }
+        .stat { text-align: center; }
+        .stat-value {
+            font-family: 'Archivo', sans-serif;
+            font-size: clamp(1.8rem, 3vw, 2.2rem);
+            font-weight: 900; letter-spacing: -1px; line-height: 1;
+            margin-bottom: 0.25rem;
+        }
+        .stat-value.gold { color: var(--accent); }
+        .stat-value.teal { color: var(--accent-2); }
+        .stat-value.lavender { color: var(--accent-3); }
         .stat-label {
-            font-size: 0.72rem; color: var(--text-secondary);
-            font-weight: 500; text-transform: uppercase; letter-spacing: 1px;
+            font-size: 0.68rem; color: var(--text-dim);
+            font-weight: 500; text-transform: uppercase; letter-spacing: 1.5px;
         }
 
-        /* ── Section Headers ── */
-        .section-header {
-            padding: 4rem 0 1.5rem;
+        /* ── Marquee ── */
+        .marquee {
+            overflow: hidden; padding: 1.5rem 0;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 1rem;
         }
-        .section-tag {
-            display: inline-block; padding: 0.3rem 0.8rem;
-            border-radius: 8px; font-size: 0.65rem; font-weight: 700;
-            letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 0.75rem;
+        .marquee-track {
+            display: flex; gap: 3rem; width: max-content;
+            animation: marquee 30s linear infinite;
         }
-        .tag-purple { background: rgba(108, 92, 231, 0.15); color: #a29bfe; }
-        .tag-teal { background: rgba(0, 206, 201, 0.15); color: var(--accent-2); }
-        .tag-pink { background: rgba(253, 121, 168, 0.15); color: var(--accent-3); }
-        .tag-gold { background: rgba(253, 203, 110, 0.15); color: var(--accent-4); }
-        .section-header h2 {
-            font-size: clamp(1.6rem, 3.5vw, 2.4rem);
-            font-weight: 800; letter-spacing: -0.5px; line-height: 1.15;
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
         }
-        .section-header p {
-            color: var(--text-secondary); font-size: 0.95rem;
-            margin-top: 0.5rem; max-width: 500px;
+        .marquee-item {
+            font-family: 'Archivo', sans-serif;
+            font-size: 0.85rem; font-weight: 600;
+            color: var(--text-dim); white-space: nowrap;
+            display: flex; align-items: center; gap: 0.75rem;
+        }
+        .marquee-dot {
+            width: 4px; height: 4px; border-radius: 50%;
+            background: var(--accent); opacity: 0.5;
         }
 
-        /* ── About Bento ── */
+        /* ── Section Header ── */
+        .section { padding: 5rem 0 2rem; }
+        .section-label {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            font-size: 0.65rem; font-weight: 700;
+            letter-spacing: 2px; text-transform: uppercase;
+            color: var(--accent); margin-bottom: 1rem;
+        }
+        .section-label::before {
+            content: ''; width: 20px; height: 1px; background: var(--accent);
+        }
+        .section h2 {
+            font-family: 'Archivo', sans-serif;
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 800; letter-spacing: -1px; line-height: 1.1;
+            margin-bottom: 0.5rem;
+        }
+        .section-desc {
+            color: var(--text-muted); font-size: 0.92rem;
+            max-width: 480px;
+        }
+
+        /* ── Card Base ── */
+        .card {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: var(--radius); overflow: hidden;
+            transition: all 0.35s var(--transition); cursor: pointer;
+        }
+        .card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        }
+        .card-pad { padding: 1.75rem; }
+
+        /* ── About ── */
         .about-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
+            display: grid; grid-template-columns: 1fr 1.2fr;
+            gap: 1.25rem;
         }
-        .card-about-text { padding: 2rem; }
-        .card-about-text h3 {
-            font-size: 1.1rem; font-weight: 700;
-            margin-bottom: 0.75rem; color: var(--accent-2);
+        .about-photo {
+            border-radius: var(--radius); overflow: hidden;
+            min-height: 380px;
         }
-        .card-about-text p {
-            font-size: 0.88rem; color: var(--text-secondary);
-            line-height: 1.8; margin-bottom: 0.75rem;
-        }
-        .card-about-photo {
-            min-height: 350px; padding: 0;
-        }
-        .card-about-photo img {
+        .about-photo img {
             width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.6s var(--transition);
+        }
+        .about-photo:hover img { transform: scale(1.04); }
+        .about-text h3 {
+            font-family: 'Archivo', sans-serif;
+            font-size: 1.15rem; font-weight: 700;
+            margin-bottom: 1rem; color: var(--accent);
+        }
+        .about-text p {
+            font-size: 0.88rem; color: var(--text-muted);
+            line-height: 1.85; margin-bottom: 1rem;
         }
 
         /* ── Experience ── */
-        .exp-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-        .card-exp { padding: 1.75rem; }
-        .card-exp.featured {
-            grid-column: 1 / -1;
+        .exp-grid { display: flex; flex-direction: column; gap: 1rem; }
+        .exp-card { padding: 2rem; position: relative; }
+        .exp-card.featured {
             display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
+            background: linear-gradient(135deg, rgba(201,162,39,0.04), rgba(0,206,201,0.03));
+            border-color: rgba(201,162,39,0.1);
         }
+        .exp-card.featured:hover { border-color: rgba(201,162,39,0.2); }
         .exp-date {
             font-size: 0.68rem; font-weight: 700;
-            font-family: 'JetBrains Mono', monospace;
-            letter-spacing: 1px; margin-bottom: 0.5rem;
-            color: var(--accent);
+            letter-spacing: 1.5px; text-transform: uppercase;
+            margin-bottom: 0.5rem; color: var(--accent);
         }
-        .card-exp:nth-child(even) .exp-date { color: var(--accent-2); }
-        .card-exp:nth-child(3n) .exp-date { color: var(--accent-3); }
-        .card-exp h3 {
-            font-size: 1rem; font-weight: 700; margin-bottom: 0.35rem;
+        .exp-card:nth-child(even) .exp-date { color: var(--accent-2); }
+        .exp-card:nth-child(3n) .exp-date { color: var(--accent-3); }
+        .exp-card h3 {
+            font-family: 'Archivo', sans-serif;
+            font-size: 1.05rem; font-weight: 700; margin-bottom: 0.3rem;
         }
         .exp-role {
             font-size: 0.78rem; color: var(--accent-2);
-            font-weight: 600; margin-bottom: 0.5rem;
+            font-weight: 600; margin-bottom: 0.65rem;
         }
-        .card-exp p {
-            font-size: 0.82rem; color: var(--text-secondary); line-height: 1.7;
+        .exp-card p {
+            font-size: 0.82rem; color: var(--text-muted); line-height: 1.75;
         }
         .exp-images {
-            display: flex; gap: 0.5rem; margin-top: 0.75rem; flex-wrap: wrap;
+            display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap;
         }
         .exp-images img {
-            height: 64px; border-radius: 10px; object-fit: cover;
+            height: 56px; border-radius: 8px; object-fit: cover;
             border: 1px solid var(--border); cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s var(--transition);
         }
         .exp-images img:hover {
-            border-color: var(--accent);
-            transform: scale(1.05);
+            border-color: var(--accent); transform: scale(1.06);
+        }
+        .exp-row {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
         }
 
         /* Achievement */
-        .card-achievement {
-            grid-column: 1 / -1;
+        .achievement {
             display: flex; align-items: center; gap: 2rem;
             padding: 2rem;
-            background: linear-gradient(135deg, rgba(253, 203, 110, 0.06), rgba(253, 121, 168, 0.06));
-            border-color: rgba(253, 203, 110, 0.12);
+            background: linear-gradient(135deg, rgba(201,162,39,0.06), rgba(167,139,250,0.04));
+            border-color: rgba(201,162,39,0.12);
         }
-        .card-achievement:hover { border-color: rgba(253, 203, 110, 0.25); }
+        .achievement:hover { border-color: rgba(201,162,39,0.25); }
         .achievement-img {
             width: 180px; height: 130px; border-radius: var(--radius-sm);
             overflow: hidden; flex-shrink: 0;
         }
         .achievement-img img { width: 100%; height: 100%; object-fit: cover; }
-        .achievement-content h3 {
-            font-size: 1.1rem; font-weight: 800; margin-bottom: 0.35rem;
-            color: var(--accent-4);
+        .achievement h3 {
+            font-family: 'Archivo', sans-serif;
+            font-size: 1.1rem; font-weight: 800; margin-bottom: 0.4rem;
+            color: var(--accent);
         }
-        .achievement-content p {
-            font-size: 0.82rem; color: var(--text-secondary); line-height: 1.7;
+        .achievement p {
+            font-size: 0.82rem; color: var(--text-muted); line-height: 1.75;
         }
         .achievement-badge {
-            display: inline-block; padding: 0.3rem 0.8rem; border-radius: 999px;
-            background: rgba(253, 203, 110, 0.15); color: var(--accent-4);
-            font-size: 0.68rem; font-weight: 700; letter-spacing: 1px; margin-top: 0.5rem;
+            display: inline-flex; align-items: center; gap: 0.35rem;
+            padding: 0.35rem 0.85rem; border-radius: 999px;
+            background: var(--accent-glow); color: var(--accent);
+            font-size: 0.68rem; font-weight: 700; letter-spacing: 1px;
+            margin-top: 0.75rem; border: 1px solid rgba(201,162,39,0.2);
         }
 
-        /* ── Skills Bento ── */
+        /* ── Skills ── */
         .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1rem;
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;
         }
-        .card-skill { padding: 1.5rem; }
+        .skill-card { padding: 1.5rem; }
         .skill-icon {
-            width: 44px; height: 44px; border-radius: 12px;
+            width: 40px; height: 40px; border-radius: 10px;
             display: flex; align-items: center; justify-content: center;
-            font-size: 1.3rem; margin-bottom: 1rem;
+            margin-bottom: 1rem;
         }
-        .card-skill h3 {
-            font-size: 0.9rem; font-weight: 700; margin-bottom: 0.75rem;
+        .skill-icon svg { width: 20px; height: 20px; }
+        .skill-card h3 {
+            font-family: 'Archivo', sans-serif;
+            font-size: 0.9rem; font-weight: 700; margin-bottom: 0.85rem;
         }
-        .skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+        .skill-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
         .skill-tag {
-            padding: 0.25rem 0.6rem; border-radius: 8px;
-            font-size: 0.68rem; font-weight: 600;
-            border: 1px solid; transition: all 0.2s;
+            padding: 0.22rem 0.6rem; border-radius: 6px;
+            font-size: 0.65rem; font-weight: 600;
+            border: 1px solid; transition: all 0.2s var(--transition);
+            cursor: pointer;
         }
-        .skill-tag:hover { transform: scale(1.05); }
-        .t-purple { background: rgba(108, 92, 231, 0.1); color: #a29bfe; border-color: rgba(108, 92, 231, 0.2); }
-        .t-teal { background: rgba(0, 206, 201, 0.1); color: var(--accent-2); border-color: rgba(0, 206, 201, 0.2); }
-        .t-pink { background: rgba(253, 121, 168, 0.1); color: var(--accent-3); border-color: rgba(253, 121, 168, 0.2); }
-        .t-gold { background: rgba(253, 203, 110, 0.1); color: var(--accent-4); border-color: rgba(253, 203, 110, 0.2); }
+        .skill-tag:hover { transform: translateY(-1px); }
+        .t-gold { background: rgba(201,162,39,0.08); color: var(--accent); border-color: rgba(201,162,39,0.15); }
+        .t-teal { background: rgba(0,206,201,0.08); color: var(--accent-2); border-color: rgba(0,206,201,0.15); }
+        .t-lavender { background: rgba(167,139,250,0.08); color: var(--accent-3); border-color: rgba(167,139,250,0.15); }
+        .t-pink { background: rgba(244,114,182,0.08); color: var(--accent-4); border-color: rgba(244,114,182,0.15); }
 
         /* ── Gallery ── */
         .gallery-filters {
-            display: flex; gap: 0.5rem; flex-wrap: wrap;
-            margin-bottom: 1.25rem;
+            display: flex; gap: 0.4rem; flex-wrap: wrap;
+            margin-bottom: 1.5rem;
         }
         .filter-btn {
-            padding: 0.35rem 1rem; border-radius: 10px;
-            font-size: 0.72rem; font-weight: 600; cursor: pointer;
+            padding: 0.35rem 1rem; border-radius: 999px;
+            font-size: 0.7rem; font-weight: 600; cursor: pointer;
             background: transparent; border: 1px solid var(--border);
-            color: var(--text-secondary); font-family: 'Inter', sans-serif;
-            transition: all 0.2s;
+            color: var(--text-dim); font-family: 'Space Grotesk', sans-serif;
+            transition: all 0.25s var(--transition);
         }
-        .filter-btn:hover { border-color: var(--border-hover); color: var(--text); }
+        .filter-btn:hover { border-color: var(--border-hover); color: var(--text-muted); }
         .filter-btn.active {
-            background: rgba(108, 92, 231, 0.15);
-            border-color: rgba(108, 92, 231, 0.3);
-            color: #a29bfe;
+            background: var(--accent-glow); border-color: rgba(201,162,39,0.3);
+            color: var(--accent);
         }
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 0.75rem;
         }
         .gallery-item {
             border-radius: var(--radius-sm); overflow: hidden;
             cursor: pointer; position: relative; aspect-ratio: 4/3;
-            border: 1px solid var(--border); transition: all 0.4s;
+            border: 1px solid var(--border); transition: all 0.4s var(--transition);
         }
         .gallery-item.hidden { display: none; }
         .gallery-item:hover {
-            border-color: var(--border-hover);
-            transform: scale(1.02);
+            border-color: var(--border-hover); transform: scale(1.02);
         }
         .gallery-item img {
             width: 100%; height: 100%; object-fit: cover;
-            transition: transform 0.5s;
+            transition: transform 0.6s var(--transition);
         }
         .gallery-item:hover img { transform: scale(1.08); }
         .gallery-overlay {
             position: absolute; inset: 0;
-            background: linear-gradient(transparent 50%, rgba(12, 12, 14, 0.85));
-            opacity: 0; transition: opacity 0.3s;
+            background: linear-gradient(transparent 40%, rgba(5,5,5,0.9));
+            opacity: 0; transition: opacity 0.35s var(--transition);
             display: flex; align-items: flex-end; padding: 1rem;
         }
         .gallery-item:hover .gallery-overlay { opacity: 1; }
-        .gallery-overlay span {
-            font-size: 0.78rem; font-weight: 600;
-        }
+        .gallery-overlay span { font-size: 0.75rem; font-weight: 600; }
 
         /* ── Lightbox ── */
         .lightbox {
             position: fixed; inset: 0; z-index: 1000;
-            background: rgba(12, 12, 14, 0.92);
-            backdrop-filter: blur(24px);
+            background: rgba(5, 5, 5, 0.92);
+            backdrop-filter: blur(32px);
             display: none; align-items: center; justify-content: center;
             cursor: pointer;
         }
         .lightbox.active { display: flex; }
         .lightbox img {
             max-width: 90vw; max-height: 85vh;
-            border-radius: var(--radius);
-            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5);
-            border: 1px solid var(--border);
+            border-radius: var(--radius); border: 1px solid var(--border);
+            box-shadow: 0 32px 80px rgba(0,0,0,0.6);
         }
         .lightbox-close {
             position: absolute; top: 1.5rem; right: 1.5rem;
-            width: 40px; height: 40px; border-radius: 12px;
-            background: rgba(255, 255, 255, 0.08); border: 1px solid var(--border);
-            color: var(--text); font-size: 1rem; cursor: pointer;
+            width: 40px; height: 40px; border-radius: 50%;
+            background: rgba(255,255,255,0.06); border: 1px solid var(--border);
+            color: var(--text-muted); font-size: 0.9rem; cursor: pointer;
             display: flex; align-items: center; justify-content: center;
-            transition: all 0.2s;
+            transition: all 0.25s var(--transition);
         }
-        .lightbox-close:hover { background: rgba(253, 121, 168, 0.2); }
+        .lightbox-close:hover { background: rgba(255,255,255,0.1); color: var(--text); }
         .lightbox-caption {
             position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
-            color: var(--text-secondary); font-size: 0.82rem; font-weight: 500;
-            background: rgba(12, 12, 14, 0.8); padding: 0.5rem 1.25rem;
-            border-radius: 10px; border: 1px solid var(--border);
+            color: var(--text-muted); font-size: 0.78rem; font-weight: 500;
+            background: rgba(12,12,12,0.85); padding: 0.5rem 1.25rem;
+            border-radius: 999px; border: 1px solid var(--border);
+            white-space: nowrap;
         }
 
         /* ── Contact ── */
         .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1rem;
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;
         }
-        .card-contact {
-            text-align: center; padding: 2rem 1.5rem;
-            text-decoration: none; display: block;
+        .contact-card {
+            text-align: center; padding: 2.5rem 1.5rem; text-decoration: none;
+            display: flex; flex-direction: column; align-items: center;
         }
         .contact-icon {
-            font-size: 1.8rem; margin-bottom: 0.75rem; display: block;
+            width: 48px; height: 48px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 1rem;
         }
-        .card-contact h3 {
+        .contact-icon svg { width: 22px; height: 22px; }
+        .contact-card h3 {
+            font-family: 'Archivo', sans-serif;
             font-size: 0.85rem; font-weight: 700; margin-bottom: 0.3rem;
             color: var(--text);
         }
-        .card-contact p {
-            font-size: 0.75rem; color: var(--accent-2);
-            font-family: 'JetBrains Mono', monospace; word-break: break-all;
+        .contact-card p {
+            font-size: 0.75rem; color: var(--accent-2); font-weight: 500;
+            word-break: break-all;
         }
 
         /* ── Footer ── */
         footer {
-            text-align: center; padding: 3rem 2rem 2rem;
+            text-align: center; padding: 4rem 2rem 2rem;
         }
         .footer-line {
-            width: 48px; height: 3px; margin: 0 auto 1rem;
-            border-radius: 2px;
+            width: 40px; height: 2px; margin: 0 auto 1rem;
+            border-radius: 1px;
             background: linear-gradient(90deg, var(--accent), var(--accent-2));
         }
-        footer p {
-            font-size: 0.72rem; color: var(--text-secondary);
-        }
-
-        /* ── Fade Animation ── */
-        .fade-up {
-            opacity: 0; transform: translateY(24px);
-            transition: opacity 0.5s ease, transform 0.5s ease;
-        }
-        .fade-up.visible { opacity: 1; transform: translateY(0); }
+        footer p { font-size: 0.7rem; color: var(--text-dim); }
 
         /* ── Responsive ── */
         @media (max-width: 1024px) {
             .skills-grid { grid-template-columns: repeat(2, 1fr); }
         }
         @media (max-width: 768px) {
-            .container { padding: 0.75rem; }
-            .hero-grid {
-                grid-template-columns: 1fr;
-            }
-            .card-profile {
-                grid-column: 1;
-                flex-direction: column; text-align: center;
-                padding: 2rem 1.5rem;
-            }
-            .profile-badges { justify-content: center; }
-            .typed-wrapper { text-align: center; }
-            .stats-row { grid-column: 1; grid-template-columns: repeat(3, 1fr); }
+            .hero-top { flex-direction: column; text-align: center; gap: 1.5rem; }
+            .hero-badges { justify-content: center; }
+            .hero-cta { justify-content: center; }
+            .hero-stats { grid-template-columns: repeat(3, 1fr); }
             .about-grid { grid-template-columns: 1fr; }
-            .card-about-photo { min-height: 250px; }
-            .exp-grid { grid-template-columns: 1fr; }
-            .card-exp.featured { grid-column: 1; grid-template-columns: 1fr; }
+            .about-photo { min-height: 280px; }
+            .exp-row { grid-template-columns: 1fr; }
+            .exp-card.featured { grid-template-columns: 1fr; }
             .skills-grid { grid-template-columns: 1fr 1fr; }
             .contact-grid { grid-template-columns: 1fr; }
-            .card-achievement {
-                grid-column: 1;
+            .achievement {
                 flex-direction: column; text-align: center;
             }
-            .achievement-img { width: 100%; max-width: 240px; }
+            .achievement-img { width: 100%; max-width: 260px; }
             .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
         }
         @media (max-width: 480px) {
-            .profile-img { width: 96px; height: 96px; }
+            .hero-avatar { width: 110px; height: 110px; }
+            .hero-text h1 { font-size: 2.2rem; letter-spacing: -1px; }
             .skills-grid { grid-template-columns: 1fr; }
-            .stats-row { grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; }
+            .hero-stats { gap: 0.5rem; }
         }
     </style>
 </head>
@@ -525,7 +580,7 @@
 <!-- Navigation -->
 <nav id="navbar">
     <div class="nav-inner">
-        <div class="nav-logo">&lt;RL /&gt;</div>
+        <div class="nav-logo">RL.</div>
         <div class="nav-links" id="navLinks">
             <a href="#hero" class="active">Home</a>
             <a href="#about">About</a>
@@ -534,73 +589,94 @@
             <a href="#gallery">Gallery</a>
             <a href="#contact">Contact</a>
         </div>
-        <button class="hamburger" id="hamburger" aria-label="Menu">
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu">
             <span></span><span></span><span></span>
         </button>
     </div>
 </nav>
 
 <!-- Hero -->
-<section id="hero" class="hero-section">
-    <div class="container">
-        <div class="hero-grid">
-            <!-- Profile Card -->
-            <div class="bento card-profile fade-up">
-                <img src="Profile.jpg" alt="Ratchapon Lungmart" class="profile-img">
-                <div class="profile-info">
-                    <h1>Ratchapon<br>Lungmart</h1>
-                    <div class="typed-wrapper">
-                        <span class="typed-text" id="typedText"></span><span class="typed-cursor">|</span>
-                    </div>
-                    <div class="profile-badges">
-                        <span class="badge badge-accent">AI Specialist</span>
-                        <span class="badge badge-green">NDF DEV</span>
-                    </div>
+<section id="hero" class="hero">
+    <div class="hero-bg-orb orb-1"></div>
+    <div class="hero-bg-orb orb-2"></div>
+    <div class="container hero-content">
+        <div class="hero-top reveal">
+            <div class="hero-avatar-wrap">
+                <img src="Profile.jpg" alt="Ratchapon Lungmart" class="hero-avatar">
+                <div class="hero-status" title="Available for work"></div>
+            </div>
+            <div class="hero-text">
+                <h1>Ratchapon<br><span class="highlight">Lungmart</span></h1>
+                <div class="hero-typed">
+                    <span class="typed-text" id="typedText"></span><span class="typed-cursor">|</span>
+                </div>
+                <div class="hero-badges">
+                    <span class="badge badge-gold">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        AI Specialist
+                    </span>
+                    <span class="badge badge-teal">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 18l6-6-6-6"/><path d="M8 6l-6 6 6 6"/></svg>
+                        NDF DEV
+                    </span>
+                </div>
+                <div class="hero-cta">
+                    <a href="#contact" class="btn btn-primary">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                        Get in Touch
+                    </a>
+                    <a href="#experience" class="btn btn-ghost">View Work</a>
                 </div>
             </div>
+        </div>
 
-            <!-- Status Card -->
-            <div class="bento card-status fade-up">
-                <div class="status-dot"></div>
-                <h3>Available</h3>
-                <p>Open to opportunities</p>
-                <div style="margin-top: 1.25rem; display: flex; gap: 0.5rem; flex-direction: column;">
-                    <a href="#contact" style="padding: 0.5rem 1.25rem; border-radius: 10px; background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #fff; text-decoration: none; font-size: 0.78rem; font-weight: 700; text-align: center; transition: all 0.3s;">Get in Touch</a>
-                    <a href="#experience" style="padding: 0.5rem 1.25rem; border-radius: 10px; border: 1px solid var(--border); color: var(--text-secondary); text-decoration: none; font-size: 0.78rem; font-weight: 600; text-align: center; transition: all 0.3s;">View Work</a>
-                </div>
+        <div class="hero-stats reveal reveal-delay-2">
+            <div class="stat">
+                <div class="stat-value gold">10+</div>
+                <div class="stat-label">Workshops Led</div>
             </div>
-
-            <!-- Stats Row -->
-            <div class="stats-row fade-up">
-                <div class="bento card-stat">
-                    <div class="stat-number c1">10+</div>
-                    <div class="stat-label">Workshops Led</div>
-                </div>
-                <div class="bento card-stat">
-                    <div class="stat-number c2">8+</div>
-                    <div class="stat-label">Projects Shipped</div>
-                </div>
-                <div class="bento card-stat">
-                    <div class="stat-number c3">#1</div>
-                    <div class="stat-label">AI Animation</div>
-                </div>
+            <div class="stat">
+                <div class="stat-value teal">8+</div>
+                <div class="stat-label">Projects Shipped</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value lavender">#1</div>
+                <div class="stat-label">AI Animation</div>
             </div>
         </div>
     </div>
 </section>
 
+<!-- Marquee -->
+<div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+        <span class="marquee-item">Generative Media Designer</span><span class="marquee-dot"></span>
+        <span class="marquee-item">Project Manager</span><span class="marquee-dot"></span>
+        <span class="marquee-item">AI Workshop Instructor</span><span class="marquee-dot"></span>
+        <span class="marquee-item">AR/VR Developer</span><span class="marquee-dot"></span>
+        <span class="marquee-item">Graphic Designer</span><span class="marquee-dot"></span>
+        <span class="marquee-item">Rotoscope Artist</span><span class="marquee-dot"></span>
+        <span class="marquee-item">Generative Media Designer</span><span class="marquee-dot"></span>
+        <span class="marquee-item">Project Manager</span><span class="marquee-dot"></span>
+        <span class="marquee-item">AI Workshop Instructor</span><span class="marquee-dot"></span>
+        <span class="marquee-item">AR/VR Developer</span><span class="marquee-dot"></span>
+        <span class="marquee-item">Graphic Designer</span><span class="marquee-dot"></span>
+        <span class="marquee-item">Rotoscope Artist</span><span class="marquee-dot"></span>
+    </div>
+</div>
+
 <!-- About -->
-<section id="about">
+<section id="about" class="section">
     <div class="container">
-        <div class="section-header fade-up">
-            <span class="section-tag tag-teal">About</span>
+        <div class="reveal">
+            <div class="section-label">About</div>
             <h2>Bridging AI, Design<br>& Project Management</h2>
         </div>
-        <div class="about-grid">
-            <div class="bento card-about-photo fade-up">
+        <div class="about-grid" style="margin-top: 2rem;">
+            <div class="card about-photo reveal">
                 <img src="Profile.jpg" alt="Ratchapon Lungmart">
             </div>
-            <div class="bento card-about-text fade-up">
+            <div class="card card-pad about-text reveal reveal-delay-1">
                 <h3>Ratchapon Lungmart</h3>
                 <p>
                     Born April 13, 2000. Graduated with a Bachelor's degree from the College of Arts, Media and Technology (CAMT),
@@ -621,17 +697,17 @@
 </section>
 
 <!-- Experience -->
-<section id="experience">
+<section id="experience" class="section">
     <div class="container">
-        <div class="section-header fade-up">
-            <span class="section-tag tag-pink">Experience</span>
+        <div class="reveal">
+            <div class="section-label">Experience</div>
             <h2>Journey So Far</h2>
-            <p>From game dev internships to AI specialist roles — driven by curiosity and creation.</p>
+            <p class="section-desc">From game dev internships to AI specialist roles — driven by curiosity and creation.</p>
         </div>
 
-        <div class="exp-grid">
+        <div class="exp-grid" style="margin-top: 2rem;">
             <!-- NDF DEV - Featured -->
-            <div class="bento card-exp featured fade-up">
+            <div class="card exp-card featured reveal">
                 <div>
                     <div class="exp-date">2024 — Present</div>
                     <h3>NDF DEV</h3>
@@ -647,93 +723,99 @@
                     </div>
                 </div>
                 <div style="display: flex; align-items: center; justify-content: center;">
-                    <img src="Fortal.jpg" alt="Fortal" style="width: 100%; border-radius: var(--radius-sm); object-fit: cover; max-height: 220px;">
+                    <img src="Fortal.jpg" alt="Fortal" style="width: 100%; border-radius: var(--radius-sm); object-fit: cover; max-height: 240px;">
                 </div>
             </div>
 
-            <!-- SmartGOV -->
-            <div class="bento card-exp fade-up">
-                <div class="exp-date">2025</div>
-                <h3>SmartGOV LEADERS Bootcamp</h3>
-                <div class="exp-role">Speaker — AI & DATA for Public Service</div>
-                <p>
-                    Delivered a lecture on "Public Service Story: Creating Animation Video with AI"
-                    to various government agencies.
-                </p>
-                <div class="exp-images">
-                    <img src="Ai Workshop ราชการ 01.jpg" alt="SmartGOV Leaders 1" onclick="openLightbox(this)">
-                    <img src="Ai Workshop ราชการ 02.jpg" alt="SmartGOV Leaders 2" onclick="openLightbox(this)">
+            <div class="exp-row">
+                <!-- SmartGOV -->
+                <div class="card exp-card reveal">
+                    <div class="exp-date">2025</div>
+                    <h3>SmartGOV LEADERS Bootcamp</h3>
+                    <div class="exp-role">Speaker — AI & DATA for Public Service</div>
+                    <p>
+                        Delivered a lecture on "Public Service Story: Creating Animation Video with AI"
+                        to various government agencies.
+                    </p>
+                    <div class="exp-images">
+                        <img src="Ai Workshop ราชการ 01.jpg" alt="SmartGOV Leaders 1" onclick="openLightbox(this)">
+                        <img src="Ai Workshop ราชการ 02.jpg" alt="SmartGOV Leaders 2" onclick="openLightbox(this)">
+                    </div>
+                </div>
+
+                <!-- R.nime Gen Ai -->
+                <div class="card exp-card reveal reveal-delay-1">
+                    <div class="exp-date">2024 — 2025</div>
+                    <h3>R.nime Gen Ai</h3>
+                    <div class="exp-role">Lead Instructor — DEPA x CMU x CAMT x NDF Dev</div>
+                    <p>
+                        Taught Generative AI skills to vocational students across 4 institutions for creating images and videos.
+                    </p>
+                    <div class="exp-images">
+                        <img src="Workshop สื่อสร้างสรรค์.jpg" alt="R.nime Gen Ai" onclick="openLightbox(this)">
+                        <img src="Workshop สื่อสร้างสรรค์ 2.jpg" alt="R.nime Gen Ai 2" onclick="openLightbox(this)">
+                    </div>
                 </div>
             </div>
 
-            <!-- R.nime Gen Ai -->
-            <div class="bento card-exp fade-up">
-                <div class="exp-date">2024 — 2025</div>
-                <h3>R.nime Gen Ai</h3>
-                <div class="exp-role">Lead Instructor — DEPA x CMU x CAMT x NDF Dev</div>
-                <p>
-                    Taught Generative AI skills to vocational students across 4 institutions for creating images and videos.
-                </p>
-                <div class="exp-images">
-                    <img src="Workshop สื่อสร้างสรรค์.jpg" alt="R.nime Gen Ai" onclick="openLightbox(this)">
-                    <img src="Workshop สื่อสร้างสรรค์ 2.jpg" alt="R.nime Gen Ai 2" onclick="openLightbox(this)">
+            <div class="exp-row">
+                <!-- MEDIA X -->
+                <div class="card exp-card reveal">
+                    <div class="exp-date">2025</div>
+                    <h3>MEDIA X: Creative Convergence</h3>
+                    <div class="exp-role">Participant — Immersive Tech & AI</div>
+                    <p>
+                        Professional training focused on Immersive Tech (AR/VR/XR) and AI in media production.
+                        Promoting Thai Soft Power on the international stage.
+                    </p>
+                </div>
+
+                <!-- RVY Speaker -->
+                <div class="card exp-card reveal reveal-delay-1">
+                    <div class="exp-date">2024</div>
+                    <h3>RVY Speaker Series</h3>
+                    <div class="exp-role">Guest Speaker — AI & Creative Technology</div>
+                    <p>
+                        Invited speaker on AI applications in creative industries and game development pipelines.
+                    </p>
+                    <div class="exp-images">
+                        <img src="RVY Speaker.jpg" alt="RVY Speaker" onclick="openLightbox(this)">
+                        <img src="RVY Speaker 2.jpg" alt="RVY Speaker 2" onclick="openLightbox(this)">
+                        <img src="RVY Speaker 3.jpg" alt="RVY Speaker 3" onclick="openLightbox(this)">
+                    </div>
                 </div>
             </div>
 
-            <!-- MEDIA X -->
-            <div class="bento card-exp fade-up">
-                <div class="exp-date">2025</div>
-                <h3>MEDIA X: Creative Convergence</h3>
-                <div class="exp-role">Participant — Immersive Tech & AI</div>
-                <p>
-                    Professional training focused on Immersive Tech (AR/VR/XR) and AI in media production.
-                    Promoting Thai Soft Power on the international stage.
-                </p>
-            </div>
-
-            <!-- RVY Speaker -->
-            <div class="bento card-exp fade-up">
-                <div class="exp-date">2024</div>
-                <h3>RVY Speaker Series</h3>
-                <div class="exp-role">Guest Speaker — AI & Creative Technology</div>
-                <p>
-                    Invited speaker on AI applications in creative industries and game development pipelines.
-                </p>
-                <div class="exp-images">
-                    <img src="RVY Speaker.jpg" alt="RVY Speaker" onclick="openLightbox(this)">
-                    <img src="RVY Speaker 2.jpg" alt="RVY Speaker 2" onclick="openLightbox(this)">
-                    <img src="RVY Speaker 3.jpg" alt="RVY Speaker 3" onclick="openLightbox(this)">
+            <div class="exp-row">
+                <!-- AR/VR -->
+                <div class="card exp-card reveal">
+                    <div class="exp-date">2023 — 2024</div>
+                    <h3>AR/VR/Metaverse Projects</h3>
+                    <div class="exp-role">Developer — NDF DEV</div>
+                    <p>
+                        Art in Paradise (AR), Flora Park Enchanted (AR), CAMT Metaverse, Loy Krathong Online (AR), ESG VR.
+                        Clients: SCG, CMU, Night Safari, Pikul.
+                    </p>
                 </div>
-            </div>
 
-            <!-- AR/VR -->
-            <div class="bento card-exp fade-up">
-                <div class="exp-date">2023 — 2024</div>
-                <h3>AR/VR/Metaverse Projects</h3>
-                <div class="exp-role">Developer — NDF DEV</div>
-                <p>
-                    Art in Paradise (AR), Flora Park Enchanted (AR), CAMT Metaverse, Loy Krathong Online (AR), ESG VR.
-                    Clients: SCG, CMU, Night Safari, Pikul.
-                </p>
-            </div>
-
-            <!-- YSEALI -->
-            <div class="bento card-exp fade-up">
-                <div class="exp-date">May 2023</div>
-                <h3>YSEALI Game Changers</h3>
-                <div class="exp-role">Selected Participant — US Embassy KL</div>
-                <p>
-                    Selected as one of 50 youth from across Asia. Workshops and game jam on environmental and social issues in Kuala Lumpur.
-                </p>
-                <div class="exp-images">
-                    <img src="Game Jam & Workshop @ KL.jpg" alt="YSEALI KL" onclick="openLightbox(this)">
-                    <img src="Game Jam & Workshop @ KL 2.jpg" alt="YSEALI KL 2" onclick="openLightbox(this)">
-                    <img src="Game Jam & Workshop @ KL 3.jpg" alt="YSEALI KL 3" onclick="openLightbox(this)">
+                <!-- YSEALI -->
+                <div class="card exp-card reveal reveal-delay-1">
+                    <div class="exp-date">May 2023</div>
+                    <h3>YSEALI Game Changers</h3>
+                    <div class="exp-role">Selected Participant — US Embassy KL</div>
+                    <p>
+                        Selected as one of 50 youth from across Asia. Workshops and game jam on environmental and social issues in Kuala Lumpur.
+                    </p>
+                    <div class="exp-images">
+                        <img src="Game Jam & Workshop @ KL.jpg" alt="YSEALI KL" onclick="openLightbox(this)">
+                        <img src="Game Jam & Workshop @ KL 2.jpg" alt="YSEALI KL 2" onclick="openLightbox(this)">
+                        <img src="Game Jam & Workshop @ KL 3.jpg" alt="YSEALI KL 3" onclick="openLightbox(this)">
+                    </div>
                 </div>
             </div>
 
             <!-- Taklee -->
-            <div class="bento card-exp fade-up">
+            <div class="card exp-card reveal" style="max-width: 50%;">
                 <div class="exp-date">2023</div>
                 <h3>Taklee Genesis — Feature Film</h3>
                 <div class="exp-role">Rotoscope Artist — CG Team</div>
@@ -747,18 +829,21 @@
             </div>
 
             <!-- Achievement -->
-            <div class="bento card-achievement fade-up">
+            <div class="card achievement reveal">
                 <div class="achievement-img">
                     <img src="ประกวด Ai Animation ได้อันดับที่ 1.jpg" alt="1st Place AI Animation">
                 </div>
-                <div class="achievement-content">
+                <div>
                     <h3>1st Place — AI Animation Competition</h3>
                     <p>
                         Won 1st place with the theme "Vote for the Future" — a promotional animation
                         encouraging citizens to vote in municipal elections (May 2025).
                         Awarded at Creative Chiang Mai.
                     </p>
-                    <span class="achievement-badge">&#127942; 1ST PLACE — 23,000 THB</span>
+                    <span class="achievement-badge">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+                        1ST PLACE — 23,000 THB
+                    </span>
                 </div>
             </div>
         </div>
@@ -766,29 +851,33 @@
 </section>
 
 <!-- Skills -->
-<section id="skills">
+<section id="skills" class="section">
     <div class="container">
-        <div class="section-header fade-up">
-            <span class="section-tag tag-purple">Skills</span>
+        <div class="reveal">
+            <div class="section-label">Skills</div>
             <h2>Tools & Expertise</h2>
         </div>
 
-        <div class="skills-grid fade-up">
-            <div class="bento card-skill">
-                <div class="skill-icon" style="background: rgba(108, 92, 231, 0.15);">&#128187;</div>
+        <div class="skills-grid" style="margin-top: 2rem;">
+            <div class="card skill-card reveal">
+                <div class="skill-icon" style="background: rgba(201,162,39,0.1);">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                </div>
                 <h3>Development</h3>
                 <div class="skill-tags">
-                    <span class="skill-tag t-purple">Unity / C#</span>
-                    <span class="skill-tag t-purple">Python</span>
-                    <span class="skill-tag t-purple">HTML/CSS/JS</span>
-                    <span class="skill-tag t-purple">Web App</span>
-                    <span class="skill-tag t-purple">ChatBot / Agent</span>
-                    <span class="skill-tag t-purple">Git</span>
+                    <span class="skill-tag t-gold">Unity / C#</span>
+                    <span class="skill-tag t-gold">Python</span>
+                    <span class="skill-tag t-gold">HTML/CSS/JS</span>
+                    <span class="skill-tag t-gold">Web App</span>
+                    <span class="skill-tag t-gold">ChatBot / Agent</span>
+                    <span class="skill-tag t-gold">Git</span>
                 </div>
             </div>
 
-            <div class="bento card-skill">
-                <div class="skill-icon" style="background: rgba(253, 121, 168, 0.15);">&#127912;</div>
+            <div class="card skill-card reveal reveal-delay-1">
+                <div class="skill-icon" style="background: rgba(244,114,182,0.1);">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-4)" stroke-width="2"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
+                </div>
                 <h3>Design</h3>
                 <div class="skill-tags">
                     <span class="skill-tag t-pink">Figma</span>
@@ -800,8 +889,10 @@
                 </div>
             </div>
 
-            <div class="bento card-skill">
-                <div class="skill-icon" style="background: rgba(0, 206, 201, 0.15);">&#129302;</div>
+            <div class="card skill-card reveal reveal-delay-2">
+                <div class="skill-icon" style="background: rgba(0,206,201,0.1);">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-2)" stroke-width="2"><path d="M12 2a4 4 0 0 1 4 4c0 1.95-1.4 3.58-3.25 3.93"/><path d="M8.56 9.8A3.99 3.99 0 0 1 8 8a4 4 0 0 1 .67-2.22"/><circle cx="12" cy="18" r="4"/><path d="M12 14v-2"/></svg>
+                </div>
                 <h3>AI & Innovation</h3>
                 <div class="skill-tags">
                     <span class="skill-tag t-teal">Generative AI</span>
@@ -813,16 +904,18 @@
                 </div>
             </div>
 
-            <div class="bento card-skill">
-                <div class="skill-icon" style="background: rgba(253, 203, 110, 0.15);">&#128203;</div>
+            <div class="card skill-card reveal reveal-delay-3">
+                <div class="skill-icon" style="background: rgba(167,139,250,0.1);">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-3)" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                </div>
                 <h3>Management</h3>
                 <div class="skill-tags">
-                    <span class="skill-tag t-gold">Project Mgmt</span>
-                    <span class="skill-tag t-gold">Agile/Scrum</span>
-                    <span class="skill-tag t-gold">Workshop Design</span>
-                    <span class="skill-tag t-gold">Public Speaking</span>
-                    <span class="skill-tag t-gold">Documentation</span>
-                    <span class="skill-tag t-gold">Leadership</span>
+                    <span class="skill-tag t-lavender">Project Mgmt</span>
+                    <span class="skill-tag t-lavender">Agile/Scrum</span>
+                    <span class="skill-tag t-lavender">Workshop Design</span>
+                    <span class="skill-tag t-lavender">Public Speaking</span>
+                    <span class="skill-tag t-lavender">Documentation</span>
+                    <span class="skill-tag t-lavender">Leadership</span>
                 </div>
             </div>
         </div>
@@ -830,14 +923,14 @@
 </section>
 
 <!-- Gallery -->
-<section id="gallery">
+<section id="gallery" class="section">
     <div class="container">
-        <div class="section-header fade-up">
-            <span class="section-tag tag-gold">Gallery</span>
+        <div class="reveal">
+            <div class="section-label">Gallery</div>
             <h2>Moments & Works</h2>
         </div>
 
-        <div class="gallery-filters fade-up">
+        <div class="gallery-filters reveal" style="margin-top: 1.5rem;">
             <button class="filter-btn active" data-filter="all">All</button>
             <button class="filter-btn" data-filter="workshop">Workshops</button>
             <button class="filter-btn" data-filter="gamejam">Game Jam</button>
@@ -845,7 +938,7 @@
             <button class="filter-btn" data-filter="speaking">Speaking</button>
         </div>
 
-        <div class="gallery-grid fade-up" id="galleryGrid">
+        <div class="gallery-grid reveal" id="galleryGrid">
             <div class="gallery-item" data-category="project" onclick="openLightbox(this.querySelector('img'))">
                 <img src="Fortal.jpg" alt="Fortal Interactive">
                 <div class="gallery-overlay"><span>Fortal Interactive</span></div>
@@ -927,27 +1020,33 @@
 </section>
 
 <!-- Contact -->
-<section id="contact">
-    <div class="container">
-        <div class="section-header fade-up" style="text-align: center;">
-            <span class="section-tag tag-teal">Contact</span>
+<section id="contact" class="section">
+    <div class="container" style="text-align: center;">
+        <div class="reveal">
+            <div class="section-label" style="justify-content: center;">Contact</div>
             <h2>Let's Connect</h2>
-            <p style="margin: 0.5rem auto 0;">Interested in collaboration? Feel free to reach out.</p>
+            <p class="section-desc" style="margin: 0.5rem auto 0;">Interested in collaboration? Feel free to reach out.</p>
         </div>
 
-        <div class="contact-grid fade-up">
-            <a href="mailto:ratchapon.lung@gmail.com" class="bento card-contact">
-                <span class="contact-icon">&#9993;</span>
+        <div class="contact-grid reveal" style="margin-top: 2rem;">
+            <a href="mailto:Poomie@live.com" class="card contact-card">
+                <div class="contact-icon" style="background: rgba(201,162,39,0.1);">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                </div>
                 <h3>Email</h3>
-                <p>ratchapon.lung@gmail.com</p>
+                <p>Poomie@live.com</p>
             </a>
-            <a href="tel:+66945544691" class="bento card-contact">
-                <span class="contact-icon">&#128222;</span>
+            <a href="tel:+66612654000" class="card contact-card">
+                <div class="contact-icon" style="background: rgba(0,206,201,0.1);">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-2)" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                </div>
                 <h3>Phone</h3>
-                <p>094-554-4691</p>
+                <p>061-265-4000</p>
             </a>
-            <a href="#hero" class="bento card-contact">
-                <span class="contact-icon">&#127760;</span>
+            <a href="#hero" class="card contact-card">
+                <div class="contact-icon" style="background: rgba(167,139,250,0.1);">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-3)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                </div>
                 <h3>Portfolio</h3>
                 <p>This Page</p>
             </a>
@@ -957,7 +1056,9 @@
 
 <!-- Lightbox -->
 <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
-    <button class="lightbox-close" onclick="closeLightbox(event)">&#10005;</button>
+    <button class="lightbox-close" onclick="closeLightbox(event)" aria-label="Close lightbox">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
     <img id="lightboxImg" src="" alt="">
     <div class="lightbox-caption" id="lightboxCaption"></div>
 </div>
@@ -990,13 +1091,13 @@ function typeEffect() {
         typedEl.textContent = current.substring(0, charIndex + 1);
         charIndex++;
     }
-    let delay = isDeleting ? 40 : 80;
+    let delay = isDeleting ? 35 : 70;
     if (!isDeleting && charIndex === current.length) {
-        delay = 2000; isDeleting = true;
+        delay = 2200; isDeleting = true;
     } else if (isDeleting && charIndex === 0) {
         isDeleting = false;
         titleIndex = (titleIndex + 1) % titles.length;
-        delay = 400;
+        delay = 500;
     }
     setTimeout(typeEffect, delay);
 }
@@ -1008,10 +1109,10 @@ const sections = document.querySelectorAll('section');
 const navLinks = document.querySelectorAll('.nav-links a');
 
 window.addEventListener('scroll', () => {
-    navbar.classList.toggle('scrolled', window.scrollY > 50);
+    navbar.classList.toggle('scrolled', window.scrollY > 80);
     let current = '';
     sections.forEach(sec => {
-        const top = sec.offsetTop - 120;
+        const top = sec.offsetTop - 140;
         if (window.scrollY >= top) current = sec.getAttribute('id');
     });
     navLinks.forEach(link => {
@@ -1028,14 +1129,16 @@ navLinksEl.querySelectorAll('a').forEach(a => {
     a.addEventListener('click', () => navLinksEl.classList.remove('open'));
 });
 
-// Fade-up
-const fadeEls = document.querySelectorAll('.fade-up');
-const fadeObserver = new IntersectionObserver((entries) => {
+// Scroll Reveal
+const revealEls = document.querySelectorAll('.reveal');
+const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('visible');
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+        }
     });
-}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-fadeEls.forEach(el => fadeObserver.observe(el));
+}, { threshold: 0.08, rootMargin: '0px 0px -60px 0px' });
+revealEls.forEach(el => revealObserver.observe(el));
 
 // Gallery Filter
 const filterBtns = document.querySelectorAll('.filter-btn');
@@ -1063,13 +1166,16 @@ function openLightbox(imgEl) {
     document.body.style.overflow = 'hidden';
 }
 function closeLightbox(e) {
-    if (e.target === lightbox || e.target.classList.contains('lightbox-close') || e.target.parentElement.classList.contains('lightbox-close')) {
+    if (e.target === lightbox || e.target.closest('.lightbox-close')) {
         lightbox.classList.remove('active');
         document.body.style.overflow = '';
     }
 }
 document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') { lightbox.classList.remove('active'); document.body.style.overflow = ''; }
+    if (e.key === 'Escape') {
+        lightbox.classList.remove('active');
+        document.body.style.overflow = '';
+    }
 });
 </script>
 
