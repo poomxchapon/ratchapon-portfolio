@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ratchapon Lungmart — AI Specialist & Project Manager</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #050505;
@@ -27,90 +27,66 @@
             --radius-sm: 10px;
             --transition: cubic-bezier(0.4, 0, 0.2, 1);
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
-
         body {
-            font-family: 'Space Grotesk', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-            overflow-x: hidden;
+            font-family: 'Space Grotesk', 'Noto Sans Thai', 'Noto Sans KR', 'Noto Sans SC', sans-serif;
+            background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden;
         }
-
-        /* Noise overlay */
         body::before {
-            content: '';
-            position: fixed; inset: 0; z-index: 9999;
-            pointer-events: none;
-            opacity: 0.025;
+            content: ''; position: fixed; inset: 0; z-index: 9999; pointer-events: none; opacity: 0.025;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-            background-repeat: repeat;
-            background-size: 256px 256px;
+            background-repeat: repeat; background-size: 256px 256px;
         }
-
-        /* Scrollbar */
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
-
-        /* Container */
         .container { max-width: 1120px; margin: 0 auto; padding: 0 1.5rem; }
 
-        /* ── Navigation ── */
+        /* Navigation */
         nav {
             position: fixed; top: 1rem; left: 50%; transform: translateX(-50%);
-            z-index: 100; width: calc(100% - 2rem); max-width: 720px;
+            z-index: 100; width: calc(100% - 2rem); max-width: 760px;
             padding: 0.65rem 1.25rem;
             background: rgba(12, 12, 12, 0.7);
             backdrop-filter: blur(24px) saturate(180%);
             -webkit-backdrop-filter: blur(24px) saturate(180%);
-            border: 1px solid var(--border);
-            border-radius: 999px;
+            border: 1px solid var(--border); border-radius: 999px;
             transition: all 0.4s var(--transition);
         }
-        nav.scrolled {
-            background: rgba(12, 12, 12, 0.88);
-            border-color: var(--border-hover);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-        }
-        .nav-inner {
-            display: flex; align-items: center; justify-content: space-between;
-        }
-        .nav-logo {
-            font-family: 'Archivo', sans-serif;
-            font-weight: 800; font-size: 0.85rem;
-            color: var(--accent); letter-spacing: -0.5px;
-        }
+        nav.scrolled { background: rgba(12,12,12,0.88); border-color: var(--border-hover); box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+        .nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
+        .nav-logo { font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 0.85rem; color: var(--accent); letter-spacing: -0.5px; flex-shrink: 0; }
         .nav-links { display: flex; gap: 0.15rem; }
-        .nav-links a {
-            color: var(--text-muted); text-decoration: none;
-            font-size: 0.72rem; font-weight: 500;
-            padding: 0.35rem 0.7rem; border-radius: 999px;
-            transition: all 0.25s var(--transition); cursor: pointer;
-        }
+        .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.7rem; font-weight: 500; padding: 0.35rem 0.65rem; border-radius: 999px; transition: all 0.25s var(--transition); cursor: pointer; white-space: nowrap; }
         .nav-links a:hover { color: var(--text); background: rgba(255,255,255,0.06); }
         .nav-links a.active { color: var(--accent); background: var(--accent-glow); }
 
-        .hamburger {
-            display: none; cursor: pointer; background: none; border: none;
-            flex-direction: column; gap: 4px; padding: 6px;
+        /* Language Toggle */
+        .lang-toggle {
+            display: flex; gap: 2px; flex-shrink: 0;
+            background: rgba(255,255,255,0.04); border-radius: 8px; padding: 2px;
+            border: 1px solid var(--border);
         }
-        .hamburger span {
-            width: 18px; height: 1.5px; background: var(--text-muted);
-            border-radius: 1px; transition: all 0.3s;
+        .lang-btn {
+            padding: 0.25rem 0.45rem; border-radius: 6px; border: none;
+            background: transparent; color: var(--text-dim); cursor: pointer;
+            font-size: 0.6rem; font-weight: 700; font-family: 'Space Grotesk', sans-serif;
+            transition: all 0.2s var(--transition); line-height: 1;
         }
+        .lang-btn:hover { color: var(--text-muted); }
+        .lang-btn.active { background: var(--accent); color: #050505; }
+
+        .hamburger { display: none; cursor: pointer; background: none; border: none; flex-direction: column; gap: 4px; padding: 6px; }
+        .hamburger span { width: 18px; height: 1.5px; background: var(--text-muted); border-radius: 1px; transition: all 0.3s; }
         .hamburger:hover span { background: var(--accent); }
 
         @media (max-width: 768px) {
             nav { top: 0.75rem; width: calc(100% - 1.5rem); border-radius: 14px; }
             .hamburger { display: flex; }
             .nav-links {
-                display: none; position: absolute;
-                top: calc(100% + 0.5rem); left: 0; right: 0;
-                background: rgba(12, 12, 12, 0.95);
-                backdrop-filter: blur(24px);
+                display: none; position: absolute; top: calc(100% + 0.5rem); left: 0; right: 0;
+                background: rgba(12,12,12,0.95); backdrop-filter: blur(24px);
                 flex-direction: column; padding: 0.75rem;
                 border-radius: 14px; border: 1px solid var(--border);
             }
@@ -118,476 +94,191 @@
             .nav-links a { padding: 0.6rem 1rem; border-radius: 10px; font-size: 0.82rem; }
         }
 
-        /* ── Animations ── */
-        .reveal {
-            opacity: 0; transform: translateY(32px);
-            transition: opacity 0.7s var(--transition), transform 0.7s var(--transition);
-        }
+        /* Animations */
+        .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.7s var(--transition), transform 0.7s var(--transition); }
         .reveal.visible { opacity: 1; transform: translateY(0); }
-        .reveal-delay-1 { transition-delay: 0.1s; }
-        .reveal-delay-2 { transition-delay: 0.2s; }
-        .reveal-delay-3 { transition-delay: 0.3s; }
-        .reveal-delay-4 { transition-delay: 0.4s; }
-
+        .reveal-delay-1 { transition-delay: 0.1s; } .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; } .reveal-delay-4 { transition-delay: 0.4s; }
         @media (prefers-reduced-motion: reduce) {
             .reveal { opacity: 1; transform: none; transition: none; }
             .marquee-track { animation: none !important; }
             * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
         }
 
-        /* ── Hero ── */
-        .hero {
-            min-height: 100vh; display: flex; align-items: center;
-            position: relative; overflow: hidden;
-            padding: 6rem 0 4rem;
-        }
-        .hero-bg-orb {
-            position: absolute; border-radius: 50%; filter: blur(120px);
-            pointer-events: none; opacity: 0.12;
-        }
-        .hero-bg-orb.orb-1 {
-            width: 500px; height: 500px; top: -100px; right: -100px;
-            background: var(--accent);
-        }
-        .hero-bg-orb.orb-2 {
-            width: 400px; height: 400px; bottom: -80px; left: -80px;
-            background: var(--accent-2);
-        }
+        /* Hero */
+        .hero { min-height: 100vh; display: flex; align-items: center; position: relative; overflow: hidden; padding: 6rem 0 4rem; }
+        .hero-bg-orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; opacity: 0.12; }
+        .hero-bg-orb.orb-1 { width: 500px; height: 500px; top: -100px; right: -100px; background: var(--accent); }
+        .hero-bg-orb.orb-2 { width: 400px; height: 400px; bottom: -80px; left: -80px; background: var(--accent-2); }
         .hero-content { position: relative; z-index: 1; width: 100%; }
-        .hero-top {
-            display: flex; align-items: center; gap: 2.5rem;
-            margin-bottom: 3rem;
-        }
-        .hero-avatar-wrap {
-            position: relative; flex-shrink: 0;
-        }
-        .hero-avatar {
-            width: 140px; height: 140px; border-radius: 50%; object-fit: cover;
-            border: 2px solid rgba(201, 162, 39, 0.3);
-            box-shadow: 0 0 60px rgba(201, 162, 39, 0.08);
-        }
-        .hero-status {
-            position: absolute; bottom: 6px; right: 6px;
-            width: 16px; height: 16px; border-radius: 50%;
-            background: #22c55e; border: 3px solid var(--bg);
-            box-shadow: 0 0 12px rgba(34, 197, 94, 0.4);
-        }
-        .hero-text h1 {
-            font-family: 'Archivo', sans-serif;
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            font-weight: 900; letter-spacing: -2px; line-height: 1;
-            margin-bottom: 0.75rem;
-        }
-        .hero-text h1 .highlight {
-            background: linear-gradient(135deg, var(--accent), #e8d48b);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .hero-typed {
-            font-size: 1.1rem; color: var(--text-muted);
-            min-height: 1.5em; margin-bottom: 1rem;
-        }
+        .hero-top { display: flex; align-items: center; gap: 2.5rem; margin-bottom: 3rem; }
+        .hero-avatar-wrap { position: relative; flex-shrink: 0; }
+        .hero-avatar { width: 140px; height: 140px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(201,162,39,0.3); box-shadow: 0 0 60px rgba(201,162,39,0.08); }
+        .hero-status { position: absolute; bottom: 6px; right: 6px; width: 16px; height: 16px; border-radius: 50%; background: #22c55e; border: 3px solid var(--bg); box-shadow: 0 0 12px rgba(34,197,94,0.4); }
+        .hero-text h1 { font-family: 'Archivo', sans-serif; font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900; letter-spacing: -2px; line-height: 1; margin-bottom: 0.75rem; }
+        .hero-text h1 .highlight { background: linear-gradient(135deg, var(--accent), #e8d48b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .hero-typed { font-size: 1.1rem; color: var(--text-muted); min-height: 1.5em; margin-bottom: 1rem; }
         .hero-typed .typed-text { color: var(--accent-2); font-weight: 600; }
-        .typed-cursor {
-            display: inline-block; width: 2px; height: 1.1em;
-            background: var(--accent-2); margin-left: 2px;
-            animation: blink 0.8s infinite; vertical-align: text-bottom;
-        }
+        .typed-cursor { display: inline-block; width: 2px; height: 1.1em; background: var(--accent-2); margin-left: 2px; animation: blink 0.8s infinite; vertical-align: text-bottom; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
         .hero-badges { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-        .badge {
-            display: inline-flex; align-items: center; gap: 0.35rem;
-            padding: 0.35rem 0.85rem; border-radius: 999px;
-            font-size: 0.7rem; font-weight: 600; letter-spacing: 0.3px;
-            border: 1px solid;
-        }
+        .badge { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.35rem 0.85rem; border-radius: 999px; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.3px; border: 1px solid; }
         .badge-gold { background: var(--accent-glow); color: var(--accent); border-color: rgba(201,162,39,0.2); }
         .badge-teal { background: rgba(0,206,201,0.1); color: var(--accent-2); border-color: rgba(0,206,201,0.2); }
         .badge svg { width: 12px; height: 12px; }
-
-        .hero-cta {
-            display: flex; gap: 0.75rem; margin-top: 1.5rem;
-        }
-        .btn {
-            display: inline-flex; align-items: center; gap: 0.5rem;
-            padding: 0.7rem 1.5rem; border-radius: 10px;
-            font-size: 0.82rem; font-weight: 600; text-decoration: none;
-            transition: all 0.3s var(--transition); cursor: pointer;
-            font-family: 'Space Grotesk', sans-serif; border: none;
-        }
+        .hero-cta { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
+        .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.7rem 1.5rem; border-radius: 10px; font-size: 0.82rem; font-weight: 600; text-decoration: none; transition: all 0.3s var(--transition); cursor: pointer; font-family: 'Space Grotesk', sans-serif; border: none; }
         .btn svg { width: 16px; height: 16px; }
-        .btn-primary {
-            background: var(--accent); color: #050505;
-            box-shadow: 0 4px 20px rgba(201,162,39,0.2);
-        }
-        .btn-primary:hover {
-            box-shadow: 0 8px 32px rgba(201,162,39,0.35);
-            transform: translateY(-1px);
-        }
-        .btn-ghost {
-            background: transparent; color: var(--text-muted);
-            border: 1px solid var(--border);
-        }
+        .btn-primary { background: var(--accent); color: #050505; box-shadow: 0 4px 20px rgba(201,162,39,0.2); }
+        .btn-primary:hover { box-shadow: 0 8px 32px rgba(201,162,39,0.35); transform: translateY(-1px); }
+        .btn-ghost { background: transparent; color: var(--text-muted); border: 1px solid var(--border); }
         .btn-ghost:hover { border-color: var(--border-hover); color: var(--text); }
-
-        /* Stats bar */
-        .hero-stats {
-            display: grid; grid-template-columns: repeat(3, 1fr);
-            gap: 1rem; margin-top: 3rem;
-            padding-top: 2rem; border-top: 1px solid var(--border);
-        }
+        .hero-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); }
         .stat { text-align: center; }
-        .stat-value {
-            font-family: 'Archivo', sans-serif;
-            font-size: clamp(1.8rem, 3vw, 2.2rem);
-            font-weight: 900; letter-spacing: -1px; line-height: 1;
-            margin-bottom: 0.25rem;
-        }
-        .stat-value.gold { color: var(--accent); }
-        .stat-value.teal { color: var(--accent-2); }
-        .stat-value.lavender { color: var(--accent-3); }
-        .stat-label {
-            font-size: 0.68rem; color: var(--text-dim);
-            font-weight: 500; text-transform: uppercase; letter-spacing: 1.5px;
-        }
+        .stat-value { font-family: 'Archivo', sans-serif; font-size: clamp(1.8rem, 3vw, 2.2rem); font-weight: 900; letter-spacing: -1px; line-height: 1; margin-bottom: 0.25rem; }
+        .stat-value.gold { color: var(--accent); } .stat-value.teal { color: var(--accent-2); } .stat-value.lavender { color: var(--accent-3); }
+        .stat-label { font-size: 0.68rem; color: var(--text-dim); font-weight: 500; text-transform: uppercase; letter-spacing: 1.5px; }
 
-        /* ── Marquee ── */
-        .marquee {
-            overflow: hidden; padding: 1.5rem 0;
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-            margin-bottom: 1rem;
-        }
-        .marquee-track {
-            display: flex; gap: 3rem; width: max-content;
-            animation: marquee 30s linear infinite;
-        }
-        @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-        .marquee-item {
-            font-family: 'Archivo', sans-serif;
-            font-size: 0.85rem; font-weight: 600;
-            color: var(--text-dim); white-space: nowrap;
-            display: flex; align-items: center; gap: 0.75rem;
-        }
-        .marquee-dot {
-            width: 4px; height: 4px; border-radius: 50%;
-            background: var(--accent); opacity: 0.5;
-        }
+        /* Marquee */
+        .marquee { overflow: hidden; padding: 1.5rem 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin-bottom: 1rem; }
+        .marquee-track { display: flex; gap: 3rem; width: max-content; animation: marquee 30s linear infinite; }
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .marquee-item { font-family: 'Archivo', sans-serif; font-size: 0.85rem; font-weight: 600; color: var(--text-dim); white-space: nowrap; display: flex; align-items: center; gap: 0.75rem; }
+        .marquee-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--accent); opacity: 0.5; }
 
-        /* ── Section Header ── */
+        /* Section */
         .section { padding: 5rem 0 2rem; }
-        .section-label {
-            display: inline-flex; align-items: center; gap: 0.5rem;
-            font-size: 0.65rem; font-weight: 700;
-            letter-spacing: 2px; text-transform: uppercase;
-            color: var(--accent); margin-bottom: 1rem;
-        }
-        .section-label::before {
-            content: ''; width: 20px; height: 1px; background: var(--accent);
-        }
-        .section h2 {
-            font-family: 'Archivo', sans-serif;
-            font-size: clamp(1.8rem, 4vw, 2.8rem);
-            font-weight: 800; letter-spacing: -1px; line-height: 1.1;
-            margin-bottom: 0.5rem;
-        }
-        .section-desc {
-            color: var(--text-muted); font-size: 0.92rem;
-            max-width: 480px;
-        }
+        .section-label { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.65rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
+        .section-label::before { content: ''; width: 20px; height: 1px; background: var(--accent); }
+        .section h2 { font-family: 'Archivo', sans-serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800; letter-spacing: -1px; line-height: 1.1; margin-bottom: 0.5rem; }
+        .section-desc { color: var(--text-muted); font-size: 0.92rem; max-width: 480px; }
 
-        /* ── Card Base ── */
-        .card {
-            background: var(--bg-card); border: 1px solid var(--border);
-            border-radius: var(--radius); overflow: hidden;
-            transition: all 0.35s var(--transition); cursor: pointer;
-        }
-        .card:hover {
-            border-color: var(--border-hover);
-            transform: translateY(-3px);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-        }
+        /* Card */
+        .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: all 0.35s var(--transition); cursor: pointer; }
+        .card:hover { border-color: var(--border-hover); transform: translateY(-3px); box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
         .card-pad { padding: 1.75rem; }
 
-        /* ── About ── */
-        .about-grid {
-            display: grid; grid-template-columns: 1fr 1.2fr;
-            gap: 1.25rem;
-        }
-        .about-photo {
-            border-radius: var(--radius); overflow: hidden;
-            min-height: 380px;
-        }
-        .about-photo img {
-            width: 100%; height: 100%; object-fit: cover;
-            transition: transform 0.6s var(--transition);
-        }
+        /* About */
+        .about-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 1.25rem; }
+        .about-photo { border-radius: var(--radius); overflow: hidden; min-height: 380px; }
+        .about-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s var(--transition); }
         .about-photo:hover img { transform: scale(1.04); }
-        .about-text h3 {
-            font-family: 'Archivo', sans-serif;
-            font-size: 1.15rem; font-weight: 700;
-            margin-bottom: 1rem; color: var(--accent);
-        }
-        .about-text p {
-            font-size: 0.88rem; color: var(--text-muted);
-            line-height: 1.85; margin-bottom: 1rem;
-        }
+        .about-text h3 { font-family: 'Archivo', sans-serif; font-size: 1.15rem; font-weight: 700; margin-bottom: 1rem; color: var(--accent); }
+        .about-text p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.85; margin-bottom: 1rem; }
 
-        /* ── Experience ── */
+        /* Experience */
         .exp-grid { display: flex; flex-direction: column; gap: 1rem; }
         .exp-card { padding: 2rem; position: relative; }
-        .exp-card.featured {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
-            background: linear-gradient(135deg, rgba(201,162,39,0.04), rgba(0,206,201,0.03));
-            border-color: rgba(201,162,39,0.1);
-        }
+        .exp-card.featured { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; background: linear-gradient(135deg, rgba(201,162,39,0.04), rgba(0,206,201,0.03)); border-color: rgba(201,162,39,0.1); }
         .exp-card.featured:hover { border-color: rgba(201,162,39,0.2); }
-        .exp-date {
-            font-size: 0.68rem; font-weight: 700;
-            letter-spacing: 1.5px; text-transform: uppercase;
-            margin-bottom: 0.5rem; color: var(--accent);
-        }
+        .exp-date { font-size: 0.68rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 0.5rem; color: var(--accent); }
         .exp-card:nth-child(even) .exp-date { color: var(--accent-2); }
         .exp-card:nth-child(3n) .exp-date { color: var(--accent-3); }
-        .exp-card h3 {
-            font-family: 'Archivo', sans-serif;
-            font-size: 1.05rem; font-weight: 700; margin-bottom: 0.3rem;
-        }
-        .exp-role {
-            font-size: 0.78rem; color: var(--accent-2);
-            font-weight: 600; margin-bottom: 0.65rem;
-        }
-        .exp-card p {
-            font-size: 0.82rem; color: var(--text-muted); line-height: 1.75;
-        }
-        .exp-images {
-            display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap;
-        }
-        .exp-images img {
-            height: 56px; border-radius: 8px; object-fit: cover;
-            border: 1px solid var(--border); cursor: pointer;
-            transition: all 0.3s var(--transition);
-        }
-        .exp-images img:hover {
-            border-color: var(--accent); transform: scale(1.06);
-        }
-        .exp-row {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
-        }
+        .exp-card h3 { font-family: 'Archivo', sans-serif; font-size: 1.05rem; font-weight: 700; margin-bottom: 0.3rem; }
+        .exp-role { font-size: 0.78rem; color: var(--accent-2); font-weight: 600; margin-bottom: 0.65rem; }
+        .exp-card p { font-size: 0.82rem; color: var(--text-muted); line-height: 1.75; }
+        .exp-images { display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap; }
+        .exp-images img { height: 56px; border-radius: 8px; object-fit: cover; border: 1px solid var(--border); cursor: pointer; transition: all 0.3s var(--transition); }
+        .exp-images img:hover { border-color: var(--accent); transform: scale(1.06); }
+        .exp-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 
         /* Achievement */
-        .achievement {
-            display: flex; align-items: center; gap: 2rem;
-            padding: 2rem;
-            background: linear-gradient(135deg, rgba(201,162,39,0.06), rgba(167,139,250,0.04));
-            border-color: rgba(201,162,39,0.12);
-        }
+        .achievement { display: flex; align-items: center; gap: 2rem; padding: 2rem; background: linear-gradient(135deg, rgba(201,162,39,0.06), rgba(167,139,250,0.04)); border-color: rgba(201,162,39,0.12); }
         .achievement:hover { border-color: rgba(201,162,39,0.25); }
-        .achievement-img {
-            width: 180px; height: 130px; border-radius: var(--radius-sm);
-            overflow: hidden; flex-shrink: 0;
-        }
+        .achievement-img { width: 180px; height: 130px; border-radius: var(--radius-sm); overflow: hidden; flex-shrink: 0; }
         .achievement-img img { width: 100%; height: 100%; object-fit: cover; }
-        .achievement h3 {
-            font-family: 'Archivo', sans-serif;
-            font-size: 1.1rem; font-weight: 800; margin-bottom: 0.4rem;
-            color: var(--accent);
-        }
-        .achievement p {
-            font-size: 0.82rem; color: var(--text-muted); line-height: 1.75;
-        }
-        .achievement-badge {
-            display: inline-flex; align-items: center; gap: 0.35rem;
-            padding: 0.35rem 0.85rem; border-radius: 999px;
-            background: var(--accent-glow); color: var(--accent);
-            font-size: 0.68rem; font-weight: 700; letter-spacing: 1px;
-            margin-top: 0.75rem; border: 1px solid rgba(201,162,39,0.2);
-        }
+        .achievement h3 { font-family: 'Archivo', sans-serif; font-size: 1.1rem; font-weight: 800; margin-bottom: 0.4rem; color: var(--accent); }
+        .achievement p { font-size: 0.82rem; color: var(--text-muted); line-height: 1.75; }
+        .achievement-badge { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.35rem 0.85rem; border-radius: 999px; background: var(--accent-glow); color: var(--accent); font-size: 0.68rem; font-weight: 700; letter-spacing: 1px; margin-top: 0.75rem; border: 1px solid rgba(201,162,39,0.2); }
 
-        /* ── Skills ── */
-        .skills-grid {
-            display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;
-        }
+        /* Skills */
+        .skills-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
         .skill-card { padding: 1.5rem; }
-        .skill-icon {
-            width: 40px; height: 40px; border-radius: 10px;
-            display: flex; align-items: center; justify-content: center;
-            margin-bottom: 1rem;
-        }
+        .skill-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; }
         .skill-icon svg { width: 20px; height: 20px; }
-        .skill-card h3 {
-            font-family: 'Archivo', sans-serif;
-            font-size: 0.9rem; font-weight: 700; margin-bottom: 0.85rem;
-        }
+        .skill-card h3 { font-family: 'Archivo', sans-serif; font-size: 0.9rem; font-weight: 700; margin-bottom: 0.85rem; }
         .skill-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
-        .skill-tag {
-            padding: 0.22rem 0.6rem; border-radius: 6px;
-            font-size: 0.65rem; font-weight: 600;
-            border: 1px solid; transition: all 0.2s var(--transition);
-            cursor: pointer;
-        }
+        .skill-tag { padding: 0.22rem 0.6rem; border-radius: 6px; font-size: 0.65rem; font-weight: 600; border: 1px solid; transition: all 0.2s var(--transition); cursor: pointer; }
         .skill-tag:hover { transform: translateY(-1px); }
         .t-gold { background: rgba(201,162,39,0.08); color: var(--accent); border-color: rgba(201,162,39,0.15); }
         .t-teal { background: rgba(0,206,201,0.08); color: var(--accent-2); border-color: rgba(0,206,201,0.15); }
         .t-lavender { background: rgba(167,139,250,0.08); color: var(--accent-3); border-color: rgba(167,139,250,0.15); }
         .t-pink { background: rgba(244,114,182,0.08); color: var(--accent-4); border-color: rgba(244,114,182,0.15); }
 
-        /* ── Gallery ── */
-        .gallery-filters {
-            display: flex; gap: 0.4rem; flex-wrap: wrap;
-            margin-bottom: 1.5rem;
-        }
-        .filter-btn {
-            padding: 0.35rem 1rem; border-radius: 999px;
-            font-size: 0.7rem; font-weight: 600; cursor: pointer;
-            background: transparent; border: 1px solid var(--border);
-            color: var(--text-dim); font-family: 'Space Grotesk', sans-serif;
-            transition: all 0.25s var(--transition);
-        }
+        /* Gallery */
+        .gallery-filters { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+        .filter-btn { padding: 0.35rem 1rem; border-radius: 999px; font-size: 0.7rem; font-weight: 600; cursor: pointer; background: transparent; border: 1px solid var(--border); color: var(--text-dim); font-family: 'Space Grotesk', sans-serif; transition: all 0.25s var(--transition); }
         .filter-btn:hover { border-color: var(--border-hover); color: var(--text-muted); }
-        .filter-btn.active {
-            background: var(--accent-glow); border-color: rgba(201,162,39,0.3);
-            color: var(--accent);
-        }
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 0.75rem;
-        }
-        .gallery-item {
-            border-radius: var(--radius-sm); overflow: hidden;
-            cursor: pointer; position: relative; aspect-ratio: 4/3;
-            border: 1px solid var(--border); transition: all 0.4s var(--transition);
-        }
+        .filter-btn.active { background: var(--accent-glow); border-color: rgba(201,162,39,0.3); color: var(--accent); }
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.75rem; }
+        .gallery-item { border-radius: var(--radius-sm); overflow: hidden; cursor: pointer; position: relative; aspect-ratio: 4/3; border: 1px solid var(--border); transition: all 0.4s var(--transition); }
         .gallery-item.hidden { display: none; }
-        .gallery-item:hover {
-            border-color: var(--border-hover); transform: scale(1.02);
-        }
-        .gallery-item img {
-            width: 100%; height: 100%; object-fit: cover;
-            transition: transform 0.6s var(--transition);
-        }
+        .gallery-item:hover { border-color: var(--border-hover); transform: scale(1.02); }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s var(--transition); }
         .gallery-item:hover img { transform: scale(1.08); }
-        .gallery-overlay {
-            position: absolute; inset: 0;
-            background: linear-gradient(transparent 40%, rgba(5,5,5,0.9));
-            opacity: 0; transition: opacity 0.35s var(--transition);
-            display: flex; align-items: flex-end; padding: 1rem;
-        }
+        .gallery-overlay { position: absolute; inset: 0; background: linear-gradient(transparent 40%, rgba(5,5,5,0.9)); opacity: 0; transition: opacity 0.35s var(--transition); display: flex; align-items: flex-end; padding: 1rem; }
         .gallery-item:hover .gallery-overlay { opacity: 1; }
         .gallery-overlay span { font-size: 0.75rem; font-weight: 600; }
 
-        /* ── Lightbox ── */
-        .lightbox {
-            position: fixed; inset: 0; z-index: 1000;
-            background: rgba(5, 5, 5, 0.92);
-            backdrop-filter: blur(32px);
-            display: none; align-items: center; justify-content: center;
-            cursor: pointer;
-        }
+        /* Lightbox */
+        .lightbox { position: fixed; inset: 0; z-index: 1000; background: rgba(5,5,5,0.92); backdrop-filter: blur(32px); display: none; align-items: center; justify-content: center; cursor: pointer; }
         .lightbox.active { display: flex; }
-        .lightbox img {
-            max-width: 90vw; max-height: 85vh;
-            border-radius: var(--radius); border: 1px solid var(--border);
-            box-shadow: 0 32px 80px rgba(0,0,0,0.6);
-        }
-        .lightbox-close {
-            position: absolute; top: 1.5rem; right: 1.5rem;
-            width: 40px; height: 40px; border-radius: 50%;
-            background: rgba(255,255,255,0.06); border: 1px solid var(--border);
-            color: var(--text-muted); font-size: 0.9rem; cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            transition: all 0.25s var(--transition);
-        }
+        .lightbox img { max-width: 90vw; max-height: 85vh; border-radius: var(--radius); border: 1px solid var(--border); box-shadow: 0 32px 80px rgba(0,0,0,0.6); }
+        .lightbox-close { position: absolute; top: 1.5rem; right: 1.5rem; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.06); border: 1px solid var(--border); color: var(--text-muted); font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.25s var(--transition); }
         .lightbox-close:hover { background: rgba(255,255,255,0.1); color: var(--text); }
-        .lightbox-caption {
-            position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
-            color: var(--text-muted); font-size: 0.78rem; font-weight: 500;
-            background: rgba(12,12,12,0.85); padding: 0.5rem 1.25rem;
-            border-radius: 999px; border: 1px solid var(--border);
-            white-space: nowrap;
-        }
+        .lightbox-caption { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); color: var(--text-muted); font-size: 0.78rem; font-weight: 500; background: rgba(12,12,12,0.85); padding: 0.5rem 1.25rem; border-radius: 999px; border: 1px solid var(--border); white-space: nowrap; }
 
-        /* ── Contact ── */
-        .contact-grid {
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;
-        }
-        .contact-card {
-            text-align: center; padding: 2.5rem 1.5rem; text-decoration: none;
-            display: flex; flex-direction: column; align-items: center;
-        }
-        .contact-icon {
-            width: 48px; height: 48px; border-radius: 12px;
-            display: flex; align-items: center; justify-content: center;
-            margin-bottom: 1rem;
-        }
+        /* Contact */
+        .contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+        .contact-card { text-align: center; padding: 2.5rem 1.5rem; text-decoration: none; display: flex; flex-direction: column; align-items: center; }
+        .contact-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; }
         .contact-icon svg { width: 22px; height: 22px; }
-        .contact-card h3 {
-            font-family: 'Archivo', sans-serif;
-            font-size: 0.85rem; font-weight: 700; margin-bottom: 0.3rem;
-            color: var(--text);
-        }
-        .contact-card p {
-            font-size: 0.75rem; color: var(--accent-2); font-weight: 500;
-            word-break: break-all;
-        }
+        .contact-card h3 { font-family: 'Archivo', sans-serif; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.3rem; color: var(--text); }
+        .contact-card p { font-size: 0.75rem; color: var(--accent-2); font-weight: 500; word-break: break-all; }
 
-        /* ── Footer ── */
-        footer {
-            text-align: center; padding: 4rem 2rem 2rem;
-        }
-        .footer-line {
-            width: 40px; height: 2px; margin: 0 auto 1rem;
-            border-radius: 1px;
-            background: linear-gradient(90deg, var(--accent), var(--accent-2));
-        }
+        /* Footer */
+        footer { text-align: center; padding: 4rem 2rem 2rem; }
+        .footer-line { width: 40px; height: 2px; margin: 0 auto 1rem; border-radius: 1px; background: linear-gradient(90deg, var(--accent), var(--accent-2)); }
         footer p { font-size: 0.7rem; color: var(--text-dim); }
 
-        /* ── Responsive ── */
-        @media (max-width: 1024px) {
-            .skills-grid { grid-template-columns: repeat(2, 1fr); }
-        }
+        /* Responsive */
+        @media (max-width: 1024px) { .skills-grid { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 768px) {
             .hero-top { flex-direction: column; text-align: center; gap: 1.5rem; }
-            .hero-badges { justify-content: center; }
-            .hero-cta { justify-content: center; }
+            .hero-badges { justify-content: center; } .hero-cta { justify-content: center; }
             .hero-stats { grid-template-columns: repeat(3, 1fr); }
-            .about-grid { grid-template-columns: 1fr; }
-            .about-photo { min-height: 280px; }
-            .exp-row { grid-template-columns: 1fr; }
-            .exp-card.featured { grid-template-columns: 1fr; }
-            .skills-grid { grid-template-columns: 1fr 1fr; }
-            .contact-grid { grid-template-columns: 1fr; }
-            .achievement {
-                flex-direction: column; text-align: center;
-            }
+            .about-grid { grid-template-columns: 1fr; } .about-photo { min-height: 280px; }
+            .exp-row { grid-template-columns: 1fr; } .exp-card.featured { grid-template-columns: 1fr; }
+            .skills-grid { grid-template-columns: 1fr 1fr; } .contact-grid { grid-template-columns: 1fr; }
+            .achievement { flex-direction: column; text-align: center; }
             .achievement-img { width: 100%; max-width: 260px; }
             .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
         }
         @media (max-width: 480px) {
             .hero-avatar { width: 110px; height: 110px; }
             .hero-text h1 { font-size: 2.2rem; letter-spacing: -1px; }
-            .skills-grid { grid-template-columns: 1fr; }
-            .hero-stats { gap: 0.5rem; }
+            .skills-grid { grid-template-columns: 1fr; } .hero-stats { gap: 0.5rem; }
         }
     </style>
 </head>
 <body>
 
-<!-- Navigation -->
 <nav id="navbar">
     <div class="nav-inner">
         <div class="nav-logo">RL.</div>
         <div class="nav-links" id="navLinks">
-            <a href="#hero" class="active">Home</a>
-            <a href="#about">About</a>
-            <a href="#experience">Experience</a>
-            <a href="#skills">Skills</a>
-            <a href="#gallery">Gallery</a>
-            <a href="#contact">Contact</a>
+            <a href="#hero" class="active" data-i18n="nav.home">Home</a>
+            <a href="#about" data-i18n="nav.about">About</a>
+            <a href="#experience" data-i18n="nav.experience">Experience</a>
+            <a href="#skills" data-i18n="nav.skills">Skills</a>
+            <a href="#gallery" data-i18n="nav.gallery">Gallery</a>
+            <a href="#contact" data-i18n="nav.contact">Contact</a>
+        </div>
+        <div class="lang-toggle" id="langToggle">
+            <button class="lang-btn active" data-lang="en">EN</button>
+            <button class="lang-btn" data-lang="th">TH</button>
+            <button class="lang-btn" data-lang="ko">KO</button>
+            <button class="lang-btn" data-lang="zh">ZH</button>
         </div>
         <button class="hamburger" id="hamburger" aria-label="Toggle menu">
             <span></span><span></span><span></span>
@@ -595,7 +286,6 @@
     </div>
 </nav>
 
-<!-- Hero -->
 <section id="hero" class="hero">
     <div class="hero-bg-orb orb-1"></div>
     <div class="hero-bg-orb orb-2"></div>
@@ -611,187 +301,119 @@
                     <span class="typed-text" id="typedText"></span><span class="typed-cursor">|</span>
                 </div>
                 <div class="hero-badges">
-                    <span class="badge badge-gold">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                        AI Specialist
-                    </span>
-                    <span class="badge badge-teal">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 18l6-6-6-6"/><path d="M8 6l-6 6 6 6"/></svg>
-                        NDF DEV
-                    </span>
+                    <span class="badge badge-gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> AI Specialist</span>
+                    <span class="badge badge-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 18l6-6-6-6"/><path d="M8 6l-6 6 6 6"/></svg> NDF DEV</span>
                 </div>
                 <div class="hero-cta">
-                    <a href="#contact" class="btn btn-primary">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                        Get in Touch
-                    </a>
-                    <a href="#experience" class="btn btn-ghost">View Work</a>
+                    <a href="#contact" class="btn btn-primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> <span data-i18n="hero.cta">Get in Touch</span></a>
+                    <a href="#experience" class="btn btn-ghost"><span data-i18n="hero.view">View Work</span></a>
                 </div>
             </div>
         </div>
-
         <div class="hero-stats reveal reveal-delay-2">
-            <div class="stat">
-                <div class="stat-value gold">10+</div>
-                <div class="stat-label">Workshops Led</div>
-            </div>
-            <div class="stat">
-                <div class="stat-value teal">8+</div>
-                <div class="stat-label">Projects Shipped</div>
-            </div>
-            <div class="stat">
-                <div class="stat-value lavender">#1</div>
-                <div class="stat-label">AI Animation</div>
-            </div>
+            <div class="stat"><div class="stat-value gold">10+</div><div class="stat-label" data-i18n="stat.workshops">Workshops Led</div></div>
+            <div class="stat"><div class="stat-value teal">8+</div><div class="stat-label" data-i18n="stat.projects">Projects Shipped</div></div>
+            <div class="stat"><div class="stat-value lavender">#1</div><div class="stat-label" data-i18n="stat.animation">AI Animation</div></div>
         </div>
     </div>
 </section>
 
-<!-- Marquee -->
 <div class="marquee" aria-hidden="true">
-    <div class="marquee-track">
-        <span class="marquee-item">Generative Media Designer</span><span class="marquee-dot"></span>
-        <span class="marquee-item">Project Manager</span><span class="marquee-dot"></span>
-        <span class="marquee-item">AI Workshop Instructor</span><span class="marquee-dot"></span>
-        <span class="marquee-item">AR/VR Developer</span><span class="marquee-dot"></span>
-        <span class="marquee-item">Graphic Designer</span><span class="marquee-dot"></span>
-        <span class="marquee-item">Rotoscope Artist</span><span class="marquee-dot"></span>
-        <span class="marquee-item">Generative Media Designer</span><span class="marquee-dot"></span>
-        <span class="marquee-item">Project Manager</span><span class="marquee-dot"></span>
-        <span class="marquee-item">AI Workshop Instructor</span><span class="marquee-dot"></span>
-        <span class="marquee-item">AR/VR Developer</span><span class="marquee-dot"></span>
-        <span class="marquee-item">Graphic Designer</span><span class="marquee-dot"></span>
-        <span class="marquee-item">Rotoscope Artist</span><span class="marquee-dot"></span>
+    <div class="marquee-track" id="marqueeTrack">
+        <span class="marquee-item" data-i18n="role.1">Generative Media Designer</span><span class="marquee-dot"></span>
+        <span class="marquee-item" data-i18n="role.2">Project Manager</span><span class="marquee-dot"></span>
+        <span class="marquee-item" data-i18n="role.3">AI Workshop Instructor</span><span class="marquee-dot"></span>
+        <span class="marquee-item" data-i18n="role.4">AR/VR Developer</span><span class="marquee-dot"></span>
+        <span class="marquee-item" data-i18n="role.5">Graphic Designer</span><span class="marquee-dot"></span>
+        <span class="marquee-item" data-i18n="role.6">Rotoscope Artist</span><span class="marquee-dot"></span>
+        <span class="marquee-item" data-i18n="role.1">Generative Media Designer</span><span class="marquee-dot"></span>
+        <span class="marquee-item" data-i18n="role.2">Project Manager</span><span class="marquee-dot"></span>
+        <span class="marquee-item" data-i18n="role.3">AI Workshop Instructor</span><span class="marquee-dot"></span>
+        <span class="marquee-item" data-i18n="role.4">AR/VR Developer</span><span class="marquee-dot"></span>
+        <span class="marquee-item" data-i18n="role.5">Graphic Designer</span><span class="marquee-dot"></span>
+        <span class="marquee-item" data-i18n="role.6">Rotoscope Artist</span><span class="marquee-dot"></span>
     </div>
 </div>
 
-<!-- About -->
 <section id="about" class="section">
     <div class="container">
         <div class="reveal">
-            <div class="section-label">About</div>
-            <h2>Bridging AI, Design<br>& Project Management</h2>
+            <div class="section-label" data-i18n="nav.about">About</div>
+            <h2 data-i18n="about.heading">Bridging AI, Design<br>& Project Management</h2>
         </div>
         <div class="about-grid" style="margin-top: 2rem;">
-            <div class="card about-photo reveal">
-                <img src="Profile.jpg" alt="Ratchapon Lungmart">
-            </div>
+            <div class="card about-photo reveal"><img src="Profile.jpg" alt="Ratchapon Lungmart"></div>
             <div class="card card-pad about-text reveal reveal-delay-1">
                 <h3>Ratchapon Lungmart</h3>
-                <p>
-                    Born April 13, 2000. Graduated with a Bachelor's degree from the College of Arts, Media and Technology (CAMT),
-                    Chiang Mai University, majoring in Digital Game (Class of 2022).
-                </p>
-                <p>
-                    Currently working at NDF DEV as Graphic Designer, Junior Project Manager, and Generative Media Designer.
-                    Responsible for creating presentations, video editing, and producing generative AI media for various projects.
-                </p>
-                <p>
-                    Passionate about modern technology, especially AI and creative media. Committed to continuously developing
-                    and applying new tools to elevate work quality. Experienced in leading AI workshops for government sectors,
-                    vocational students, and international events.
-                </p>
+                <p data-i18n="about.p1">Born April 13, 2000. Graduated with a Bachelor's degree from the College of Arts, Media and Technology (CAMT), Chiang Mai University, majoring in Digital Game (Class of 2022).</p>
+                <p data-i18n="about.p2">Currently working at NDF DEV as Graphic Designer, Junior Project Manager, and Generative Media Designer. Responsible for creating presentations, video editing, and producing generative AI media for various projects.</p>
+                <p data-i18n="about.p3">Passionate about modern technology, especially AI and creative media. Committed to continuously developing and applying new tools to elevate work quality. Experienced in leading AI workshops for government sectors, vocational students, and international events.</p>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Experience -->
 <section id="experience" class="section">
     <div class="container">
         <div class="reveal">
-            <div class="section-label">Experience</div>
-            <h2>Journey So Far</h2>
-            <p class="section-desc">From game dev internships to AI specialist roles — driven by curiosity and creation.</p>
+            <div class="section-label" data-i18n="nav.experience">Experience</div>
+            <h2 data-i18n="exp.heading">Journey So Far</h2>
+            <p class="section-desc" data-i18n="exp.desc">From game dev internships to AI specialist roles — driven by curiosity and creation.</p>
         </div>
-
         <div class="exp-grid" style="margin-top: 2rem;">
-            <!-- NDF DEV - Featured -->
             <div class="card exp-card featured reveal">
                 <div>
-                    <div class="exp-date">2024 — Present</div>
+                    <div class="exp-date" data-i18n="exp.ndf.date">2024 — Present</div>
                     <h3>NDF DEV</h3>
-                    <div class="exp-role">Graphic Designer / Jr. PM / Generative Media Designer</div>
-                    <p>
-                        Creating presentations, video editing, and producing generative AI media.
-                        Built the WorkSpace System — a full task management platform with login, dashboard,
-                        team calendar, Kanban boards, GPS clock-in, leave requests, Google Drive integration,
-                        and an internal AI ChatBot agent called "Skynet". Also developed a Beat Detection tool for rhythm games.
-                    </p>
-                    <div class="exp-images">
-                        <img src="Fortal.jpg" alt="NDF DEV / Fortal Interactive" onclick="openLightbox(this)">
-                    </div>
+                    <div class="exp-role" data-i18n="exp.ndf.role">Graphic Designer / Jr. PM / Generative Media Designer</div>
+                    <p data-i18n="exp.ndf.desc">Creating presentations, video editing, and producing generative AI media. Built the WorkSpace System — a full task management platform with login, dashboard, team calendar, Kanban boards, GPS clock-in, leave requests, Google Drive integration, and an internal AI ChatBot agent called "Skynet". Also developed a Beat Detection tool for rhythm games.</p>
+                    <div class="exp-images"><img src="Fortal.jpg" alt="NDF DEV / Fortal Interactive" onclick="openLightbox(this)"></div>
                 </div>
                 <div style="display: flex; align-items: center; justify-content: center;">
                     <img src="Fortal.jpg" alt="Fortal" style="width: 100%; border-radius: var(--radius-sm); object-fit: cover; max-height: 240px;">
                 </div>
             </div>
 
-            <!-- ACMod Research -->
             <div class="card exp-card featured reveal" style="background: linear-gradient(135deg, rgba(0,206,201,0.05), rgba(167,139,250,0.04)); border-color: rgba(0,206,201,0.1);">
                 <div>
-                    <div class="exp-date" style="color: var(--accent-2);">2025 — Horizon Europe MSCA</div>
-                    <h3>ACMod: Affective Computing Models</h3>
-                    <div class="exp-role">AI Research Demo — CAMT, Chiang Mai University</div>
-                    <p>
-                        Live demonstration of facial expression AI and its limitations in cross-cultural contexts.
-                        The demo highlights how standard emotion recognition models trained on Western datasets
-                        fail to distinguish the 13 nuanced Thai smiles — where smiling can convey apology, shyness,
-                        politeness, or confusion. Features real-time face detection, emotion timeline,
-                        snapshot comparison, and training data bias visualization.
-                    </p>
+                    <div class="exp-date" style="color: var(--accent-2);" data-i18n="exp.acmod.date">2025 — Horizon Europe MSCA</div>
+                    <h3 data-i18n="exp.acmod.title">ACMod: Affective Computing Models</h3>
+                    <div class="exp-role" data-i18n="exp.acmod.role">AI Research Demo — CAMT, Chiang Mai University</div>
+                    <p data-i18n="exp.acmod.desc">Live demonstration of facial expression AI and its limitations in cross-cultural contexts. The demo highlights how standard emotion recognition models trained on Western datasets fail to distinguish the 13 nuanced Thai smiles — where smiling can convey apology, shyness, politeness, or confusion. Features real-time face detection, emotion timeline, snapshot comparison, and training data bias visualization.</p>
                     <div style="display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap;">
-                        <a href="https://poomxchapon.github.io/acmod-demo/" target="_blank" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.75rem;">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
-                            Live Demo
-                        </a>
-                        <a href="ACMod-TechPaper.pdf" target="_blank" class="btn btn-ghost" style="padding: 0.5rem 1rem; font-size: 0.75rem;">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-                            Tech Paper
-                        </a>
+                        <a href="https://poomxchapon.github.io/acmod-demo/" target="_blank" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.75rem;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg> Live Demo</a>
+                        <a href="ACMod-TechPaper.pdf" target="_blank" class="btn btn-ghost" style="padding: 0.5rem 1rem; font-size: 0.75rem;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg> Tech Paper</a>
                     </div>
                 </div>
                 <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; padding: 1.5rem; background: rgba(0,206,201,0.04); border-radius: var(--radius-sm);">
                     <div style="text-align: center;">
-                        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-2)" stroke-width="1.5" width="56" height="56"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
-                        </div>
-                        <div style="font-size: 0.7rem; color: var(--text-dim); font-weight: 600; letter-spacing: 1px; text-transform: uppercase;">Horizon Europe</div>
-                        <div style="font-size: 0.78rem; color: var(--accent-2); font-weight: 600; margin-top: 0.25rem;">Cross-Cultural AI</div>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-2)" stroke-width="1.5" width="56" height="56"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+                        <div style="font-size: 0.7rem; color: var(--text-dim); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-top: 0.5rem;">Horizon Europe</div>
+                        <div style="font-size: 0.78rem; color: var(--accent-2); font-weight: 600; margin-top: 0.25rem;" data-i18n="exp.acmod.tag">Cross-Cultural AI</div>
                     </div>
                     <div style="display: flex; gap: 0.4rem; flex-wrap: wrap; justify-content: center;">
-                        <span class="skill-tag t-teal">face-api.js</span>
-                        <span class="skill-tag t-teal">WebGL</span>
-                        <span class="skill-tag t-lavender">FER2013</span>
-                        <span class="skill-tag t-lavender">Bias Research</span>
+                        <span class="skill-tag t-teal">face-api.js</span><span class="skill-tag t-teal">WebGL</span>
+                        <span class="skill-tag t-lavender">FER2013</span><span class="skill-tag t-lavender">Bias Research</span>
                     </div>
                 </div>
             </div>
 
             <div class="exp-row">
-                <!-- SmartGOV -->
                 <div class="card exp-card reveal">
                     <div class="exp-date">2025</div>
                     <h3>SmartGOV LEADERS Bootcamp</h3>
-                    <div class="exp-role">Speaker — AI & DATA for Public Service</div>
-                    <p>
-                        Delivered a lecture on "Public Service Story: Creating Animation Video with AI"
-                        to various government agencies.
-                    </p>
+                    <div class="exp-role" data-i18n="exp.smartgov.role">Speaker — AI & DATA for Public Service</div>
+                    <p data-i18n="exp.smartgov.desc">Delivered a lecture on "Public Service Story: Creating Animation Video with AI" to various government agencies.</p>
                     <div class="exp-images">
                         <img src="Ai Workshop ราชการ 01.jpg" alt="SmartGOV Leaders 1" onclick="openLightbox(this)">
                         <img src="Ai Workshop ราชการ 02.jpg" alt="SmartGOV Leaders 2" onclick="openLightbox(this)">
                     </div>
                 </div>
-
-                <!-- R.nime Gen Ai -->
                 <div class="card exp-card reveal reveal-delay-1">
                     <div class="exp-date">2024 — 2025</div>
                     <h3>R.nime Gen Ai</h3>
-                    <div class="exp-role">Lead Instructor — DEPA x CMU x CAMT x NDF Dev</div>
-                    <p>
-                        Taught Generative AI skills to vocational students across 4 institutions for creating images and videos.
-                    </p>
+                    <div class="exp-role" data-i18n="exp.rnime.role">Lead Instructor — DEPA x CMU x CAMT x NDF Dev</div>
+                    <p data-i18n="exp.rnime.desc">Taught Generative AI skills to vocational students across 4 institutions for creating images and videos.</p>
                     <div class="exp-images">
                         <img src="Workshop สื่อสร้างสรรค์.jpg" alt="R.nime Gen Ai" onclick="openLightbox(this)">
                         <img src="Workshop สื่อสร้างสรรค์ 2.jpg" alt="R.nime Gen Ai 2" onclick="openLightbox(this)">
@@ -800,25 +422,17 @@
             </div>
 
             <div class="exp-row">
-                <!-- MEDIA X -->
                 <div class="card exp-card reveal">
                     <div class="exp-date">2025</div>
                     <h3>MEDIA X: Creative Convergence</h3>
-                    <div class="exp-role">Participant — Immersive Tech & AI</div>
-                    <p>
-                        Professional training focused on Immersive Tech (AR/VR/XR) and AI in media production.
-                        Promoting Thai Soft Power on the international stage.
-                    </p>
+                    <div class="exp-role" data-i18n="exp.mediax.role">Participant — Immersive Tech & AI</div>
+                    <p data-i18n="exp.mediax.desc">Professional training focused on Immersive Tech (AR/VR/XR) and AI in media production. Promoting Thai Soft Power on the international stage.</p>
                 </div>
-
-                <!-- RVY Speaker -->
                 <div class="card exp-card reveal reveal-delay-1">
                     <div class="exp-date">2024</div>
                     <h3>RVY Speaker Series</h3>
-                    <div class="exp-role">Guest Speaker — AI & Creative Technology</div>
-                    <p>
-                        Invited speaker on AI applications in creative industries and game development pipelines.
-                    </p>
+                    <div class="exp-role" data-i18n="exp.rvy.role">Guest Speaker — AI & Creative Technology</div>
+                    <p data-i18n="exp.rvy.desc">Invited speaker on AI applications in creative industries and game development pipelines.</p>
                     <div class="exp-images">
                         <img src="RVY Speaker.jpg" alt="RVY Speaker" onclick="openLightbox(this)">
                         <img src="RVY Speaker 2.jpg" alt="RVY Speaker 2" onclick="openLightbox(this)">
@@ -828,25 +442,17 @@
             </div>
 
             <div class="exp-row">
-                <!-- AR/VR -->
                 <div class="card exp-card reveal">
                     <div class="exp-date">2023 — 2024</div>
-                    <h3>AR/VR/Metaverse Projects</h3>
+                    <h3 data-i18n="exp.arvr.title">AR/VR/Metaverse Projects</h3>
                     <div class="exp-role">Developer — NDF DEV</div>
-                    <p>
-                        Art in Paradise (AR), Flora Park Enchanted (AR), CAMT Metaverse, Loy Krathong Online (AR), ESG VR.
-                        Clients: SCG, CMU, Night Safari, Pikul.
-                    </p>
+                    <p data-i18n="exp.arvr.desc">Art in Paradise (AR), Flora Park Enchanted (AR), CAMT Metaverse, Loy Krathong Online (AR), ESG VR. Clients: SCG, CMU, Night Safari, Pikul.</p>
                 </div>
-
-                <!-- YSEALI -->
                 <div class="card exp-card reveal reveal-delay-1">
-                    <div class="exp-date">May 2023</div>
+                    <div class="exp-date" data-i18n="exp.yseali.date">May 2023</div>
                     <h3>YSEALI Game Changers</h3>
-                    <div class="exp-role">Selected Participant — US Embassy KL</div>
-                    <p>
-                        Selected as one of 50 youth from across Asia. Workshops and game jam on environmental and social issues in Kuala Lumpur.
-                    </p>
+                    <div class="exp-role" data-i18n="exp.yseali.role">Selected Participant — US Embassy KL</div>
+                    <p data-i18n="exp.yseali.desc">Selected as one of 50 youth from across Asia. Workshops and game jam on environmental and social issues in Kuala Lumpur.</p>
                     <div class="exp-images">
                         <img src="Game Jam & Workshop @ KL.jpg" alt="YSEALI KL" onclick="openLightbox(this)">
                         <img src="Game Jam & Workshop @ KL 2.jpg" alt="YSEALI KL 2" onclick="openLightbox(this)">
@@ -855,349 +461,422 @@
                 </div>
             </div>
 
-            <!-- Taklee -->
             <div class="card exp-card reveal" style="max-width: 50%;">
                 <div class="exp-date">2023</div>
-                <h3>Taklee Genesis — Feature Film</h3>
-                <div class="exp-role">Rotoscope Artist — CG Team</div>
-                <p>
-                    CG production for the feature film "Taklee Genesis". NDF DEV team responsible for 52 VFX shots.
-                </p>
+                <h3 data-i18n="exp.taklee.title">Taklee Genesis — Feature Film</h3>
+                <div class="exp-role" data-i18n="exp.taklee.role">Rotoscope Artist — CG Team</div>
+                <p data-i18n="exp.taklee.desc">CG production for the feature film "Taklee Genesis". NDF DEV team responsible for 52 VFX shots.</p>
                 <div class="exp-images">
                     <img src="ภาพยนต์เรื่อง ตาคลี.jpg" alt="Taklee Genesis" onclick="openLightbox(this)">
                     <img src="ภาพยนต์เรื่อง ตาคลี 2.jpg" alt="Taklee Genesis 2" onclick="openLightbox(this)">
                 </div>
             </div>
 
-            <!-- Achievement -->
             <div class="card achievement reveal">
-                <div class="achievement-img">
-                    <img src="ประกวด Ai Animation ได้อันดับที่ 1.jpg" alt="1st Place AI Animation">
-                </div>
+                <div class="achievement-img"><img src="ประกวด Ai Animation ได้อันดับที่ 1.jpg" alt="1st Place AI Animation"></div>
                 <div>
-                    <h3>1st Place — AI Animation Competition</h3>
-                    <p>
-                        Won 1st place with the theme "Vote for the Future" — a promotional animation
-                        encouraging citizens to vote in municipal elections (May 2025).
-                        Awarded at Creative Chiang Mai.
-                    </p>
-                    <span class="achievement-badge">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
-                        1ST PLACE — 23,000 THB
-                    </span>
+                    <h3 data-i18n="exp.award.title">1st Place — AI Animation Competition</h3>
+                    <p data-i18n="exp.award.desc">Won 1st place with the theme "Vote for the Future" — a promotional animation encouraging citizens to vote in municipal elections (May 2025). Awarded at Creative Chiang Mai.</p>
+                    <span class="achievement-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg> 1ST PLACE — 23,000 THB</span>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Skills -->
 <section id="skills" class="section">
     <div class="container">
         <div class="reveal">
-            <div class="section-label">Skills</div>
-            <h2>Tools & Expertise</h2>
+            <div class="section-label" data-i18n="nav.skills">Skills</div>
+            <h2 data-i18n="skills.heading">Tools & Expertise</h2>
         </div>
-
         <div class="skills-grid" style="margin-top: 2rem;">
             <div class="card skill-card reveal">
-                <div class="skill-icon" style="background: rgba(201,162,39,0.1);">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-                </div>
-                <h3>Development</h3>
+                <div class="skill-icon" style="background: rgba(201,162,39,0.1);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+                <h3 data-i18n="skills.dev">Development</h3>
                 <div class="skill-tags">
-                    <span class="skill-tag t-gold">Unity / C#</span>
-                    <span class="skill-tag t-gold">Python</span>
-                    <span class="skill-tag t-gold">HTML/CSS/JS</span>
-                    <span class="skill-tag t-gold">Web App</span>
-                    <span class="skill-tag t-gold">ChatBot / Agent</span>
-                    <span class="skill-tag t-gold">Git</span>
+                    <span class="skill-tag t-gold">Unity / C#</span><span class="skill-tag t-gold">Python</span>
+                    <span class="skill-tag t-gold">HTML/CSS/JS</span><span class="skill-tag t-gold">Web App</span>
+                    <span class="skill-tag t-gold">ChatBot / Agent</span><span class="skill-tag t-gold">Git</span>
                 </div>
             </div>
-
             <div class="card skill-card reveal reveal-delay-1">
-                <div class="skill-icon" style="background: rgba(244,114,182,0.1);">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-4)" stroke-width="2"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
-                </div>
-                <h3>Design</h3>
+                <div class="skill-icon" style="background: rgba(244,114,182,0.1);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-4)" stroke-width="2"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg></div>
+                <h3 data-i18n="skills.design">Design</h3>
                 <div class="skill-tags">
-                    <span class="skill-tag t-pink">Figma</span>
-                    <span class="skill-tag t-pink">Adobe Suite</span>
-                    <span class="skill-tag t-pink">Blender</span>
-                    <span class="skill-tag t-pink">UX/UI</span>
-                    <span class="skill-tag t-pink">Video Editing</span>
-                    <span class="skill-tag t-pink">Rotoscoping</span>
+                    <span class="skill-tag t-pink">Figma</span><span class="skill-tag t-pink">Adobe Suite</span>
+                    <span class="skill-tag t-pink">Blender</span><span class="skill-tag t-pink">UX/UI</span>
+                    <span class="skill-tag t-pink">Video Editing</span><span class="skill-tag t-pink">Rotoscoping</span>
                 </div>
             </div>
-
             <div class="card skill-card reveal reveal-delay-2">
-                <div class="skill-icon" style="background: rgba(0,206,201,0.1);">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-2)" stroke-width="2"><path d="M12 2a4 4 0 0 1 4 4c0 1.95-1.4 3.58-3.25 3.93"/><path d="M8.56 9.8A3.99 3.99 0 0 1 8 8a4 4 0 0 1 .67-2.22"/><circle cx="12" cy="18" r="4"/><path d="M12 14v-2"/></svg>
-                </div>
-                <h3>AI & Innovation</h3>
+                <div class="skill-icon" style="background: rgba(0,206,201,0.1);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-2)" stroke-width="2"><path d="M12 2a4 4 0 0 1 4 4c0 1.95-1.4 3.58-3.25 3.93"/><path d="M8.56 9.8A3.99 3.99 0 0 1 8 8a4 4 0 0 1 .67-2.22"/><circle cx="12" cy="18" r="4"/><path d="M12 14v-2"/></svg></div>
+                <h3 data-i18n="skills.ai">AI & Innovation</h3>
                 <div class="skill-tags">
-                    <span class="skill-tag t-teal">Generative AI</span>
-                    <span class="skill-tag t-teal">Prompt Engineering</span>
-                    <span class="skill-tag t-teal">AI Animation</span>
-                    <span class="skill-tag t-teal">AI Workflow</span>
-                    <span class="skill-tag t-teal">AR / VR / XR</span>
-                    <span class="skill-tag t-teal">ComfyUI</span>
+                    <span class="skill-tag t-teal">Generative AI</span><span class="skill-tag t-teal">Prompt Engineering</span>
+                    <span class="skill-tag t-teal">AI Animation</span><span class="skill-tag t-teal">AI Workflow</span>
+                    <span class="skill-tag t-teal">AR / VR / XR</span><span class="skill-tag t-teal">ComfyUI</span>
                 </div>
             </div>
-
             <div class="card skill-card reveal reveal-delay-3">
-                <div class="skill-icon" style="background: rgba(167,139,250,0.1);">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-3)" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-                </div>
-                <h3>Management</h3>
+                <div class="skill-icon" style="background: rgba(167,139,250,0.1);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-3)" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div>
+                <h3 data-i18n="skills.mgmt">Management</h3>
                 <div class="skill-tags">
-                    <span class="skill-tag t-lavender">Project Mgmt</span>
-                    <span class="skill-tag t-lavender">Agile/Scrum</span>
-                    <span class="skill-tag t-lavender">Workshop Design</span>
-                    <span class="skill-tag t-lavender">Public Speaking</span>
-                    <span class="skill-tag t-lavender">Documentation</span>
-                    <span class="skill-tag t-lavender">Leadership</span>
+                    <span class="skill-tag t-lavender">Project Mgmt</span><span class="skill-tag t-lavender">Agile/Scrum</span>
+                    <span class="skill-tag t-lavender">Workshop Design</span><span class="skill-tag t-lavender">Public Speaking</span>
+                    <span class="skill-tag t-lavender">Documentation</span><span class="skill-tag t-lavender">Leadership</span>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Gallery -->
 <section id="gallery" class="section">
     <div class="container">
         <div class="reveal">
-            <div class="section-label">Gallery</div>
-            <h2>Moments & Works</h2>
+            <div class="section-label" data-i18n="nav.gallery">Gallery</div>
+            <h2 data-i18n="gallery.heading">Moments & Works</h2>
         </div>
-
         <div class="gallery-filters reveal" style="margin-top: 1.5rem;">
-            <button class="filter-btn active" data-filter="all">All</button>
-            <button class="filter-btn" data-filter="workshop">Workshops</button>
-            <button class="filter-btn" data-filter="gamejam">Game Jam</button>
-            <button class="filter-btn" data-filter="project">Projects</button>
-            <button class="filter-btn" data-filter="speaking">Speaking</button>
+            <button class="filter-btn active" data-filter="all" data-i18n="filter.all">All</button>
+            <button class="filter-btn" data-filter="workshop" data-i18n="filter.workshop">Workshops</button>
+            <button class="filter-btn" data-filter="gamejam" data-i18n="filter.gamejam">Game Jam</button>
+            <button class="filter-btn" data-filter="project" data-i18n="filter.project">Projects</button>
+            <button class="filter-btn" data-filter="speaking" data-i18n="filter.speaking">Speaking</button>
         </div>
-
         <div class="gallery-grid reveal" id="galleryGrid">
             <a class="gallery-item" data-category="project" href="https://poomxchapon.github.io/acmod-demo/" target="_blank" style="text-decoration: none; color: inherit;">
                 <div style="width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; background: linear-gradient(135deg, rgba(0,206,201,0.08), rgba(167,139,250,0.06)); gap: 0.5rem;">
                     <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-2)" stroke-width="1.5" width="40" height="40"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
                     <span style="font-size: 0.78rem; font-weight: 700; color: var(--accent-2);">ACMod Demo</span>
-                    <span style="font-size: 0.62rem; color: var(--text-dim);">Cross-Cultural AI</span>
+                    <span style="font-size: 0.62rem; color: var(--text-dim);" data-i18n="exp.acmod.tag">Cross-Cultural AI</span>
                 </div>
                 <div class="gallery-overlay"><span>ACMod — Live Demo</span></div>
             </a>
-            <div class="gallery-item" data-category="project" onclick="openLightbox(this.querySelector('img'))">
-                <img src="Fortal.jpg" alt="Fortal Interactive">
-                <div class="gallery-overlay"><span>Fortal Interactive</span></div>
-            </div>
-            <div class="gallery-item" data-category="gamejam" onclick="openLightbox(this.querySelector('img'))">
-                <img src="Game Jam & Workshop @ KL.jpg" alt="Game Jam KL">
-                <div class="gallery-overlay"><span>Game Jam @ KL</span></div>
-            </div>
-            <div class="gallery-item" data-category="gamejam" onclick="openLightbox(this.querySelector('img'))">
-                <img src="Game Jam & Workshop @ KL 2.jpg" alt="Game Jam KL 2">
-                <div class="gallery-overlay"><span>Game Jam @ KL</span></div>
-            </div>
-            <div class="gallery-item" data-category="gamejam" onclick="openLightbox(this.querySelector('img'))">
-                <img src="Game Jam & Workshop @ KL 3.jpg" alt="Game Jam KL 3">
-                <div class="gallery-overlay"><span>Workshop @ KL</span></div>
-            </div>
-            <div class="gallery-item" data-category="gamejam" onclick="openLightbox(this.querySelector('img'))">
-                <img src="Game Jam & Workshop @ KL 4.jpg" alt="Game Jam KL 4">
-                <div class="gallery-overlay"><span>Workshop @ KL</span></div>
-            </div>
-            <div class="gallery-item" data-category="gamejam" onclick="openLightbox(this.querySelector('img'))">
-                <img src="Game Jam & Workshop @ KL 5.jpg" alt="Game Jam KL 5">
-                <div class="gallery-overlay"><span>Game Jam @ KL</span></div>
-            </div>
-            <div class="gallery-item" data-category="gamejam" onclick="openLightbox(this.querySelector('img'))">
-                <img src="Game Jam & Workshop @ KL 6.jpg" alt="Game Jam KL 6">
-                <div class="gallery-overlay"><span>Game Jam @ KL</span></div>
-            </div>
-            <div class="gallery-item" data-category="speaking" onclick="openLightbox(this.querySelector('img'))">
-                <img src="RVY Speaker.jpg" alt="RVY Speaker">
-                <div class="gallery-overlay"><span>RVY Speaker</span></div>
-            </div>
-            <div class="gallery-item" data-category="speaking" onclick="openLightbox(this.querySelector('img'))">
-                <img src="RVY Speaker 2.jpg" alt="RVY Speaker 2">
-                <div class="gallery-overlay"><span>RVY Speaker</span></div>
-            </div>
-            <div class="gallery-item" data-category="speaking" onclick="openLightbox(this.querySelector('img'))">
-                <img src="RVY Speaker 3.jpg" alt="RVY Speaker 3">
-                <div class="gallery-overlay"><span>RVY Speaker</span></div>
-            </div>
-            <div class="gallery-item" data-category="speaking" onclick="openLightbox(this.querySelector('img'))">
-                <img src="RVY Speaker 4.jpg" alt="RVY Speaker 4">
-                <div class="gallery-overlay"><span>RVY Speaker</span></div>
-            </div>
-            <div class="gallery-item" data-category="speaking" onclick="openLightbox(this.querySelector('img'))">
-                <img src="RVY Speaker 5.jpg" alt="RVY Speaker 5">
-                <div class="gallery-overlay"><span>RVY Speaker</span></div>
-            </div>
-            <div class="gallery-item" data-category="workshop" onclick="openLightbox(this.querySelector('img'))">
-                <img src="Ai Workshop ราชการ 01.jpg" alt="AI Workshop Government">
-                <div class="gallery-overlay"><span>AI Workshop — Gov</span></div>
-            </div>
-            <div class="gallery-item" data-category="workshop" onclick="openLightbox(this.querySelector('img'))">
-                <img src="Ai Workshop ราชการ 02.jpg" alt="AI Workshop Government 2">
-                <div class="gallery-overlay"><span>AI Workshop — Gov</span></div>
-            </div>
-            <div class="gallery-item" data-category="workshop" onclick="openLightbox(this.querySelector('img'))">
-                <img src="Workshop สื่อสร้างสรรค์.jpg" alt="Creative Media Workshop">
-                <div class="gallery-overlay"><span>Creative Media</span></div>
-            </div>
-            <div class="gallery-item" data-category="workshop" onclick="openLightbox(this.querySelector('img'))">
-                <img src="Workshop สื่อสร้างสรรค์ 2.jpg" alt="Creative Media Workshop 2">
-                <div class="gallery-overlay"><span>Creative Media</span></div>
-            </div>
-            <div class="gallery-item" data-category="project" onclick="openLightbox(this.querySelector('img'))">
-                <img src="ประกวด Ai Animation ได้อันดับที่ 1.jpg" alt="1st Place AI Animation">
-                <div class="gallery-overlay"><span>1st Place AI Animation</span></div>
-            </div>
-            <div class="gallery-item" data-category="project" onclick="openLightbox(this.querySelector('img'))">
-                <img src="ภาพยนต์เรื่อง ตาคลี.jpg" alt="Film Taklee">
-                <div class="gallery-overlay"><span>Film — Taklee</span></div>
-            </div>
-            <div class="gallery-item" data-category="project" onclick="openLightbox(this.querySelector('img'))">
-                <img src="ภาพยนต์เรื่อง ตาคลี 2.jpg" alt="Film Taklee 2">
-                <div class="gallery-overlay"><span>Film — Taklee</span></div>
-            </div>
+            <div class="gallery-item" data-category="project" onclick="openLightbox(this.querySelector('img'))"><img src="Fortal.jpg" alt="Fortal Interactive"><div class="gallery-overlay"><span>Fortal Interactive</span></div></div>
+            <div class="gallery-item" data-category="gamejam" onclick="openLightbox(this.querySelector('img'))"><img src="Game Jam & Workshop @ KL.jpg" alt="Game Jam KL"><div class="gallery-overlay"><span>Game Jam @ KL</span></div></div>
+            <div class="gallery-item" data-category="gamejam" onclick="openLightbox(this.querySelector('img'))"><img src="Game Jam & Workshop @ KL 2.jpg" alt="Game Jam KL 2"><div class="gallery-overlay"><span>Game Jam @ KL</span></div></div>
+            <div class="gallery-item" data-category="gamejam" onclick="openLightbox(this.querySelector('img'))"><img src="Game Jam & Workshop @ KL 3.jpg" alt="Game Jam KL 3"><div class="gallery-overlay"><span>Workshop @ KL</span></div></div>
+            <div class="gallery-item" data-category="gamejam" onclick="openLightbox(this.querySelector('img'))"><img src="Game Jam & Workshop @ KL 4.jpg" alt="Game Jam KL 4"><div class="gallery-overlay"><span>Workshop @ KL</span></div></div>
+            <div class="gallery-item" data-category="gamejam" onclick="openLightbox(this.querySelector('img'))"><img src="Game Jam & Workshop @ KL 5.jpg" alt="Game Jam KL 5"><div class="gallery-overlay"><span>Game Jam @ KL</span></div></div>
+            <div class="gallery-item" data-category="gamejam" onclick="openLightbox(this.querySelector('img'))"><img src="Game Jam & Workshop @ KL 6.jpg" alt="Game Jam KL 6"><div class="gallery-overlay"><span>Game Jam @ KL</span></div></div>
+            <div class="gallery-item" data-category="speaking" onclick="openLightbox(this.querySelector('img'))"><img src="RVY Speaker.jpg" alt="RVY Speaker"><div class="gallery-overlay"><span>RVY Speaker</span></div></div>
+            <div class="gallery-item" data-category="speaking" onclick="openLightbox(this.querySelector('img'))"><img src="RVY Speaker 2.jpg" alt="RVY Speaker 2"><div class="gallery-overlay"><span>RVY Speaker</span></div></div>
+            <div class="gallery-item" data-category="speaking" onclick="openLightbox(this.querySelector('img'))"><img src="RVY Speaker 3.jpg" alt="RVY Speaker 3"><div class="gallery-overlay"><span>RVY Speaker</span></div></div>
+            <div class="gallery-item" data-category="speaking" onclick="openLightbox(this.querySelector('img'))"><img src="RVY Speaker 4.jpg" alt="RVY Speaker 4"><div class="gallery-overlay"><span>RVY Speaker</span></div></div>
+            <div class="gallery-item" data-category="speaking" onclick="openLightbox(this.querySelector('img'))"><img src="RVY Speaker 5.jpg" alt="RVY Speaker 5"><div class="gallery-overlay"><span>RVY Speaker</span></div></div>
+            <div class="gallery-item" data-category="workshop" onclick="openLightbox(this.querySelector('img'))"><img src="Ai Workshop ราชการ 01.jpg" alt="AI Workshop Government"><div class="gallery-overlay"><span>AI Workshop — Gov</span></div></div>
+            <div class="gallery-item" data-category="workshop" onclick="openLightbox(this.querySelector('img'))"><img src="Ai Workshop ราชการ 02.jpg" alt="AI Workshop Government 2"><div class="gallery-overlay"><span>AI Workshop — Gov</span></div></div>
+            <div class="gallery-item" data-category="workshop" onclick="openLightbox(this.querySelector('img'))"><img src="Workshop สื่อสร้างสรรค์.jpg" alt="Creative Media Workshop"><div class="gallery-overlay"><span>Creative Media</span></div></div>
+            <div class="gallery-item" data-category="workshop" onclick="openLightbox(this.querySelector('img'))"><img src="Workshop สื่อสร้างสรรค์ 2.jpg" alt="Creative Media Workshop 2"><div class="gallery-overlay"><span>Creative Media</span></div></div>
+            <div class="gallery-item" data-category="project" onclick="openLightbox(this.querySelector('img'))"><img src="ประกวด Ai Animation ได้อันดับที่ 1.jpg" alt="1st Place AI Animation"><div class="gallery-overlay"><span>1st Place AI Animation</span></div></div>
+            <div class="gallery-item" data-category="project" onclick="openLightbox(this.querySelector('img'))"><img src="ภาพยนต์เรื่อง ตาคลี.jpg" alt="Film Taklee"><div class="gallery-overlay"><span>Film — Taklee</span></div></div>
+            <div class="gallery-item" data-category="project" onclick="openLightbox(this.querySelector('img'))"><img src="ภาพยนต์เรื่อง ตาคลี 2.jpg" alt="Film Taklee 2"><div class="gallery-overlay"><span>Film — Taklee</span></div></div>
         </div>
     </div>
 </section>
 
-<!-- Contact -->
 <section id="contact" class="section">
     <div class="container" style="text-align: center;">
         <div class="reveal">
-            <div class="section-label" style="justify-content: center;">Contact</div>
-            <h2>Let's Connect</h2>
-            <p class="section-desc" style="margin: 0.5rem auto 0;">Interested in collaboration? Feel free to reach out.</p>
+            <div class="section-label" style="justify-content: center;" data-i18n="nav.contact">Contact</div>
+            <h2 data-i18n="contact.heading">Let's Connect</h2>
+            <p class="section-desc" style="margin: 0.5rem auto 0;" data-i18n="contact.desc">Interested in collaboration? Feel free to reach out.</p>
         </div>
-
         <div class="contact-grid reveal" style="margin-top: 2rem;">
             <a href="mailto:Poomie@live.com" class="card contact-card">
-                <div class="contact-icon" style="background: rgba(201,162,39,0.1);">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                </div>
-                <h3>Email</h3>
-                <p>Poomie@live.com</p>
+                <div class="contact-icon" style="background: rgba(201,162,39,0.1);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+                <h3 data-i18n="contact.email">Email</h3><p>Poomie@live.com</p>
             </a>
             <a href="tel:+66612654000" class="card contact-card">
-                <div class="contact-icon" style="background: rgba(0,206,201,0.1);">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-2)" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                </div>
-                <h3>Phone</h3>
-                <p>061-265-4000</p>
+                <div class="contact-icon" style="background: rgba(0,206,201,0.1);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-2)" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+                <h3 data-i18n="contact.phone">Phone</h3><p>061-265-4000</p>
             </a>
             <a href="#hero" class="card contact-card">
-                <div class="contact-icon" style="background: rgba(167,139,250,0.1);">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-3)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                </div>
-                <h3>Portfolio</h3>
-                <p>This Page</p>
+                <div class="contact-icon" style="background: rgba(167,139,250,0.1);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-3)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+                <h3 data-i18n="contact.portfolio">Portfolio</h3><p data-i18n="contact.thispage">This Page</p>
             </a>
         </div>
     </div>
 </section>
 
-<!-- Lightbox -->
 <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
-    <button class="lightbox-close" onclick="closeLightbox(event)" aria-label="Close lightbox">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    </button>
-    <img id="lightboxImg" src="" alt="">
-    <div class="lightbox-caption" id="lightboxCaption"></div>
+    <button class="lightbox-close" onclick="closeLightbox(event)" aria-label="Close lightbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    <img id="lightboxImg" src="" alt=""><div class="lightbox-caption" id="lightboxCaption"></div>
 </div>
 
-<!-- Footer -->
-<footer>
-    <div class="footer-line"></div>
-    <p>Ratchapon Lungmart &copy; 2026</p>
-</footer>
+<footer><div class="footer-line"></div><p>Ratchapon Lungmart &copy; 2026</p></footer>
 
 <script>
+// ═══════════════════════════════════════
+// i18n Translations
+// ═══════════════════════════════════════
+const i18n = {
+en: {
+    'nav.home': 'Home', 'nav.about': 'About', 'nav.experience': 'Experience',
+    'nav.skills': 'Skills', 'nav.gallery': 'Gallery', 'nav.contact': 'Contact',
+    'hero.cta': 'Get in Touch', 'hero.view': 'View Work',
+    'stat.workshops': 'Workshops Led', 'stat.projects': 'Projects Shipped', 'stat.animation': 'AI Animation',
+    'role.1': 'Generative Media Designer', 'role.2': 'Project Manager', 'role.3': 'AI Workshop Instructor',
+    'role.4': 'AR/VR Developer', 'role.5': 'Graphic Designer', 'role.6': 'Rotoscope Artist',
+    'about.heading': 'Bridging AI, Design<br>& Project Management',
+    'about.p1': 'Born April 13, 2000. Graduated with a Bachelor\'s degree from the College of Arts, Media and Technology (CAMT), Chiang Mai University, majoring in Digital Game (Class of 2022).',
+    'about.p2': 'Currently working at NDF DEV as Graphic Designer, Junior Project Manager, and Generative Media Designer. Responsible for creating presentations, video editing, and producing generative AI media for various projects.',
+    'about.p3': 'Passionate about modern technology, especially AI and creative media. Committed to continuously developing and applying new tools to elevate work quality. Experienced in leading AI workshops for government sectors, vocational students, and international events.',
+    'exp.heading': 'Journey So Far',
+    'exp.desc': 'From game dev internships to AI specialist roles — driven by curiosity and creation.',
+    'exp.ndf.date': '2024 — Present',
+    'exp.ndf.role': 'Graphic Designer / Jr. PM / Generative Media Designer',
+    'exp.ndf.desc': 'Creating presentations, video editing, and producing generative AI media. Built the WorkSpace System — a full task management platform with login, dashboard, team calendar, Kanban boards, GPS clock-in, leave requests, Google Drive integration, and an internal AI ChatBot agent called "Skynet". Also developed a Beat Detection tool for rhythm games.',
+    'exp.acmod.date': '2025 — Horizon Europe MSCA', 'exp.acmod.title': 'ACMod: Affective Computing Models',
+    'exp.acmod.role': 'AI Research Demo — CAMT, Chiang Mai University',
+    'exp.acmod.desc': 'Live demonstration of facial expression AI and its limitations in cross-cultural contexts. The demo highlights how standard emotion recognition models trained on Western datasets fail to distinguish the 13 nuanced Thai smiles — where smiling can convey apology, shyness, politeness, or confusion. Features real-time face detection, emotion timeline, snapshot comparison, and training data bias visualization.',
+    'exp.acmod.tag': 'Cross-Cultural AI',
+    'exp.smartgov.role': 'Speaker — AI & DATA for Public Service',
+    'exp.smartgov.desc': 'Delivered a lecture on "Public Service Story: Creating Animation Video with AI" to various government agencies.',
+    'exp.rnime.role': 'Lead Instructor — DEPA x CMU x CAMT x NDF Dev',
+    'exp.rnime.desc': 'Taught Generative AI skills to vocational students across 4 institutions for creating images and videos.',
+    'exp.mediax.role': 'Participant — Immersive Tech & AI',
+    'exp.mediax.desc': 'Professional training focused on Immersive Tech (AR/VR/XR) and AI in media production. Promoting Thai Soft Power on the international stage.',
+    'exp.rvy.role': 'Guest Speaker — AI & Creative Technology',
+    'exp.rvy.desc': 'Invited speaker on AI applications in creative industries and game development pipelines.',
+    'exp.arvr.title': 'AR/VR/Metaverse Projects',
+    'exp.arvr.desc': 'Art in Paradise (AR), Flora Park Enchanted (AR), CAMT Metaverse, Loy Krathong Online (AR), ESG VR. Clients: SCG, CMU, Night Safari, Pikul.',
+    'exp.yseali.date': 'May 2023', 'exp.yseali.role': 'Selected Participant — US Embassy KL',
+    'exp.yseali.desc': 'Selected as one of 50 youth from across Asia. Workshops and game jam on environmental and social issues in Kuala Lumpur.',
+    'exp.taklee.title': 'Taklee Genesis — Feature Film', 'exp.taklee.role': 'Rotoscope Artist — CG Team',
+    'exp.taklee.desc': 'CG production for the feature film "Taklee Genesis". NDF DEV team responsible for 52 VFX shots.',
+    'exp.award.title': '1st Place — AI Animation Competition',
+    'exp.award.desc': 'Won 1st place with the theme "Vote for the Future" — a promotional animation encouraging citizens to vote in municipal elections (May 2025). Awarded at Creative Chiang Mai.',
+    'skills.heading': 'Tools & Expertise', 'skills.dev': 'Development', 'skills.design': 'Design',
+    'skills.ai': 'AI & Innovation', 'skills.mgmt': 'Management',
+    'gallery.heading': 'Moments & Works',
+    'filter.all': 'All', 'filter.workshop': 'Workshops', 'filter.gamejam': 'Game Jam',
+    'filter.project': 'Projects', 'filter.speaking': 'Speaking',
+    'contact.heading': "Let's Connect", 'contact.desc': 'Interested in collaboration? Feel free to reach out.',
+    'contact.email': 'Email', 'contact.phone': 'Phone', 'contact.portfolio': 'Portfolio', 'contact.thispage': 'This Page'
+},
+th: {
+    'nav.home': 'หน้าแรก', 'nav.about': 'เกี่ยวกับ', 'nav.experience': 'ประสบการณ์',
+    'nav.skills': 'ทักษะ', 'nav.gallery': 'แกลเลอรี', 'nav.contact': 'ติดต่อ',
+    'hero.cta': 'ติดต่อเรา', 'hero.view': 'ดูผลงาน',
+    'stat.workshops': 'Workshop ที่นำ', 'stat.projects': 'โปรเจกต์สำเร็จ', 'stat.animation': 'AI Animation',
+    'role.1': 'นักออกแบบสื่อ Generative', 'role.2': 'ผู้จัดการโครงการ', 'role.3': 'วิทยากร AI Workshop',
+    'role.4': 'นักพัฒนา AR/VR', 'role.5': 'นักออกแบบกราฟิก', 'role.6': 'ศิลปิน Rotoscope',
+    'about.heading': 'เชื่อมโยง AI, การออกแบบ<br>และการบริหารโครงการ',
+    'about.p1': 'เกิดวันที่ 13 เมษายน 2543 จบปริญญาตรีจากวิทยาลัยศิลปะ สื่อ และเทคโนโลยี (CAMT) มหาวิทยาลัยเชียงใหม่ สาขา Digital Game (รุ่นปี 2565)',
+    'about.p2': 'ปัจจุบันทำงานที่ NDF DEV ตำแหน่ง Graphic Designer, Junior Project Manager และ Generative Media Designer รับผิดชอบงานนำเสนอ ตัดต่อวิดีโอ และผลิตสื่อ Generative AI',
+    'about.p3': 'หลงใหลในเทคโนโลยีสมัยใหม่ โดยเฉพาะ AI และสื่อสร้างสรรค์ มุ่งมั่นพัฒนาและนำเครื่องมือใหม่มาใช้ยกระดับคุณภาพงาน มีประสบการณ์นำ Workshop AI ให้กับหน่วยงานราชการ นักศึกษาอาชีวะ และงานระดับนานาชาติ',
+    'exp.heading': 'เส้นทางที่ผ่านมา',
+    'exp.desc': 'จากฝึกงานพัฒนาเกม สู่บทบาท AI Specialist — ขับเคลื่อนด้วยความอยากรู้และการสร้างสรรค์',
+    'exp.ndf.date': '2567 — ปัจจุบัน',
+    'exp.ndf.role': 'นักออกแบบกราฟิก / ผู้ช่วย PM / นักออกแบบสื่อ Generative',
+    'exp.ndf.desc': 'สร้างงานนำเสนอ ตัดต่อวิดีโอ และผลิตสื่อ Generative AI พัฒนาระบบ WorkSpace — แพลตฟอร์มจัดการงานครบวงจร มีระบบ login, dashboard, ปฏิทินทีม, Kanban board, ลงเวลา GPS, ลาออนไลน์, เชื่อมต่อ Google Drive และ AI ChatBot "Skynet" รวมถึงเครื่องมือ Beat Detection สำหรับเกมจังหวะ',
+    'exp.acmod.date': '2568 — Horizon Europe MSCA', 'exp.acmod.title': 'ACMod: โมเดลการคำนวณอารมณ์',
+    'exp.acmod.role': 'AI Research Demo — CAMT, มหาวิทยาลัยเชียงใหม่',
+    'exp.acmod.desc': 'สาธิตสดระบบ AI วิเคราะห์สีหน้าและข้อจำกัดในบริบทข้ามวัฒนธรรม แสดงให้เห็นว่าโมเดลจดจำอารมณ์ที่เทรนจากข้อมูลตะวันตก ไม่สามารถแยกแยะรอยยิ้มไทย 13 แบบ — ที่รอยยิ้มอาจสื่อถึงการขอโทษ ความเขินอาย ความสุภาพ หรือความสับสน มีฟีเจอร์ตรวจจับใบหน้าแบบเรียลไทม์ ไทม์ไลน์อารมณ์ เปรียบเทียบ snapshot และแผนที่อคติข้อมูลเทรน',
+    'exp.acmod.tag': 'AI ข้ามวัฒนธรรม',
+    'exp.smartgov.role': 'วิทยากร — AI & DATA เพื่อบริการสาธารณะ',
+    'exp.smartgov.desc': 'บรรยายหัวข้อ "เรื่องเล่าบริการสาธารณะ: สร้างวิดีโอ Animation ด้วย AI" ให้กับหน่วยงานราชการหลายแห่ง',
+    'exp.rnime.role': 'หัวหน้าวิทยากร — DEPA x มช. x CAMT x NDF Dev',
+    'exp.rnime.desc': 'สอนทักษะ Generative AI ให้นักศึกษาอาชีวะจาก 4 สถาบัน ในการสร้างภาพและวิดีโอ',
+    'exp.mediax.role': 'ผู้เข้าร่วม — Immersive Tech & AI',
+    'exp.mediax.desc': 'อบรมเชิงวิชาชีพด้าน Immersive Tech (AR/VR/XR) และ AI ในการผลิตสื่อ ส่งเสริม Soft Power ไทยบนเวทีนานาชาติ',
+    'exp.rvy.role': 'วิทยากรรับเชิญ — AI & เทคโนโลยีสร้างสรรค์',
+    'exp.rvy.desc': 'วิทยากรรับเชิญเรื่องการนำ AI มาใช้ในอุตสาหกรรมสร้างสรรค์และ pipeline พัฒนาเกม',
+    'exp.arvr.title': 'โปรเจกต์ AR/VR/Metaverse',
+    'exp.arvr.desc': 'Art in Paradise (AR), Flora Park Enchanted (AR), CAMT Metaverse, ลอยกระทงออนไลน์ (AR), ESG VR ลูกค้า: SCG, มช., Night Safari, Pikul',
+    'exp.yseali.date': 'พ.ค. 2566', 'exp.yseali.role': 'ผู้เข้าร่วมที่ได้รับคัดเลือก — สถานทูตสหรัฐฯ KL',
+    'exp.yseali.desc': 'ได้รับคัดเลือกเป็น 1 ใน 50 เยาวชนจากทั่วเอเชีย Workshop และ Game Jam เกี่ยวกับปัญหาสิ่งแวดล้อมและสังคม ณ กัวลาลัมเปอร์',
+    'exp.taklee.title': 'ตาคลี เจเนซิส — ภาพยนตร์', 'exp.taklee.role': 'ศิลปิน Rotoscope — ทีม CG',
+    'exp.taklee.desc': 'งาน CG ภาพยนตร์เรื่อง "ตาคลี เจเนซิส" ทีม NDF DEV รับผิดชอบ 52 ช็อต VFX',
+    'exp.award.title': 'อันดับ 1 — การแข่งขัน AI Animation',
+    'exp.award.desc': 'คว้าอันดับ 1 ในหัวข้อ "Vote for the Future" — Animation ส่งเสริมการเลือกตั้งเทศบาล (พ.ค. 2568) รับรางวัลที่ Creative Chiang Mai',
+    'skills.heading': 'เครื่องมือและความเชี่ยวชาญ', 'skills.dev': 'การพัฒนา', 'skills.design': 'การออกแบบ',
+    'skills.ai': 'AI และนวัตกรรม', 'skills.mgmt': 'การบริหาร',
+    'gallery.heading': 'ช่วงเวลาและผลงาน',
+    'filter.all': 'ทั้งหมด', 'filter.workshop': 'Workshop', 'filter.gamejam': 'Game Jam',
+    'filter.project': 'โปรเจกต์', 'filter.speaking': 'วิทยากร',
+    'contact.heading': 'มาเชื่อมต่อกัน', 'contact.desc': 'สนใจร่วมงานกัน? ติดต่อมาได้เลย',
+    'contact.email': 'อีเมล', 'contact.phone': 'โทรศัพท์', 'contact.portfolio': 'ผลงาน', 'contact.thispage': 'หน้านี้'
+},
+ko: {
+    'nav.home': '홈', 'nav.about': '소개', 'nav.experience': '경력',
+    'nav.skills': '기술', 'nav.gallery': '갤러리', 'nav.contact': '연락처',
+    'hero.cta': '연락하기', 'hero.view': '작업 보기',
+    'stat.workshops': '진행한 워크숍', 'stat.projects': '완료한 프로젝트', 'stat.animation': 'AI 애니메이션',
+    'role.1': '제너레이티브 미디어 디자이너', 'role.2': '프로젝트 매니저', 'role.3': 'AI 워크숍 강사',
+    'role.4': 'AR/VR 개발자', 'role.5': '그래픽 디자이너', 'role.6': '로토스코프 아티스트',
+    'about.heading': 'AI, 디자인,<br>프로젝트 관리의 연결',
+    'about.p1': '2000년 4월 13일 출생. 치앙마이 대학교 예술미디어기술대학(CAMT) 디지털 게임 전공 학사 졸업 (2022년 학번).',
+    'about.p2': '현재 NDF DEV에서 그래픽 디자이너, 주니어 프로젝트 매니저, 제너레이티브 미디어 디자이너로 근무. 프레젠테이션 제작, 비디오 편집, 제너레이티브 AI 미디어 제작 담당.',
+    'about.p3': '현대 기술, 특히 AI와 크리에이티브 미디어에 열정적. 새로운 도구를 지속적으로 개발하고 적용하여 작업 품질을 향상시키는 데 전념. 정부 기관, 직업학교 학생, 국제 행사를 위한 AI 워크숍 진행 경험 보유.',
+    'exp.heading': '지금까지의 여정',
+    'exp.desc': '게임 개발 인턴십에서 AI 전문가로 — 호기심과 창작으로 이끌려.',
+    'exp.ndf.date': '2024 — 현재',
+    'exp.ndf.role': '그래픽 디자이너 / 주니어 PM / 제너레이티브 미디어 디자이너',
+    'exp.ndf.desc': '프레젠테이션 제작, 비디오 편집, 제너레이티브 AI 미디어 제작. WorkSpace 시스템 구축 — 로그인, 대시보드, 팀 캘린더, 칸반 보드, GPS 출퇴근, 휴가 신청, Google Drive 연동, 내부 AI 챗봇 "Skynet"을 갖춘 종합 업무 관리 플랫폼. 리듬 게임용 비트 감지 도구도 개발.',
+    'exp.acmod.date': '2025 — Horizon Europe MSCA', 'exp.acmod.title': 'ACMod: 감성 컴퓨팅 모델',
+    'exp.acmod.role': 'AI 연구 데모 — CAMT, 치앙마이 대학교',
+    'exp.acmod.desc': '얼굴 표정 AI의 문화 간 한계를 보여주는 라이브 데모. 서양 데이터로 학습된 감정 인식 모델이 태국의 13가지 미묘한 미소를 구별하지 못함을 보여줌 — 미소가 사과, 수줍음, 예의, 혼란을 전달할 수 있는 곳. 실시간 얼굴 감지, 감정 타임라인, 스냅샷 비교, 학습 데이터 편향 시각화 기능 포함.',
+    'exp.acmod.tag': '문화 간 AI',
+    'exp.smartgov.role': '강연자 — 공공 서비스를 위한 AI & DATA',
+    'exp.smartgov.desc': '"공공 서비스 스토리: AI로 애니메이션 비디오 만들기" 주제로 다양한 정부 기관에서 강연.',
+    'exp.rnime.role': '수석 강사 — DEPA x CMU x CAMT x NDF Dev',
+    'exp.rnime.desc': '4개 교육기관의 직업학교 학생들에게 이미지 및 비디오 제작을 위한 제너레이티브 AI 기술 교육.',
+    'exp.mediax.role': '참가자 — 몰입형 기술 & AI',
+    'exp.mediax.desc': '몰입형 기술(AR/VR/XR)과 미디어 제작에서의 AI에 초점을 맞춘 전문 교육. 국제 무대에서 태국 소프트 파워 홍보.',
+    'exp.rvy.role': '초청 강연자 — AI & 크리에이티브 기술',
+    'exp.rvy.desc': '크리에이티브 산업과 게임 개발 파이프라인에서의 AI 활용에 대한 초청 강연.',
+    'exp.arvr.title': 'AR/VR/메타버스 프로젝트',
+    'exp.arvr.desc': 'Art in Paradise(AR), Flora Park Enchanted(AR), CAMT Metaverse, 러이끄라통 온라인(AR), ESG VR. 클라이언트: SCG, CMU, Night Safari, Pikul.',
+    'exp.yseali.date': '2023년 5월', 'exp.yseali.role': '선발 참가자 — 미국 대사관 KL',
+    'exp.yseali.desc': '아시아 전역에서 50명의 청년 중 한 명으로 선발. 쿠알라룸푸르에서 환경 및 사회 문제에 대한 워크숍과 게임 잼.',
+    'exp.taklee.title': '따끌리 제네시스 — 장편 영화', 'exp.taklee.role': '로토스코프 아티스트 — CG 팀',
+    'exp.taklee.desc': '장편 영화 "따끌리 제네시스" CG 제작. NDF DEV 팀이 52개 VFX 샷 담당.',
+    'exp.award.title': '1위 — AI 애니메이션 대회',
+    'exp.award.desc': '"미래를 위한 투표" 주제로 1위 수상 — 지방선거 투표 독려 애니메이션(2025년 5월). Creative Chiang Mai에서 수상.',
+    'skills.heading': '도구 및 전문성', 'skills.dev': '개발', 'skills.design': '디자인',
+    'skills.ai': 'AI & 혁신', 'skills.mgmt': '관리',
+    'gallery.heading': '순간과 작품',
+    'filter.all': '전체', 'filter.workshop': '워크숍', 'filter.gamejam': '게임 잼',
+    'filter.project': '프로젝트', 'filter.speaking': '강연',
+    'contact.heading': '연결합시다', 'contact.desc': '협업에 관심이 있으시면 편하게 연락주세요.',
+    'contact.email': '이메일', 'contact.phone': '전화', 'contact.portfolio': '포트폴리오', 'contact.thispage': '이 페이지'
+},
+zh: {
+    'nav.home': '首页', 'nav.about': '关于', 'nav.experience': '经历',
+    'nav.skills': '技能', 'nav.gallery': '作品集', 'nav.contact': '联系',
+    'hero.cta': '联系我', 'hero.view': '查看作品',
+    'stat.workshops': '主讲工作坊', 'stat.projects': '已完成项目', 'stat.animation': 'AI 动画',
+    'role.1': '生成式媒体设计师', 'role.2': '项目经理', 'role.3': 'AI工作坊讲师',
+    'role.4': 'AR/VR开发者', 'role.5': '平面设计师', 'role.6': '转描动画师',
+    'about.heading': '连接 AI、设计<br>与项目管理',
+    'about.p1': '2000年4月13日出生。毕业于清迈大学艺术媒体与科技学院(CAMT)，主修数字游戏(2022届)。',
+    'about.p2': '目前在NDF DEV担任平面设计师、初级项目经理和生成式媒体设计师。负责制作演示文稿、视频编辑及各项目的生成式AI媒体制作。',
+    'about.p3': '热衷于现代科技，尤其是AI和创意媒体。致力于持续开发和应用新工具以提升工作质量。拥有为政府部门、职业学校学生和国际活动主导AI工作坊的丰富经验。',
+    'exp.heading': '成长历程',
+    'exp.desc': '从游戏开发实习到AI专家——由好奇心和创造力驱动。',
+    'exp.ndf.date': '2024 — 至今',
+    'exp.ndf.role': '平面设计师 / 初级项目经理 / 生成式媒体设计师',
+    'exp.ndf.desc': '制作演示文稿、视频编辑和生成式AI媒体。构建了WorkSpace系统——一个包含登录、仪表板、团队日历、看板、GPS打卡、请假申请、Google Drive集成以及内部AI聊天机器人"Skynet"的全功能任务管理平台。还开发了节奏游戏的节拍检测工具。',
+    'exp.acmod.date': '2025 — Horizon Europe MSCA', 'exp.acmod.title': 'ACMod：情感计算模型',
+    'exp.acmod.role': 'AI研究演示 — CAMT，清迈大学',
+    'exp.acmod.desc': '面部表情AI及其跨文化局限性的现场演示。该演示展示了在西方数据集上训练的标准情绪识别模型如何无法区分泰国13种细微的微笑——微笑可以传达道歉、害羞、礼貌或困惑。功能包括实时人脸检测、情绪时间线、快照比较和训练数据偏差可视化。',
+    'exp.acmod.tag': '跨文化AI',
+    'exp.smartgov.role': '演讲者 — 公共服务AI与数据',
+    'exp.smartgov.desc': '向多个政府机构发表"公共服务故事：用AI制作动画视频"的讲座。',
+    'exp.rnime.role': '首席讲师 — DEPA x CMU x CAMT x NDF Dev',
+    'exp.rnime.desc': '为4所院校的职业学生教授生成式AI图像和视频创作技能。',
+    'exp.mediax.role': '参与者 — 沉浸式技术与AI',
+    'exp.mediax.desc': '专注于沉浸式技术(AR/VR/XR)和AI媒体制作的专业培训。在国际舞台上推广泰国软实力。',
+    'exp.rvy.role': '特邀演讲者 — AI与创意科技',
+    'exp.rvy.desc': '受邀就创意产业和游戏开发流程中的AI应用进行演讲。',
+    'exp.arvr.title': 'AR/VR/元宇宙项目',
+    'exp.arvr.desc': 'Art in Paradise(AR)、Flora Park Enchanted(AR)、CAMT Metaverse、水灯节在线(AR)、ESG VR。客户：SCG、CMU、Night Safari、Pikul。',
+    'exp.yseali.date': '2023年5月', 'exp.yseali.role': '入选参与者 — 美国驻吉隆坡大使馆',
+    'exp.yseali.desc': '从亚洲各地选拔的50名青年之一。在吉隆坡举办关于环境和社会问题的工作坊和游戏创作营。',
+    'exp.taklee.title': '达克里·创世纪 — 电影', 'exp.taklee.role': '转描动画师 — CG团队',
+    'exp.taklee.desc': '电影"达克里·创世纪"的CG制作。NDF DEV团队负责52个VFX镜头。',
+    'exp.award.title': '第一名 — AI动画大赛',
+    'exp.award.desc': '以"为未来投票"为主题获得第一名——一部鼓励市民参加市政选举投票的宣传动画(2025年5月)。在Creative Chiang Mai获奖。',
+    'skills.heading': '工具与专长', 'skills.dev': '开发', 'skills.design': '设计',
+    'skills.ai': 'AI与创新', 'skills.mgmt': '管理',
+    'gallery.heading': '精彩瞬间',
+    'filter.all': '全部', 'filter.workshop': '工作坊', 'filter.gamejam': '游戏创作营',
+    'filter.project': '项目', 'filter.speaking': '演讲',
+    'contact.heading': '建立联系', 'contact.desc': '有合作意向？欢迎随时联系。',
+    'contact.email': '邮箱', 'contact.phone': '电话', 'contact.portfolio': '作品集', 'contact.thispage': '本页面'
+}
+};
+
+// Typed text per language
+const typedTitles = {
+    en: ['Generative Media Designer','Junior Project Manager','Graphic Designer','AI Workshop Instructor','AR/VR Developer','Rotoscope Artist'],
+    th: ['นักออกแบบสื่อ Generative','ผู้ช่วยผู้จัดการโครงการ','นักออกแบบกราฟิก','วิทยากร AI Workshop','นักพัฒนา AR/VR','ศิลปิน Rotoscope'],
+    ko: ['제너레이티브 미디어 디자이너','주니어 프로젝트 매니저','그래픽 디자이너','AI 워크숍 강사','AR/VR 개발자','로토스코프 아티스트'],
+    zh: ['生成式媒体设计师','初级项目经理','平面设计师','AI工作坊讲师','AR/VR开发者','转描动画师']
+};
+
+let currentLang = localStorage.getItem('lang') || 'en';
+
+function switchLang(lang) {
+    currentLang = lang;
+    localStorage.setItem('lang', lang);
+    document.documentElement.lang = lang === 'th' ? 'th' : lang === 'ko' ? 'ko' : lang === 'zh' ? 'zh-CN' : 'en';
+    const t = i18n[lang];
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.dataset.i18n;
+        if (t[key]) el.innerHTML = t[key];
+    });
+    // Update lang toggle buttons
+    document.querySelectorAll('.lang-btn').forEach(b => {
+        b.classList.toggle('active', b.dataset.lang === lang);
+    });
+    // Reset typed text
+    titles = typedTitles[lang] || typedTitles.en;
+    titleIndex = 0; charIndex = 0; isDeleting = false;
+}
+
+// ═══════════════════════════════════════
 // Typed Text
-const titles = [
-    'Generative Media Designer',
-    'Junior Project Manager',
-    'Graphic Designer',
-    'AI Workshop Instructor',
-    'AR/VR Developer',
-    'Rotoscope Artist'
-];
+// ═══════════════════════════════════════
+let titles = typedTitles[currentLang] || typedTitles.en;
 let titleIndex = 0, charIndex = 0, isDeleting = false;
 const typedEl = document.getElementById('typedText');
 
 function typeEffect() {
     const current = titles[titleIndex];
-    if (isDeleting) {
-        typedEl.textContent = current.substring(0, charIndex - 1);
-        charIndex--;
-    } else {
-        typedEl.textContent = current.substring(0, charIndex + 1);
-        charIndex++;
-    }
+    if (isDeleting) { typedEl.textContent = current.substring(0, charIndex - 1); charIndex--; }
+    else { typedEl.textContent = current.substring(0, charIndex + 1); charIndex++; }
     let delay = isDeleting ? 35 : 70;
-    if (!isDeleting && charIndex === current.length) {
-        delay = 2200; isDeleting = true;
-    } else if (isDeleting && charIndex === 0) {
-        isDeleting = false;
-        titleIndex = (titleIndex + 1) % titles.length;
-        delay = 500;
-    }
+    if (!isDeleting && charIndex === current.length) { delay = 2200; isDeleting = true; }
+    else if (isDeleting && charIndex === 0) { isDeleting = false; titleIndex = (titleIndex + 1) % titles.length; delay = 500; }
     setTimeout(typeEffect, delay);
 }
 typeEffect();
 
-// Navbar scroll + active section
+// ═══════════════════════════════════════
+// Language Toggle
+// ═══════════════════════════════════════
+document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => switchLang(btn.dataset.lang));
+});
+// Apply saved language on load
+if (currentLang !== 'en') switchLang(currentLang);
+
+// ═══════════════════════════════════════
+// Navigation
+// ═══════════════════════════════════════
 const navbar = document.getElementById('navbar');
 const sections = document.querySelectorAll('section');
 const navLinks = document.querySelectorAll('.nav-links a');
-
 window.addEventListener('scroll', () => {
     navbar.classList.toggle('scrolled', window.scrollY > 80);
     let current = '';
-    sections.forEach(sec => {
-        const top = sec.offsetTop - 140;
-        if (window.scrollY >= top) current = sec.getAttribute('id');
-    });
-    navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === '#' + current) link.classList.add('active');
-    });
+    sections.forEach(sec => { if (window.scrollY >= sec.offsetTop - 140) current = sec.getAttribute('id'); });
+    navLinks.forEach(link => { link.classList.remove('active'); if (link.getAttribute('href') === '#' + current) link.classList.add('active'); });
 });
 
-// Hamburger
 const hamburger = document.getElementById('hamburger');
 const navLinksEl = document.getElementById('navLinks');
 hamburger.addEventListener('click', () => navLinksEl.classList.toggle('open'));
-navLinksEl.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => navLinksEl.classList.remove('open'));
-});
+navLinksEl.querySelectorAll('a').forEach(a => { a.addEventListener('click', () => navLinksEl.classList.remove('open')); });
 
 // Scroll Reveal
 const revealEls = document.querySelectorAll('.reveal');
 const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-        }
-    });
+    entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
 }, { threshold: 0.08, rootMargin: '0px 0px -60px 0px' });
 revealEls.forEach(el => revealObserver.observe(el));
 
 // Gallery Filter
-const filterBtns = document.querySelectorAll('.filter-btn');
-const galleryItems = document.querySelectorAll('.gallery-item');
-filterBtns.forEach(btn => {
+document.querySelectorAll('.filter-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-        filterBtns.forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         const filter = btn.dataset.filter;
-        galleryItems.forEach(item => {
+        document.querySelectorAll('.gallery-item').forEach(item => {
             item.classList.toggle('hidden', filter !== 'all' && item.dataset.category !== filter);
         });
     });
@@ -1207,26 +886,9 @@ filterBtns.forEach(btn => {
 const lightbox = document.getElementById('lightbox');
 const lightboxImg = document.getElementById('lightboxImg');
 const lightboxCaption = document.getElementById('lightboxCaption');
-
-function openLightbox(imgEl) {
-    lightboxImg.src = imgEl.src;
-    lightboxCaption.textContent = imgEl.alt;
-    lightbox.classList.add('active');
-    document.body.style.overflow = 'hidden';
-}
-function closeLightbox(e) {
-    if (e.target === lightbox || e.target.closest('.lightbox-close')) {
-        lightbox.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-}
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-        lightbox.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-});
+function openLightbox(imgEl) { lightboxImg.src = imgEl.src; lightboxCaption.textContent = imgEl.alt; lightbox.classList.add('active'); document.body.style.overflow = 'hidden'; }
+function closeLightbox(e) { if (e.target === lightbox || e.target.closest('.lightbox-close')) { lightbox.classList.remove('active'); document.body.style.overflow = ''; } }
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { lightbox.classList.remove('active'); document.body.style.overflow = ''; } });
 </script>
-
 </body>
 </html>
