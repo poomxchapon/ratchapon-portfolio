@@ -259,7 +259,126 @@
             .hero-text h1 { font-size: 2.2rem; letter-spacing: -1px; }
             .skills-grid { grid-template-columns: 1fr; } .hero-stats { gap: 0.5rem; }
         }
+        /* Chatbot */
+        .chat-btn {
+            position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 998;
+            width: 56px; height: 56px; border-radius: 50%; border: none; cursor: pointer;
+            background: linear-gradient(135deg, var(--accent), #e8d48b);
+            box-shadow: 0 4px 24px rgba(201,162,39,0.35);
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.3s var(--transition);
+        }
+        .chat-btn:hover { transform: scale(1.08); box-shadow: 0 6px 32px rgba(201,162,39,0.5); }
+        .chat-btn svg { width: 26px; height: 26px; fill: #050505; }
+        .chat-btn.open { transform: rotate(90deg) scale(1); }
+
+        .chat-panel {
+            position: fixed; bottom: 5.5rem; right: 1.5rem; z-index: 997;
+            width: 380px; max-height: 560px; border-radius: var(--radius);
+            background: var(--bg-surface); border: 1px solid var(--border);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            display: flex; flex-direction: column;
+            opacity: 0; visibility: hidden; transform: translateY(16px) scale(0.96);
+            transition: all 0.3s var(--transition);
+        }
+        .chat-panel.open { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
+
+        .chat-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 1rem 1.25rem; border-bottom: 1px solid var(--border); flex-shrink: 0;
+        }
+        .chat-header-info { display: flex; align-items: center; gap: 0.65rem; }
+        .chat-header-avatar {
+            width: 34px; height: 34px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), #e8d48b);
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        .chat-header-avatar svg { width: 18px; height: 18px; fill: #050505; }
+        .chat-header-name { font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 0.88rem; }
+        .chat-header-status { font-size: 0.65rem; color: var(--text-dim); }
+        .chat-close {
+            width: 30px; height: 30px; border-radius: 8px; border: none; cursor: pointer;
+            background: rgba(255,255,255,0.04); color: var(--text-dim);
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s var(--transition);
+        }
+        .chat-close:hover { background: rgba(255,255,255,0.08); color: var(--text); }
+
+        .chat-messages {
+            flex: 1; overflow-y: auto; padding: 1rem 1rem 0.5rem;
+            display: flex; flex-direction: column; gap: 0.65rem;
+            scrollbar-width: thin; scrollbar-color: var(--accent) transparent;
+        }
+        .chat-messages::-webkit-scrollbar { width: 3px; }
+        .chat-messages::-webkit-scrollbar-thumb { background: rgba(201,162,39,0.3); border-radius: 2px; }
+
+        .chat-msg { max-width: 85%; padding: 0.65rem 0.9rem; border-radius: 14px; font-size: 0.82rem; line-height: 1.6; word-break: break-word; animation: msgIn 0.25s var(--transition); }
+        @keyframes msgIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        .chat-msg.bot { align-self: flex-start; background: rgba(255,255,255,0.06); color: var(--text); border-bottom-left-radius: 4px; }
+        .chat-msg.user { align-self: flex-end; background: var(--accent); color: #050505; border-bottom-right-radius: 4px; font-weight: 500; }
+
+        .chat-suggestions { display: flex; flex-wrap: wrap; gap: 0.35rem; padding: 0 1rem 0.5rem; }
+        .chat-suggest-btn {
+            padding: 0.3rem 0.7rem; border-radius: 999px; border: 1px solid rgba(201,162,39,0.2);
+            background: rgba(201,162,39,0.06); color: var(--accent); font-size: 0.68rem; font-weight: 600;
+            cursor: pointer; font-family: 'Space Grotesk', sans-serif;
+            transition: all 0.2s var(--transition);
+        }
+        .chat-suggest-btn:hover { background: rgba(201,162,39,0.15); border-color: rgba(201,162,39,0.35); }
+
+        .chat-typing { display: flex; gap: 4px; align-items: center; padding: 0.65rem 0.9rem; align-self: flex-start; }
+        .chat-typing span {
+            width: 6px; height: 6px; border-radius: 50%; background: var(--text-dim);
+            animation: typingBounce 1.2s infinite;
+        }
+        .chat-typing span:nth-child(2) { animation-delay: 0.15s; }
+        .chat-typing span:nth-child(3) { animation-delay: 0.3s; }
+        @keyframes typingBounce { 0%, 60%, 100% { transform: translateY(0); opacity: 0.4; } 30% { transform: translateY(-6px); opacity: 1; } }
+
+        .chat-input-area {
+            display: flex; gap: 0.5rem; padding: 0.75rem 1rem; border-top: 1px solid var(--border); flex-shrink: 0;
+        }
+        .chat-input {
+            flex: 1; padding: 0.55rem 0.85rem; border-radius: 10px; border: 1px solid var(--border);
+            background: rgba(255,255,255,0.04); color: var(--text); font-size: 0.82rem;
+            font-family: 'Space Grotesk', 'Noto Sans Thai', sans-serif; outline: none;
+            transition: border-color 0.2s var(--transition);
+        }
+        .chat-input::placeholder { color: var(--text-dim); }
+        .chat-input:focus { border-color: rgba(201,162,39,0.4); }
+        .chat-send {
+            width: 38px; height: 38px; border-radius: 10px; border: none; cursor: pointer;
+            background: var(--accent); color: #050505;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s var(--transition); flex-shrink: 0;
+        }
+        .chat-send:hover { background: #e8d48b; }
+        .chat-send:disabled { opacity: 0.4; cursor: not-allowed; }
+        .chat-send svg { width: 18px; height: 18px; }
+
+        /* Markdown in chat */
+        .chat-msg.bot p { margin: 0 0 0.4em; }
+        .chat-msg.bot p:last-child { margin-bottom: 0; }
+        .chat-msg.bot strong { color: var(--accent); font-weight: 700; }
+        .chat-msg.bot a { color: var(--accent-2); text-decoration: underline; text-underline-offset: 2px; cursor: pointer; transition: color 0.2s; }
+        .chat-msg.bot a:hover { color: var(--accent); }
+        .chat-msg.bot code { background: rgba(255,255,255,0.08); padding: 0.1em 0.35em; border-radius: 4px; font-size: 0.78em; }
+        .chat-msg.bot ul, .chat-msg.bot ol { margin: 0.3em 0; padding-left: 1.2em; }
+        .chat-msg.bot li { margin-bottom: 0.15em; }
+
+        @media (max-width: 768px) {
+            .chat-btn { width: 48px; height: 48px; bottom: 1rem; right: 1rem; }
+            .chat-btn svg { width: 22px; height: 22px; }
+            .chat-panel {
+                width: calc(100% - 1.5rem); right: 0.75rem; bottom: 4.5rem;
+                max-height: calc(100vh - 6rem); border-radius: 14px;
+            }
+        }
+        @media (max-width: 480px) {
+            .chat-panel { width: calc(100% - 1rem); right: 0.5rem; bottom: 4rem; max-height: calc(100vh - 5rem); }
+        }
     </style>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
 
@@ -605,6 +724,31 @@
     <img id="lightboxImg" src="" alt=""><div class="lightbox-caption" id="lightboxCaption"></div>
 </div>
 
+<!-- Chatbot -->
+<button class="chat-btn" id="chatBtn" aria-label="Open chat" onclick="toggleChat()">
+    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.04 2 11c0 2.76 1.44 5.22 3.68 6.82L4.53 21.8a.5.5 0 0 0 .73.54L9.6 20.15c.77.17 1.57.25 2.4.25 5.52 0 10-4.04 10-9S17.52 2 12 2zm-1 12.5a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5zm2 0a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5zm2 0a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5z"/></svg>
+</button>
+<div class="chat-panel" id="chatPanel">
+    <div class="chat-header">
+        <div class="chat-header-info">
+            <div class="chat-header-avatar"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.04 2 11c0 2.76 1.44 5.22 3.68 6.82L4.53 21.8a.5.5 0 0 0 .73.54L9.6 20.15c.77.17 1.57.25 2.4.25 5.52 0 10-4.04 10-9S17.52 2 12 2z"/></svg></div>
+            <div>
+                <div class="chat-header-name">Poom But Bot</div>
+                <div class="chat-header-status" data-i18n="bot.status">Ask me anything</div>
+            </div>
+        </div>
+        <button class="chat-close" onclick="toggleChat()" aria-label="Close chat">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+    </div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="chat-suggestions" id="chatSuggestions"></div>
+    <div class="chat-input-area">
+        <input type="text" class="chat-input" id="chatInput" data-i18n-placeholder="bot.placeholder" placeholder="Ask about Poom..." autocomplete="off">
+        <button class="chat-send" id="chatSend" onclick="sendMessage()" aria-label="Send"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+    </div>
+</div>
+
 <footer><div class="footer-line"></div><p>Ratchapon Lungmart &copy; 2026</p></footer>
 
 <script>
@@ -654,7 +798,11 @@ en: {
     'filter.all': 'All', 'filter.workshop': 'Workshops', 'filter.gamejam': 'Game Jam',
     'filter.project': 'Projects', 'filter.speaking': 'Speaking',
     'contact.heading': "Let's Connect", 'contact.desc': 'Interested in collaboration? Feel free to reach out.',
-    'contact.email': 'Email', 'contact.phone': 'Phone', 'contact.portfolio': 'Portfolio', 'contact.thispage': 'This Page'
+    'contact.email': 'Email', 'contact.phone': 'Phone', 'contact.portfolio': 'Portfolio', 'contact.thispage': 'This Page',
+    'bot.status': 'Ask me anything', 'bot.placeholder': 'Ask about Poom...',
+    'bot.welcome': "Hi! I'm Poom But Bot — ask me anything about Ratchapon's skills, experience, or projects!",
+    'bot.error': 'Oops, something went wrong. Please try again.',
+    'bot.q1': 'What are your skills?', 'bot.q2': 'Tell me about your experience', 'bot.q3': 'How to contact you?'
 },
 th: {
     'nav.home': 'หน้าแรก', 'nav.about': 'เกี่ยวกับ', 'nav.experience': 'ประสบการณ์',
@@ -698,7 +846,11 @@ th: {
     'filter.all': 'ทั้งหมด', 'filter.workshop': 'Workshop', 'filter.gamejam': 'Game Jam',
     'filter.project': 'โปรเจกต์', 'filter.speaking': 'วิทยากร',
     'contact.heading': 'มาเชื่อมต่อกัน', 'contact.desc': 'สนใจร่วมงานกัน? ติดต่อมาได้เลย',
-    'contact.email': 'อีเมล', 'contact.phone': 'โทรศัพท์', 'contact.portfolio': 'ผลงาน', 'contact.thispage': 'หน้านี้'
+    'contact.email': 'อีเมล', 'contact.phone': 'โทรศัพท์', 'contact.portfolio': 'ผลงาน', 'contact.thispage': 'หน้านี้',
+    'bot.status': 'ถามอะไรก็ได้', 'bot.placeholder': 'ถามเกี่ยวกับภูมิ...',
+    'bot.welcome': 'สวัสดีครับ! ผมคือ Poom But Bot — ถามเกี่ยวกับทักษะ ประสบการณ์ หรือผลงานของรัชพลได้เลย!',
+    'bot.error': 'อุ๊ปส์ มีข้อผิดพลาดเกิดขึ้น ลองใหม่อีกครั้งนะครับ',
+    'bot.q1': 'มีทักษะอะไรบ้าง?', 'bot.q2': 'เล่าประสบการณ์หน่อย', 'bot.q3': 'ติดต่อยังไง?'
 },
 ko: {
     'nav.home': '홈', 'nav.about': '소개', 'nav.experience': '경력',
@@ -742,7 +894,11 @@ ko: {
     'filter.all': '전체', 'filter.workshop': '워크숍', 'filter.gamejam': '게임 잼',
     'filter.project': '프로젝트', 'filter.speaking': '강연',
     'contact.heading': '연결합시다', 'contact.desc': '협업에 관심이 있으시면 편하게 연락주세요.',
-    'contact.email': '이메일', 'contact.phone': '전화', 'contact.portfolio': '포트폴리오', 'contact.thispage': '이 페이지'
+    'contact.email': '이메일', 'contact.phone': '전화', 'contact.portfolio': '포트폴리오', 'contact.thispage': '이 페이지',
+    'bot.status': '무엇이든 물어보세요', 'bot.placeholder': 'Poom에 대해 물어보세요...',
+    'bot.welcome': '안녕하세요! 저는 Poom But Bot입니다 — Ratchapon의 기술, 경력, 프로젝트에 대해 무엇이든 물어보세요!',
+    'bot.error': '이런, 문제가 발생했습니다. 다시 시도해주세요.',
+    'bot.q1': '어떤 기술이 있나요?', 'bot.q2': '경력을 알려주세요', 'bot.q3': '어떻게 연락하나요?'
 },
 zh: {
     'nav.home': '首页', 'nav.about': '关于', 'nav.experience': '经历',
@@ -786,7 +942,11 @@ zh: {
     'filter.all': '全部', 'filter.workshop': '工作坊', 'filter.gamejam': '游戏创作营',
     'filter.project': '项目', 'filter.speaking': '演讲',
     'contact.heading': '建立联系', 'contact.desc': '有合作意向？欢迎随时联系。',
-    'contact.email': '邮箱', 'contact.phone': '电话', 'contact.portfolio': '作品集', 'contact.thispage': '本页面'
+    'contact.email': '邮箱', 'contact.phone': '电话', 'contact.portfolio': '作品集', 'contact.thispage': '本页面',
+    'bot.status': '随时提问', 'bot.placeholder': '问关于Poom的问题...',
+    'bot.welcome': '你好！我是 Poom But Bot — 随时问我关于Ratchapon的技能、经历或项目！',
+    'bot.error': '哎呀，出了点问题。请再试一次。',
+    'bot.q1': '有什么技能？', 'bot.q2': '介绍一下经历', 'bot.q3': '怎么联系？'
 }
 };
 
@@ -816,6 +976,11 @@ function switchLang(lang) {
     // Reset typed text
     titles = typedTitles[lang] || typedTitles.en;
     titleIndex = 0; charIndex = 0; isDeleting = false;
+    // Update chatbot placeholder
+    const botInput = document.getElementById('chatInput');
+    if (botInput && t['bot.placeholder']) botInput.placeholder = t['bot.placeholder'];
+    // Update suggestions if chat is open
+    if (typeof showSuggestions === 'function' && document.getElementById('chatSuggestions')?.children.length > 0) showSuggestions();
 }
 
 // ═══════════════════════════════════════
@@ -889,6 +1054,220 @@ const lightboxCaption = document.getElementById('lightboxCaption');
 function openLightbox(imgEl) { lightboxImg.src = imgEl.src; lightboxCaption.textContent = imgEl.alt; lightbox.classList.add('active'); document.body.style.overflow = 'hidden'; }
 function closeLightbox(e) { if (e.target === lightbox || e.target.closest('.lightbox-close')) { lightbox.classList.remove('active'); document.body.style.overflow = ''; } }
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { lightbox.classList.remove('active'); document.body.style.overflow = ''; } });
+
+// ═══════════════════════════════════════
+// Poom But Bot — AI Chatbot (Gemini)
+// ═══════════════════════════════════════
+const WORKER_URL = 'https://poom-gemini-proxy.starzapoomie.workers.dev/api/chat';
+
+// Configure marked — open external links in new tab, keep internal #hash links
+if (typeof marked !== 'undefined') {
+    const renderer = new marked.Renderer();
+    const origLink = renderer.link.bind(renderer);
+    renderer.link = function({ href, title, tokens }) {
+        const text = this.parser.parseInline(tokens);
+        if (href && href.startsWith('#')) {
+            return `<a href="${href}">${text}</a>`;
+        }
+        return `<a href="${href}" target="_blank" rel="noopener">${text}</a>`;
+    };
+    marked.setOptions({ renderer, breaks: true });
+}
+
+const SYSTEM_PROMPT = `You are "Poom But Bot", a friendly AI assistant on Ratchapon (Poom) Lungmart's portfolio website. Answer questions about Poom based on these facts:
+
+PERSONAL:
+- Full name: Ratchapon Lungmart (รัชพล ลุงมาด) — nickname "Poom" (ภูมิ)
+- Born: April 13, 2000
+- Education: Bachelor's degree, College of Arts, Media and Technology (CAMT), Chiang Mai University — Digital Game major (Class of 2022)
+- Location: Chiang Mai, Thailand
+
+CURRENT ROLE:
+- NDF DEV (2024-Present): Graphic Designer, Junior Project Manager, Generative Media Designer
+- Creates presentations, video editing, generative AI media
+- Built "WorkSpace System" — task management platform with login, dashboard, Kanban, GPS clock-in, AI ChatBot "Skynet"
+- Developed Beat Detection tool for rhythm games
+- Working on Fortal Interactive — LED floor grid interactive games
+
+RESEARCH:
+- ACMod (Affective Computing Models) — Horizon Europe MSCA project at CAMT, CMU
+- Live demo of facial expression AI limitations in cross-cultural contexts
+- Shows how Western-trained emotion models fail to distinguish 13 nuanced Thai smiles
+- Preparing for research visit at Bournemouth University, UK (mid-2026)
+- Submitted to SIGGRAPH 2026
+
+WORKSHOPS & SPEAKING:
+- SmartGOV LEADERS Bootcamp — Speaker on AI & DATA for Public Service
+- R.nime Gen AI — Lead Instructor (DEPA x CMU x CAMT x NDF Dev), taught 4 institutions
+- MEDIA X: Creative Convergence — Immersive Tech & AI participant
+- RVY Speaker Series — Guest Speaker on AI & Creative Technology
+- 10+ workshops led
+
+ACHIEVEMENTS:
+- 1st Place — AI Animation Competition "Vote for the Future" at Creative Chiang Mai (May 2025), 23,000 THB prize
+- YSEALI Game Changers — Selected as 1 of 50 youth across Asia (US Embassy KL, May 2023)
+- Taklee Genesis (Feature Film) — Rotoscope Artist, 52 VFX shots
+
+SKILLS:
+- Development: Unity/C#, Python, HTML/CSS/JS, Web App, ChatBot/Agent, Git
+- Design: Figma, Adobe Suite, Blender, UX/UI, Video Editing, Rotoscoping
+- AI: Generative AI, Prompt Engineering, AI Animation, AI Workflow, AR/VR/XR, ComfyUI
+- Management: Project Mgmt, Agile/Scrum, Workshop Design, Public Speaking, Leadership
+
+SIDE PROJECTS & APPS (built with AI-assisted workflow):
+- "Dorami" — AI Secretary bot on Telegram (Vercel + Google AI + Supabase), handles scheduling, reminders, task automation
+- "Oracle v2" — MCP Memory Layer with semantic search & knowledge management (Bun + TypeScript + SQLite + ChromaDB), open-source
+- "Trakjai" — Personal expense tracker web app (Next.js + Firebase + Tailwind CSS), with charts, budget tracking, Google Sign-In
+- "Office Oracle" — Corporate team profiling & notification system (Python + Telegram bot)
+- "Game Portal" — 18 interactive web games for LED floor grid (6×15 tiles, 3m×6m physical floor) for Fortal Interactive, deployed as static site
+- "Fortal Battle Ground" — 3-player co-op territory control game (Three.js + PeerJS/WebRTC), 3 roles: Vanguard, Striker, Commander
+- "Nano-Clean Squad" — 3D game concept (Three.js + MeshyAI) for cleaning microscopic environments
+- Various lab prototypes: dungeon crawler, co-op multiplayer demo, classroom games, QR code map tool
+- "Friday" — Personal Oracle / External Brain system with append-only philosophy, multi-agent architecture, knowledge graph
+- Built entire game design curriculum with AI-assisted workflow for teaching
+
+These projects demonstrate: full-stack web dev, AI integration, 3D/WebGL, P2P multiplayer, cloud architecture (Firebase/Supabase/Vercel), game design, and human-centered AI tools.
+
+CONTACT:
+- Email: Poomie@live.com
+- Phone: 061-265-4000
+- GitHub: github.com/poomxchapon
+- LinkedIn: linkedin.com/in/ratchapon-lungmart
+- Portfolio: this website (poomxchapon.github.io/ratchapon-portfolio)
+
+RULES:
+- Be concise (2-4 sentences). Use casual, friendly tone.
+- Refer to the owner as "Poom" or "ภูมิ" only. NEVER use their full real name in responses.
+- If the user speaks Thai, respond in Thai. Match the user's language.
+- Only answer about Poom. If asked unrelated questions, politely redirect.
+- Never invent information not listed above.
+- You may use **bold** for emphasis and markdown links.
+- When relevant, include a link to the matching section on this page:
+  - Skills → [ดูทักษะทั้งหมด](#skills) or [View all skills](#skills)
+  - Experience → [ดูประสบการณ์](#experience) or [View experience](#experience)
+  - Gallery / Portfolio → [ดูแกลเลอรี](#gallery) or [View gallery](#gallery)
+  - Contact → [ติดต่อ](#contact) or [Contact Poom](#contact)
+  - About → [เกี่ยวกับภูมิ](#about) or [About Poom](#about)
+  Only include ONE relevant link per response, placed naturally at the end.`;
+
+const chatPanel = document.getElementById('chatPanel');
+const chatBtn = document.getElementById('chatBtn');
+const chatMessages = document.getElementById('chatMessages');
+const chatInput = document.getElementById('chatInput');
+const chatSendBtn = document.getElementById('chatSend');
+const chatSuggestions = document.getElementById('chatSuggestions');
+let chatHistory = [];
+let chatOpen = false;
+let chatInitialized = false;
+
+function toggleChat() {
+    chatOpen = !chatOpen;
+    chatPanel.classList.toggle('open', chatOpen);
+    chatBtn.classList.toggle('open', chatOpen);
+    if (chatOpen && !chatInitialized) {
+        chatInitialized = true;
+        const t = i18n[currentLang] || i18n.en;
+        addMessage(t['bot.welcome'], 'bot');
+        showSuggestions();
+    }
+    if (chatOpen) chatInput.focus();
+}
+
+function showSuggestions() {
+    const t = i18n[currentLang] || i18n.en;
+    chatSuggestions.innerHTML = '';
+    ['bot.q1', 'bot.q2', 'bot.q3'].forEach(key => {
+        const btn = document.createElement('button');
+        btn.className = 'chat-suggest-btn';
+        btn.textContent = t[key];
+        btn.onclick = () => { chatInput.value = t[key]; sendMessage(); };
+        chatSuggestions.appendChild(btn);
+    });
+}
+
+function addMessage(text, role) {
+    const div = document.createElement('div');
+    div.className = `chat-msg ${role}`;
+    if (role === 'bot' && typeof marked !== 'undefined') {
+        div.innerHTML = marked.parse(text);
+        // Deep link handler: click #section links → scroll + close chat
+        div.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.querySelector(a.getAttribute('href'));
+                if (target) {
+                    chatOpen = false;
+                    chatPanel.classList.remove('open');
+                    chatBtn.classList.remove('open');
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    } else {
+        div.textContent = text;
+    }
+    chatMessages.appendChild(div);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function showTyping() {
+    const div = document.createElement('div');
+    div.className = 'chat-typing';
+    div.id = 'chatTyping';
+    div.innerHTML = '<span></span><span></span><span></span>';
+    chatMessages.appendChild(div);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function hideTyping() {
+    const el = document.getElementById('chatTyping');
+    if (el) el.remove();
+}
+
+async function sendMessage() {
+    const text = chatInput.value.trim();
+    if (!text) return;
+
+    addMessage(text, 'user');
+    chatInput.value = '';
+    chatSendBtn.disabled = true;
+    chatSuggestions.innerHTML = '';
+    showTyping();
+
+    chatHistory.push({ role: 'user', parts: [{ text }] });
+    if (chatHistory.length > 20) chatHistory = chatHistory.slice(-20);
+
+    try {
+        const reply = await callGemini(text);
+        hideTyping();
+        addMessage(reply, 'bot');
+        chatHistory.push({ role: 'model', parts: [{ text: reply }] });
+    } catch (err) {
+        hideTyping();
+        const t = i18n[currentLang] || i18n.en;
+        addMessage(t['bot.error'], 'bot');
+    }
+    chatSendBtn.disabled = false;
+    chatInput.focus();
+}
+
+async function callGemini() {
+    const res = await fetch(WORKER_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            messages: chatHistory,
+            systemPrompt: SYSTEM_PROMPT
+        })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || `API error ${res.status}`);
+    return data.reply || 'Sorry, I could not generate a response.';
+}
+
+chatInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey && !chatSendBtn.disabled) { e.preventDefault(); sendMessage(); }
+});
 </script>
 </body>
 </html>
