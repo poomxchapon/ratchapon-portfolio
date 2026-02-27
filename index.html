@@ -356,6 +356,16 @@
         .chat-send:disabled { opacity: 0.4; cursor: not-allowed; }
         .chat-send svg { width: 18px; height: 18px; }
 
+        /* Markdown in chat */
+        .chat-msg.bot p { margin: 0 0 0.4em; }
+        .chat-msg.bot p:last-child { margin-bottom: 0; }
+        .chat-msg.bot strong { color: var(--accent); font-weight: 700; }
+        .chat-msg.bot a { color: var(--accent-2); text-decoration: underline; text-underline-offset: 2px; cursor: pointer; transition: color 0.2s; }
+        .chat-msg.bot a:hover { color: var(--accent); }
+        .chat-msg.bot code { background: rgba(255,255,255,0.08); padding: 0.1em 0.35em; border-radius: 4px; font-size: 0.78em; }
+        .chat-msg.bot ul, .chat-msg.bot ol { margin: 0.3em 0; padding-left: 1.2em; }
+        .chat-msg.bot li { margin-bottom: 0.15em; }
+
         @media (max-width: 768px) {
             .chat-btn { width: 48px; height: 48px; bottom: 1rem; right: 1rem; }
             .chat-btn svg { width: 22px; height: 22px; }
@@ -368,6 +378,7 @@
             .chat-panel { width: calc(100% - 1rem); right: 0.5rem; bottom: 4rem; max-height: calc(100vh - 5rem); }
         }
     </style>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
 
@@ -1047,9 +1058,21 @@ document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { lightbox
 // ═══════════════════════════════════════
 // Poom But Bot — AI Chatbot (Gemini)
 // ═══════════════════════════════════════
-const GEMINI_API_KEY = 'AIzaSyCae4NXhUzUJ4ukuqaxpK5K9ivn2VGiQXo';
-const GEMINI_MODEL = 'gemini-2.0-flash';
-const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`;
+const WORKER_URL = 'https://poom-gemini-proxy.starzapoomie.workers.dev/api/chat';
+
+// Configure marked — open external links in new tab, keep internal #hash links
+if (typeof marked !== 'undefined') {
+    const renderer = new marked.Renderer();
+    const origLink = renderer.link.bind(renderer);
+    renderer.link = function({ href, title, tokens }) {
+        const text = this.parser.parseInline(tokens);
+        if (href && href.startsWith('#')) {
+            return `<a href="${href}">${text}</a>`;
+        }
+        return `<a href="${href}" target="_blank" rel="noopener">${text}</a>`;
+    };
+    marked.setOptions({ renderer, breaks: true });
+}
 
 const SYSTEM_PROMPT = `You are "Poom But Bot", a friendly AI assistant on Ratchapon (Poom) Lungmart's portfolio website. Answer questions about Poom based on these facts:
 
@@ -1117,7 +1140,15 @@ RULES:
 - Refer to the owner as "Poom" or "ภูมิ" only. NEVER use their full real name in responses.
 - If the user speaks Thai, respond in Thai. Match the user's language.
 - Only answer about Poom. If asked unrelated questions, politely redirect.
-- Never invent information not listed above.`;
+- Never invent information not listed above.
+- You may use **bold** for emphasis and markdown links.
+- When relevant, include a link to the matching section on this page:
+  - Skills → [ดูทักษะทั้งหมด](#skills) or [View all skills](#skills)
+  - Experience → [ดูประสบการณ์](#experience) or [View experience](#experience)
+  - Gallery / Portfolio → [ดูแกลเลอรี](#gallery) or [View gallery](#gallery)
+  - Contact → [ติดต่อ](#contact) or [Contact Poom](#contact)
+  - About → [เกี่ยวกับภูมิ](#about) or [About Poom](#about)
+  Only include ONE relevant link per response, placed naturally at the end.`;
 
 const chatPanel = document.getElementById('chatPanel');
 const chatBtn = document.getElementById('chatBtn');
@@ -1157,7 +1188,24 @@ function showSuggestions() {
 function addMessage(text, role) {
     const div = document.createElement('div');
     div.className = `chat-msg ${role}`;
-    div.textContent = text;
+    if (role === 'bot' && typeof marked !== 'undefined') {
+        div.innerHTML = marked.parse(text);
+        // Deep link handler: click #section links → scroll + close chat
+        div.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.querySelector(a.getAttribute('href'));
+                if (target) {
+                    chatOpen = false;
+                    chatPanel.classList.remove('open');
+                    chatBtn.classList.remove('open');
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    } else {
+        div.textContent = text;
+    }
     chatMessages.appendChild(div);
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
@@ -1204,23 +1252,17 @@ async function sendMessage() {
 }
 
 async function callGemini() {
-    const res = await fetch(GEMINI_URL, {
+    const res = await fetch(WORKER_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
-            contents: chatHistory,
-            generationConfig: { temperature: 0.7, maxOutputTokens: 512 }
+            messages: chatHistory,
+            systemPrompt: SYSTEM_PROMPT
         })
     });
-    if (!res.ok) {
-        const errData = await res.json().catch(() => ({}));
-        throw new Error(errData.error?.message || `API error ${res.status}`);
-    }
     const data = await res.json();
-    const candidate = data.candidates?.[0];
-    if (candidate?.finishReason === 'SAFETY') throw new Error('Safety filter');
-    return candidate?.content?.parts?.[0]?.text || 'Sorry, I could not generate a response.';
+    if (!res.ok) throw new Error(data.error || `API error ${res.status}`);
+    return data.reply || 'Sorry, I could not generate a response.';
 }
 
 chatInput.addEventListener('keydown', (e) => {
