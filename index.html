@@ -107,9 +107,11 @@
 
         /* Hero */
         .hero { min-height: 100vh; display: flex; align-items: center; position: relative; overflow: hidden; padding: 6rem 0 4rem; }
-        .hero-bg-orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; opacity: 0.12; }
+        .hero-bg-orb { position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none; opacity: 0.12; animation: orbFloat 8s ease-in-out infinite; }
         .hero-bg-orb.orb-1 { width: 500px; height: 500px; top: -100px; right: -100px; background: var(--accent); }
-        .hero-bg-orb.orb-2 { width: 400px; height: 400px; bottom: -80px; left: -80px; background: var(--accent-2); }
+        .hero-bg-orb.orb-2 { width: 400px; height: 400px; bottom: -80px; left: -80px; background: var(--accent-2); animation-delay: -4s; }
+        .hero-bg-orb.orb-3 { width: 300px; height: 300px; top: 40%; left: 50%; background: var(--accent-3); opacity: 0.06; animation-delay: -2s; }
+        @keyframes orbFloat { 0%, 100% { transform: translate(0, 0) scale(1); } 33% { transform: translate(30px, -20px) scale(1.05); } 66% { transform: translate(-20px, 15px) scale(0.95); } }
         .hero-content { position: relative; z-index: 1; width: 100%; }
         .hero-top { display: flex; align-items: center; gap: 2.5rem; margin-bottom: 3rem; }
         .hero-avatar-wrap { position: relative; flex-shrink: 0; }
@@ -126,6 +128,10 @@
         .badge-gold { background: var(--accent-glow); color: var(--accent); border-color: rgba(201,162,39,0.2); }
         .badge-teal { background: rgba(0,206,201,0.1); color: var(--accent-2); border-color: rgba(0,206,201,0.2); }
         .badge svg { width: 12px; height: 12px; }
+        .hero-social { display: flex; gap: 0.5rem; margin-top: 1rem; }
+        .hero-social a { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 10px; border: 1px solid var(--border); color: var(--text-dim); transition: all 0.25s var(--transition); cursor: pointer; }
+        .hero-social a:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-glow); transform: translateY(-2px); }
+        .hero-social a svg { width: 16px; height: 16px; }
         .hero-cta { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
         .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.7rem 1.5rem; border-radius: 10px; font-size: 0.82rem; font-weight: 600; text-decoration: none; transition: all 0.3s var(--transition); cursor: pointer; font-family: 'Space Grotesk', sans-serif; border: none; }
         .btn svg { width: 16px; height: 16px; }
@@ -154,12 +160,18 @@
         .section-desc { color: var(--text-muted); font-size: 0.92rem; max-width: 480px; }
 
         /* Card */
-        .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: all 0.35s var(--transition); cursor: pointer; }
+        .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: all 0.35s var(--transition); cursor: pointer; position: relative; }
         .card:hover { border-color: var(--border-hover); transform: translateY(-3px); box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
+        .card::before { content: ''; position: absolute; inset: 0; border-radius: inherit; opacity: 0; transition: opacity 0.4s var(--transition); background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(201,162,39,0.04), transparent 40%); pointer-events: none; z-index: 0; }
+        .card:hover::before { opacity: 1; }
         .card-pad { padding: 1.75rem; }
 
         /* About */
         .about-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 1.25rem; }
+        .about-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-top: 1rem; }
+        .about-fact { padding: 0.75rem; border-radius: var(--radius-sm); background: rgba(255,255,255,0.02); border: 1px solid var(--border); }
+        .about-fact-label { font-size: 0.6rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-dim); margin-bottom: 0.2rem; }
+        .about-fact-value { font-size: 0.82rem; font-weight: 600; color: var(--accent); }
         .about-photo { border-radius: var(--radius); overflow: hidden; min-height: 380px; }
         .about-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s var(--transition); }
         .about-photo:hover img { transform: scale(1.04); }
@@ -168,7 +180,9 @@
 
         /* Experience */
         .exp-grid { display: flex; flex-direction: column; gap: 1rem; }
-        .exp-card { padding: 2rem; position: relative; }
+        .exp-card { padding: 2rem; position: relative; border-left: 3px solid transparent; }
+        .exp-card:nth-child(odd):not(.featured) { border-left-color: var(--accent); }
+        .exp-card:nth-child(even):not(.featured) { border-left-color: var(--accent-2); }
         .exp-card.featured { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; background: linear-gradient(135deg, rgba(201,162,39,0.04), rgba(0,206,201,0.03)); border-color: rgba(201,162,39,0.1); }
         .exp-card.featured:hover { border-color: rgba(201,162,39,0.2); }
         .exp-date { font-size: 0.68rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 0.5rem; color: var(--accent); }
@@ -194,6 +208,10 @@
         /* Skills */
         .skills-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
         .skill-card { padding: 1.5rem; }
+        .skill-card.featured { grid-column: span 2; background: linear-gradient(135deg, rgba(0,206,201,0.04), rgba(167,139,250,0.03)); border-color: rgba(0,206,201,0.1); }
+        .skill-card.featured:hover { border-color: rgba(0,206,201,0.2); }
+        .skill-card.featured .skill-tags { gap: 0.4rem; }
+        .skill-card.featured .skill-tag { padding: 0.28rem 0.75rem; font-size: 0.7rem; }
         .skill-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; }
         .skill-icon svg { width: 20px; height: 20px; }
         .skill-card h3 { font-family: 'Archivo', sans-serif; font-size: 0.9rem; font-weight: 700; margin-bottom: 0.85rem; }
@@ -211,6 +229,7 @@
         .filter-btn:hover { border-color: var(--border-hover); color: var(--text-muted); }
         .filter-btn.active { background: var(--accent-glow); border-color: rgba(201,162,39,0.3); color: var(--accent); }
         .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.75rem; }
+        .gallery-item.featured-gallery { grid-column: span 2; grid-row: span 2; aspect-ratio: auto; }
         .gallery-item { border-radius: var(--radius-sm); overflow: hidden; cursor: pointer; position: relative; aspect-ratio: 4/3; border: 1px solid var(--border); transition: all 0.4s var(--transition); }
         .gallery-item.hidden { display: none; }
         .gallery-item:hover { border-color: var(--border-hover); transform: scale(1.02); }
@@ -236,28 +255,53 @@
         .contact-card h3 { font-family: 'Archivo', sans-serif; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.3rem; color: var(--text); }
         .contact-card p { font-size: 0.75rem; color: var(--accent-2); font-weight: 500; word-break: break-all; }
 
+        /* Floating Social Sidebar */
+        .social-sidebar {
+            position: fixed; left: 1.5rem; bottom: 0; z-index: 50;
+            display: flex; flex-direction: column; align-items: center; gap: 0.75rem;
+        }
+        .social-sidebar::after { content: ''; width: 1px; height: 80px; background: var(--border); }
+        .social-sidebar a {
+            display: flex; align-items: center; justify-content: center; width: 36px; height: 36px;
+            color: var(--text-dim); transition: all 0.25s var(--transition); cursor: pointer;
+        }
+        .social-sidebar a:hover { color: var(--accent); transform: translateY(-3px); }
+        .social-sidebar a svg { width: 18px; height: 18px; }
+        @media (max-width: 1024px) { .social-sidebar { display: none; } }
+
         /* Footer */
-        footer { text-align: center; padding: 4rem 2rem 2rem; }
+        footer { text-align: center; padding: 4rem 2rem 2rem; border-top: 1px solid var(--border); }
+        .footer-inner { max-width: 1120px; margin: 0 auto; }
+        .footer-social { display: flex; justify-content: center; gap: 0.75rem; margin-bottom: 1.5rem; }
+        .footer-social a {
+            display: flex; align-items: center; justify-content: center; width: 40px; height: 40px;
+            border-radius: 10px; border: 1px solid var(--border); color: var(--text-dim);
+            transition: all 0.25s var(--transition); cursor: pointer;
+        }
+        .footer-social a:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-glow); }
+        .footer-social a svg { width: 18px; height: 18px; }
         .footer-line { width: 40px; height: 2px; margin: 0 auto 1rem; border-radius: 1px; background: linear-gradient(90deg, var(--accent), var(--accent-2)); }
         footer p { font-size: 0.7rem; color: var(--text-dim); }
+        .footer-tagline { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.5rem; font-weight: 500; }
 
         /* Responsive */
-        @media (max-width: 1024px) { .skills-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 1024px) { .skills-grid { grid-template-columns: repeat(2, 1fr); } .skill-card.featured { grid-column: span 2; } }
         @media (max-width: 768px) {
             .hero-top { flex-direction: column; text-align: center; gap: 1.5rem; }
             .hero-badges { justify-content: center; } .hero-cta { justify-content: center; }
             .hero-stats { grid-template-columns: repeat(3, 1fr); }
             .about-grid { grid-template-columns: 1fr; } .about-photo { min-height: 280px; }
             .exp-row { grid-template-columns: 1fr; } .exp-card.featured { grid-template-columns: 1fr; }
-            .skills-grid { grid-template-columns: 1fr 1fr; } .contact-grid { grid-template-columns: 1fr; }
+            .skills-grid { grid-template-columns: 1fr 1fr; } .skill-card.featured { grid-column: span 2; } .contact-grid { grid-template-columns: 1fr; }
             .achievement { flex-direction: column; text-align: center; }
             .achievement-img { width: 100%; max-width: 260px; }
             .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+            .gallery-item.featured-gallery { grid-column: span 1; grid-row: span 1; aspect-ratio: 4/3; }
         }
         @media (max-width: 480px) {
             .hero-avatar { width: 110px; height: 110px; }
             .hero-text h1 { font-size: 2.2rem; letter-spacing: -1px; }
-            .skills-grid { grid-template-columns: 1fr; } .hero-stats { gap: 0.5rem; }
+            .skills-grid { grid-template-columns: 1fr; } .skill-card.featured { grid-column: span 1; } .hero-stats { gap: 0.5rem; }
         }
         /* Chatbot */
         .chat-btn {
@@ -382,6 +426,13 @@
 </head>
 <body>
 
+<!-- Floating Social Sidebar (Desktop) -->
+<div class="social-sidebar" aria-label="Social links">
+    <a href="https://github.com/poomxchapon" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
+    <a href="https://linkedin.com/in/ratchapon-lungmart" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+    <a href="mailto:Poomie@live.com" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
+</div>
+
 <nav id="navbar">
     <div class="nav-inner">
         <div class="nav-logo">RL.</div>
@@ -408,6 +459,7 @@
 <section id="hero" class="hero">
     <div class="hero-bg-orb orb-1"></div>
     <div class="hero-bg-orb orb-2"></div>
+    <div class="hero-bg-orb orb-3"></div>
     <div class="container hero-content">
         <div class="hero-top reveal">
             <div class="hero-avatar-wrap">
@@ -422,6 +474,11 @@
                 <div class="hero-badges">
                     <span class="badge badge-gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> AI Specialist</span>
                     <span class="badge badge-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 18l6-6-6-6"/><path d="M8 6l-6 6 6 6"/></svg> NDF DEV</span>
+                </div>
+                <div class="hero-social">
+                    <a href="https://github.com/poomxchapon" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
+                    <a href="https://linkedin.com/in/ratchapon-lungmart" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+                    <a href="mailto:Poomie@live.com" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
                 </div>
                 <div class="hero-cta">
                     <a href="#contact" class="btn btn-primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> <span data-i18n="hero.cta">Get in Touch</span></a>
@@ -467,6 +524,12 @@
                 <p data-i18n="about.p1">Born April 13, 2000. Graduated with a Bachelor's degree from the College of Arts, Media and Technology (CAMT), Chiang Mai University, majoring in Digital Game (Class of 2022).</p>
                 <p data-i18n="about.p2">Currently working at NDF DEV as Graphic Designer, Junior Project Manager, and Generative Media Designer. Responsible for creating presentations, video editing, and producing generative AI media for various projects.</p>
                 <p data-i18n="about.p3">Passionate about modern technology, especially AI and creative media. Committed to continuously developing and applying new tools to elevate work quality. Experienced in leading AI workshops for government sectors, vocational students, and international events.</p>
+                <div class="about-facts">
+                    <div class="about-fact"><div class="about-fact-label">Education</div><div class="about-fact-value" style="color: var(--accent-2);">CAMT, CMU</div></div>
+                    <div class="about-fact"><div class="about-fact-label">Major</div><div class="about-fact-value">Digital Game</div></div>
+                    <div class="about-fact"><div class="about-fact-label">Location</div><div class="about-fact-value" style="color: var(--accent-3);">Chiang Mai</div></div>
+                    <div class="about-fact"><div class="about-fact-label">Next</div><div class="about-fact-value" style="color: var(--accent-4);">BU, UK 2026</div></div>
+                </div>
             </div>
         </div>
     </div>
@@ -580,14 +643,24 @@
                 </div>
             </div>
 
-            <div class="card exp-card reveal" style="max-width: 50%;">
-                <div class="exp-date">2023</div>
-                <h3 data-i18n="exp.taklee.title">Taklee Genesis — Feature Film</h3>
-                <div class="exp-role" data-i18n="exp.taklee.role">Rotoscope Artist — CG Team</div>
-                <p data-i18n="exp.taklee.desc">CG production for the feature film "Taklee Genesis". NDF DEV team responsible for 52 VFX shots.</p>
-                <div class="exp-images">
-                    <img src="ภาพยนต์เรื่อง ตาคลี.jpg" alt="Taklee Genesis" onclick="openLightbox(this)">
-                    <img src="ภาพยนต์เรื่อง ตาคลี 2.jpg" alt="Taklee Genesis 2" onclick="openLightbox(this)">
+            <div class="exp-row">
+                <div class="card exp-card reveal">
+                    <div class="exp-date">2023</div>
+                    <h3 data-i18n="exp.taklee.title">Taklee Genesis — Feature Film</h3>
+                    <div class="exp-role" data-i18n="exp.taklee.role">Rotoscope Artist — CG Team</div>
+                    <p data-i18n="exp.taklee.desc">CG production for the feature film "Taklee Genesis". NDF DEV team responsible for 52 VFX shots.</p>
+                    <div class="exp-images">
+                        <img src="ภาพยนต์เรื่อง ตาคลี.jpg" alt="Taklee Genesis" onclick="openLightbox(this)">
+                        <img src="ภาพยนต์เรื่อง ตาคลี 2.jpg" alt="Taklee Genesis 2" onclick="openLightbox(this)">
+                    </div>
+                </div>
+                <div class="card exp-card reveal reveal-delay-1" style="display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, rgba(167,139,250,0.04), rgba(244,114,182,0.03)); border-color: rgba(167,139,250,0.08);">
+                    <div style="text-align: center;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-3)" stroke-width="1.5" width="48" height="48"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="22" y2="7"/><line x1="2" y1="17" x2="22" y2="17"/></svg>
+                        <div style="font-size: 1.8rem; font-family: 'Archivo', sans-serif; font-weight: 900; color: var(--accent-3); margin-top: 0.75rem;">52</div>
+                        <div style="font-size: 0.7rem; color: var(--text-dim); font-weight: 600; letter-spacing: 1px; text-transform: uppercase;">VFX Shots</div>
+                        <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;">Feature Film</div>
+                    </div>
                 </div>
             </div>
 
@@ -610,7 +683,17 @@
             <h2 data-i18n="skills.heading">Tools & Expertise</h2>
         </div>
         <div class="skills-grid" style="margin-top: 2rem;">
-            <div class="card skill-card reveal">
+            <div class="card skill-card featured reveal">
+                <div class="skill-icon" style="background: rgba(0,206,201,0.1);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-2)" stroke-width="2"><path d="M12 2a4 4 0 0 1 4 4c0 1.95-1.4 3.58-3.25 3.93"/><path d="M8.56 9.8A3.99 3.99 0 0 1 8 8a4 4 0 0 1 .67-2.22"/><circle cx="12" cy="18" r="4"/><path d="M12 14v-2"/></svg></div>
+                <h3 data-i18n="skills.ai">AI & Innovation</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag t-teal">Generative AI</span><span class="skill-tag t-teal">Prompt Engineering</span>
+                    <span class="skill-tag t-teal">AI Animation</span><span class="skill-tag t-teal">AI Workflow</span>
+                    <span class="skill-tag t-teal">AR / VR / XR</span><span class="skill-tag t-teal">ComfyUI</span>
+                    <span class="skill-tag t-teal">Kling / Seedance</span><span class="skill-tag t-teal">LLM Agents</span>
+                </div>
+            </div>
+            <div class="card skill-card reveal reveal-delay-1">
                 <div class="skill-icon" style="background: rgba(201,162,39,0.1);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
                 <h3 data-i18n="skills.dev">Development</h3>
                 <div class="skill-tags">
@@ -619,22 +702,13 @@
                     <span class="skill-tag t-gold">ChatBot / Agent</span><span class="skill-tag t-gold">Git</span>
                 </div>
             </div>
-            <div class="card skill-card reveal reveal-delay-1">
+            <div class="card skill-card reveal reveal-delay-2">
                 <div class="skill-icon" style="background: rgba(244,114,182,0.1);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-4)" stroke-width="2"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg></div>
                 <h3 data-i18n="skills.design">Design</h3>
                 <div class="skill-tags">
                     <span class="skill-tag t-pink">Figma</span><span class="skill-tag t-pink">Adobe Suite</span>
                     <span class="skill-tag t-pink">Blender</span><span class="skill-tag t-pink">UX/UI</span>
                     <span class="skill-tag t-pink">Video Editing</span><span class="skill-tag t-pink">Rotoscoping</span>
-                </div>
-            </div>
-            <div class="card skill-card reveal reveal-delay-2">
-                <div class="skill-icon" style="background: rgba(0,206,201,0.1);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-2)" stroke-width="2"><path d="M12 2a4 4 0 0 1 4 4c0 1.95-1.4 3.58-3.25 3.93"/><path d="M8.56 9.8A3.99 3.99 0 0 1 8 8a4 4 0 0 1 .67-2.22"/><circle cx="12" cy="18" r="4"/><path d="M12 14v-2"/></svg></div>
-                <h3 data-i18n="skills.ai">AI & Innovation</h3>
-                <div class="skill-tags">
-                    <span class="skill-tag t-teal">Generative AI</span><span class="skill-tag t-teal">Prompt Engineering</span>
-                    <span class="skill-tag t-teal">AI Animation</span><span class="skill-tag t-teal">AI Workflow</span>
-                    <span class="skill-tag t-teal">AR / VR / XR</span><span class="skill-tag t-teal">ComfyUI</span>
                 </div>
             </div>
             <div class="card skill-card reveal reveal-delay-3">
@@ -664,7 +738,7 @@
             <button class="filter-btn" data-filter="speaking" data-i18n="filter.speaking">Speaking</button>
         </div>
         <div class="gallery-grid reveal" id="galleryGrid">
-            <a class="gallery-item" data-category="project" href="https://poomxchapon.github.io/acmod-demo/" target="_blank" style="text-decoration: none; color: inherit;">
+            <a class="gallery-item featured-gallery" data-category="project" href="https://poomxchapon.github.io/acmod-demo/" target="_blank" style="text-decoration: none; color: inherit;">
                 <div style="width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; background: linear-gradient(135deg, rgba(0,206,201,0.08), rgba(167,139,250,0.06)); gap: 0.5rem;">
                     <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-2)" stroke-width="1.5" width="40" height="40"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
                     <span style="font-size: 0.78rem; font-weight: 700; color: var(--accent-2);">ACMod Demo</span>
@@ -711,10 +785,13 @@
                 <div class="contact-icon" style="background: rgba(0,206,201,0.1);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-2)" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
                 <h3 data-i18n="contact.phone">Phone</h3><p>061-265-4000</p>
             </a>
-            <a href="#hero" class="card contact-card">
-                <div class="contact-icon" style="background: rgba(167,139,250,0.1);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-3)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
-                <h3 data-i18n="contact.portfolio">Portfolio</h3><p data-i18n="contact.thispage">This Page</p>
+            <a href="https://github.com/poomxchapon" target="_blank" rel="noopener" class="card contact-card">
+                <div class="contact-icon" style="background: rgba(167,139,250,0.1);"><svg viewBox="0 0 24 24" fill="var(--accent-3)" width="22" height="22"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></div>
+                <h3>GitHub</h3><p>poomxchapon</p>
             </a>
+        </div>
+        <div style="display: flex; justify-content: center; gap: 0.75rem; margin-top: 1.5rem;" class="reveal reveal-delay-2">
+            <a href="https://linkedin.com/in/ratchapon-lungmart" target="_blank" rel="noopener" class="btn btn-ghost" style="gap: 0.4rem;"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
         </div>
     </div>
 </section>
@@ -749,7 +826,18 @@
     </div>
 </div>
 
-<footer><div class="footer-line"></div><p>Ratchapon Lungmart &copy; 2026</p></footer>
+<footer>
+    <div class="footer-inner">
+        <div class="footer-social">
+            <a href="https://github.com/poomxchapon" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
+            <a href="https://linkedin.com/in/ratchapon-lungmart" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+            <a href="mailto:Poomie@live.com" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
+        </div>
+        <div class="footer-tagline">AI Specialist & Project Manager</div>
+        <div class="footer-line"></div>
+        <p>Ratchapon Lungmart &copy; 2026</p>
+    </div>
+</footer>
 
 <script>
 // ═══════════════════════════════════════
@@ -1044,6 +1132,15 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
         document.querySelectorAll('.gallery-item').forEach(item => {
             item.classList.toggle('hidden', filter !== 'all' && item.dataset.category !== filter);
         });
+    });
+});
+
+// Card hover glow effect
+document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+        card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
     });
 });
 
