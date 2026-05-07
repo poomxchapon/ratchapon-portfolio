@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ratchapon Lungmart — AI Specialist & Project Manager</title>
+    <title>Ratchapon Lungmart — AI Specialist, Researcher & Project Manager</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -127,6 +127,7 @@
         .badge { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.35rem 0.85rem; border-radius: 999px; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.3px; border: 1px solid; }
         .badge-gold { background: var(--accent-glow); color: var(--accent); border-color: rgba(201,162,39,0.2); }
         .badge-teal { background: rgba(0,206,201,0.1); color: var(--accent-2); border-color: rgba(0,206,201,0.2); }
+        .badge-lavender { background: rgba(167,139,250,0.1); color: var(--accent-3); border-color: rgba(167,139,250,0.2); }
         .badge svg { width: 12px; height: 12px; }
         .hero-social { display: flex; gap: 0.5rem; margin-top: 1rem; }
         .hero-social a { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 10px; border: 1px solid var(--border); color: var(--text-dim); transition: all 0.25s var(--transition); cursor: pointer; }
@@ -473,6 +474,7 @@
                 </div>
                 <div class="hero-badges">
                     <span class="badge badge-gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> AI Specialist</span>
+                    <span class="badge badge-lavender" data-i18n="badge.researcher"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Researcher</span>
                     <span class="badge badge-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 18l6-6-6-6"/><path d="M8 6l-6 6 6 6"/></svg> NDF DEV</span>
                 </div>
                 <div class="hero-social">
@@ -498,12 +500,14 @@
     <div class="marquee-track" id="marqueeTrack">
         <span class="marquee-item" data-i18n="role.1">Generative Media Designer</span><span class="marquee-dot"></span>
         <span class="marquee-item" data-i18n="role.2">Project Manager</span><span class="marquee-dot"></span>
+        <span class="marquee-item" data-i18n="role.7">Researcher</span><span class="marquee-dot"></span>
         <span class="marquee-item" data-i18n="role.3">AI Workshop Instructor</span><span class="marquee-dot"></span>
         <span class="marquee-item" data-i18n="role.4">AR/VR Developer</span><span class="marquee-dot"></span>
         <span class="marquee-item" data-i18n="role.5">Graphic Designer</span><span class="marquee-dot"></span>
         <span class="marquee-item" data-i18n="role.6">Rotoscope Artist</span><span class="marquee-dot"></span>
         <span class="marquee-item" data-i18n="role.1">Generative Media Designer</span><span class="marquee-dot"></span>
         <span class="marquee-item" data-i18n="role.2">Project Manager</span><span class="marquee-dot"></span>
+        <span class="marquee-item" data-i18n="role.7">Researcher</span><span class="marquee-dot"></span>
         <span class="marquee-item" data-i18n="role.3">AI Workshop Instructor</span><span class="marquee-dot"></span>
         <span class="marquee-item" data-i18n="role.4">AR/VR Developer</span><span class="marquee-dot"></span>
         <span class="marquee-item" data-i18n="role.5">Graphic Designer</span><span class="marquee-dot"></span>
@@ -850,7 +854,8 @@ en: {
     'hero.cta': 'Get in Touch', 'hero.view': 'View Work',
     'stat.workshops': 'Workshops Led', 'stat.projects': 'Projects Shipped', 'stat.animation': 'AI Animation',
     'role.1': 'Generative Media Designer', 'role.2': 'Project Manager', 'role.3': 'AI Workshop Instructor',
-    'role.4': 'AR/VR Developer', 'role.5': 'Graphic Designer', 'role.6': 'Rotoscope Artist',
+    'role.4': 'AR/VR Developer', 'role.5': 'Graphic Designer', 'role.6': 'Rotoscope Artist', 'role.7': 'Researcher',
+    'badge.researcher': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Researcher',
     'about.heading': 'Bridging AI, Design<br>& Project Management',
     'about.p1': 'Born April 13, 2000. Graduated with a Bachelor\'s degree from the College of Arts, Media and Technology (CAMT), Chiang Mai University, majoring in Digital Game (Class of 2022).',
     'about.p2': 'Currently working at NDF DEV as Graphic Designer, Junior Project Manager, and Generative Media Designer. Responsible for creating presentations, video editing, and producing generative AI media for various projects.',
@@ -898,7 +903,8 @@ th: {
     'hero.cta': 'ติดต่อเรา', 'hero.view': 'ดูผลงาน',
     'stat.workshops': 'Workshop ที่นำ', 'stat.projects': 'โปรเจกต์สำเร็จ', 'stat.animation': 'AI Animation',
     'role.1': 'นักออกแบบสื่อ Generative', 'role.2': 'ผู้จัดการโครงการ', 'role.3': 'วิทยากร AI Workshop',
-    'role.4': 'นักพัฒนา AR/VR', 'role.5': 'นักออกแบบกราฟิก', 'role.6': 'ศิลปิน Rotoscope',
+    'role.4': 'นักพัฒนา AR/VR', 'role.5': 'นักออกแบบกราฟิก', 'role.6': 'ศิลปิน Rotoscope', 'role.7': 'นักวิจัย',
+    'badge.researcher': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> นักวิจัย',
     'about.heading': 'เชื่อมโยง AI, การออกแบบ<br>และการบริหารโครงการ',
     'about.p1': 'เกิดวันที่ 13 เมษายน 2543 จบปริญญาตรีจากวิทยาลัยศิลปะ สื่อ และเทคโนโลยี (CAMT) มหาวิทยาลัยเชียงใหม่ สาขา Digital Game (รุ่นปี 2565)',
     'about.p2': 'ปัจจุบันทำงานที่ NDF DEV ตำแหน่ง Graphic Designer, Junior Project Manager และ Generative Media Designer รับผิดชอบงานนำเสนอ ตัดต่อวิดีโอ และผลิตสื่อ Generative AI',
@@ -946,7 +952,8 @@ ko: {
     'hero.cta': '연락하기', 'hero.view': '작업 보기',
     'stat.workshops': '진행한 워크숍', 'stat.projects': '완료한 프로젝트', 'stat.animation': 'AI 애니메이션',
     'role.1': '제너레이티브 미디어 디자이너', 'role.2': '프로젝트 매니저', 'role.3': 'AI 워크숍 강사',
-    'role.4': 'AR/VR 개발자', 'role.5': '그래픽 디자이너', 'role.6': '로토스코프 아티스트',
+    'role.4': 'AR/VR 개발자', 'role.5': '그래픽 디자이너', 'role.6': '로토스코프 아티스트', 'role.7': '연구원',
+    'badge.researcher': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> 연구원',
     'about.heading': 'AI, 디자인,<br>프로젝트 관리의 연결',
     'about.p1': '2000년 4월 13일 출생. 치앙마이 대학교 예술미디어기술대학(CAMT) 디지털 게임 전공 학사 졸업 (2022년 학번).',
     'about.p2': '현재 NDF DEV에서 그래픽 디자이너, 주니어 프로젝트 매니저, 제너레이티브 미디어 디자이너로 근무. 프레젠테이션 제작, 비디오 편집, 제너레이티브 AI 미디어 제작 담당.',
@@ -994,7 +1001,8 @@ zh: {
     'hero.cta': '联系我', 'hero.view': '查看作品',
     'stat.workshops': '主讲工作坊', 'stat.projects': '已完成项目', 'stat.animation': 'AI 动画',
     'role.1': '生成式媒体设计师', 'role.2': '项目经理', 'role.3': 'AI工作坊讲师',
-    'role.4': 'AR/VR开发者', 'role.5': '平面设计师', 'role.6': '转描动画师',
+    'role.4': 'AR/VR开发者', 'role.5': '平面设计师', 'role.6': '转描动画师', 'role.7': '研究员',
+    'badge.researcher': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> 研究员',
     'about.heading': '连接 AI、设计<br>与项目管理',
     'about.p1': '2000年4月13日出生。毕业于清迈大学艺术媒体与科技学院(CAMT)，主修数字游戏(2022届)。',
     'about.p2': '目前在NDF DEV担任平面设计师、初级项目经理和生成式媒体设计师。负责制作演示文稿、视频编辑及各项目的生成式AI媒体制作。',
@@ -1040,10 +1048,10 @@ zh: {
 
 // Typed text per language
 const typedTitles = {
-    en: ['Generative Media Designer','Junior Project Manager','Graphic Designer','AI Workshop Instructor','AR/VR Developer','Rotoscope Artist'],
-    th: ['นักออกแบบสื่อ Generative','ผู้ช่วยผู้จัดการโครงการ','นักออกแบบกราฟิก','วิทยากร AI Workshop','นักพัฒนา AR/VR','ศิลปิน Rotoscope'],
-    ko: ['제너레이티브 미디어 디자이너','주니어 프로젝트 매니저','그래픽 디자이너','AI 워크숍 강사','AR/VR 개발자','로토스코프 아티스트'],
-    zh: ['生成式媒体设计师','初级项目经理','平面设计师','AI工作坊讲师','AR/VR开发者','转描动画师']
+    en: ['Generative Media Designer','Junior Project Manager','Researcher','Graphic Designer','AI Workshop Instructor','AR/VR Developer','Rotoscope Artist'],
+    th: ['นักออกแบบสื่อ Generative','ผู้ช่วยผู้จัดการโครงการ','นักวิจัย','นักออกแบบกราฟิก','วิทยากร AI Workshop','นักพัฒนา AR/VR','ศิลปิน Rotoscope'],
+    ko: ['제너레이티브 미디어 디자이너','주니어 프로젝트 매니저','연구원','그래픽 디자이너','AI 워크숍 강사','AR/VR 개발자','로토스코프 아티스트'],
+    zh: ['生成式媒体设计师','初级项目经理','研究员','平面设计师','AI工作坊讲师','AR/VR开发者','转描动画师']
 };
 
 let currentLang = localStorage.getItem('lang') || 'en';
